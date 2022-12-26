@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+import BaseChip from './components/BaseChip.vue';
 import GridIcon from './components/icons/GridIcon.vue';
 import ListIcon from './components/icons/ListIcon.vue';
 import SearchBox from './components/SearchBox.vue';
 
 const searchQuery = ref('');
 const isGrid = ref(false);
+const isFilter = reactive({
+  waifus: true,
+  husbandos: false,
+  other: false,
+});
 </script>
 
 <template>
@@ -28,6 +34,15 @@ const isGrid = ref(false);
             <ListIcon v-if="isGrid" />
             <GridIcon v-else />
           </button>
+        </li>
+        <li>
+          <BaseChip v-model:active="isFilter.waifus">Waifus</BaseChip>
+        </li>
+        <li>
+          <BaseChip v-model:active="isFilter.husbandos">Husbandos</BaseChip>
+        </li>
+        <li>
+          <BaseChip v-model:active="isFilter.other">Other</BaseChip>
         </li>
       </ul>
     </div>
