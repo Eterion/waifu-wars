@@ -1,0 +1,8 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "stylelint.validate": ["css", "less", "postcss", "scss", "vue"],
+  "vitest.commandLine": "npm run test-unit --"
+}

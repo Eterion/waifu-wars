@@ -1,0 +1,13 @@
+{
+  "bracketSameLine": true,
+  "proseWrap": "always",
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["**/*rc.*"],
+      "options": {
+        "printWidth": 128
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "extends": ["stylelint-config-recommended-scss", "stylelint-config-recommended-vue/scss"],
+  "plugins": ["stylelint-order"],
+  "defaultSeverity": "warning",
+  "rules": {
+    "no-invalid-position-at-import-rule": null,
+    "selector-pseudo-class-no-unknown": [true, { "ignorePseudoClasses": ["global"] }],
+    "order/properties-alphabetical-order": true
+  }
+}
