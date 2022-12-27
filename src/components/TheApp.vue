@@ -4,6 +4,7 @@ import { useEventListener, useMouse } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, reactive } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
+import DropCharacterToRemove from './DropCharacterToRemove.vue';
 import TheAppCharacters from './TheAppCharacters.vue';
 import TheAppHeader from './TheAppHeader.vue';
 import TheAppSearch from './TheAppSearch.vue';
@@ -13,6 +14,8 @@ import TheAppTiers from './TheAppTiers.vue';
 const characterDragStore = useCharacterDragStore();
 const { dragging: draggingInfo } = storeToRefs(characterDragStore);
 const mouse = reactive(useMouse());
+const mouseX = computed(() => `${mouse.x}px`);
+const mouseY = computed(() => `${mouse.y}px`);
 
 const draggingCharacter = computed(() => {
   return draggingInfo.value?.character;
@@ -28,6 +31,7 @@ useEventListener('mouseup', (event) => {
 
 <template>
   <div :class="$style.el">
+    <DropCharacterToRemove />
     <Teleport to="body">
       <BaseCharacter
         v-if="draggingCharacter"
@@ -61,9 +65,6 @@ useEventListener('mouseup', (event) => {
 
 .draggingCharacter {
   position: fixed 0;
-  transform: translate(
-    calc(v-bind('mouse.x') * 1px),
-    calc(v-bind('mouse.y') * 1px)
-  );
+  transform: translate(v-bind(mouseX), v-bind(mouseY));
 }
 </style>
