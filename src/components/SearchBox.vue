@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useEventListener, useVModel } from '@vueuse/core';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import SearchIcon from './icons/SearchIcon.vue';
+import XIcon from './icons/XIcon.vue';
 
 const props = defineProps<{
   /**
@@ -16,8 +17,19 @@ const emit = defineEmits<{
 
 const inputRef = ref<HTMLInputElement>();
 const modelValue = useVModel(props, 'modelValue', emit);
+
+const isClearVisible = computed(() => {
+  return !!modelValue.value;
+});
+
+function clear() {
+  modelValue.value = undefined;
+}
+
 useEventListener(document, 'keydown', (event) => {
-  if (event.ctrlKey && event.key === 'k') {
+  if (['Esc', 'Escape'].includes(event.key)) {
+    clear();
+  } else if (event.ctrlKey && event.key === 'k') {
     event.preventDefault();
     inputRef.value?.focus();
   }
@@ -33,6 +45,9 @@ useEventListener(document, 'keydown', (event) => {
         v-model="modelValue"
         type="search"
         placeholder="Search..." />
+      <button v-if="isClearVisible" type="button" @click="clear">
+        <XIcon />
+      </button>
       <span>Ctrl K</span>
     </label>
   </div>
