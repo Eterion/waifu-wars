@@ -19,7 +19,7 @@ export function createCharacterFromCharacterSearchResult(
         age: character.age,
         animeMalId: anime?.idMal,
         animeName: anime?.title?.userPreferred,
-        animeUrl: anime?.title?.userPreferred,
+        animeUrl: anime?.siteUrl,
         fullName: character.name?.userPreferred,
         gender: character.gender,
         imageUrl: character.image?.large,
