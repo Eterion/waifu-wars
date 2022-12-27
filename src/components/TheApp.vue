@@ -115,6 +115,9 @@ const filteredCharacters = computed(() => {
         </ul>
       </div>
       <div>
+        <button type="button" @click="favoritesStore.reset">
+          Reset favorites
+        </button>
         <ul :class="$style.favorites">
           <li
             v-for="character in favoritesStore.characters"

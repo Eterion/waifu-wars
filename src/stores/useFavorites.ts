@@ -57,6 +57,15 @@ export const useFavoritesStore = defineStore('favorites', () => {
     remove(characters.value, ({ id: _id }) => _id === id);
   }
 
+  /**
+   * Reset to default values.
+   */
+
+  function reset() {
+    favoriteIds.value = [];
+    characters.value = [];
+  }
+
   // Load missing character info
   const { loading, onResult } = useCharacterSearchQuery(
     () => ({
@@ -81,5 +90,6 @@ export const useFavoritesStore = defineStore('favorites', () => {
     favoriteIds,
     loading,
     removeFavorite,
+    reset,
   };
 });
