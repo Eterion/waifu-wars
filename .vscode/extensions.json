@@ -5,6 +5,7 @@
     "vue.volar",
     "dbaeumer.vscode-eslint",
     "stylelint.vscode-stylelint",
-    "zixuanchen.vitest-explorer"
+    "zixuanchen.vitest-explorer",
+    "capaj.graphql-codegen-vscode"
   ]
 }

@@ -3,6 +3,7 @@ require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
   root: true,
+  ignorePatterns: ['src/composables/useGraphQL.ts'],
   extends: [
     'plugin:vue/vue3-recommended',
     'eslint:recommended',
