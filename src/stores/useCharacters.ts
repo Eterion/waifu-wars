@@ -6,12 +6,12 @@ import { remove } from 'lodash-es';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
-export const useFavoritesStore = defineStore('favorites', () => {
+export const useCharactersStore = defineStore('characters', () => {
   /**
-   * Array of favorite character ids.
+   * Array of saved character ids.
    */
 
-  const favoriteIds = useStorage<number[]>('waifu-wars-favorites', []);
+  const savedCharacterIds = useStorage<number[]>('waifu-wars-characters', []);
 
   /**
    * Character data.
@@ -30,14 +30,14 @@ export const useFavoritesStore = defineStore('favorites', () => {
   });
 
   /**
-   * Adds new character to favorites.
+   * Adds new character to {@link savedCharacterIds}.
    * @param id - Character id
    * @param info - Info
    */
 
-  function addFavorite(id: number, info?: Omit<Character, 'id'>) {
-    if (!favoriteIds.value.includes(id)) {
-      favoriteIds.value.push(id);
+  function saveCharacter(id: number, info?: Omit<Character, 'id'>) {
+    if (!savedCharacterIds.value.includes(id)) {
+      savedCharacterIds.value.push(id);
     }
     if (info && !characterIds.value.includes(id)) {
       characters.value.push({
@@ -48,12 +48,12 @@ export const useFavoritesStore = defineStore('favorites', () => {
   }
 
   /**
-   * Removes character from favorites.
+   * Removes character from {@link savedCharacterIds}.
    * @param id - Character id
    */
 
-  function removeFavorite(id: number) {
-    remove(favoriteIds.value, (_id) => _id === id);
+  function removeCharacter(id: number) {
+    remove(savedCharacterIds.value, (_id) => _id === id);
     remove(characters.value, ({ id: _id }) => _id === id);
   }
 
@@ -62,14 +62,14 @@ export const useFavoritesStore = defineStore('favorites', () => {
    */
 
   function reset() {
-    favoriteIds.value = [];
+    savedCharacterIds.value = [];
     characters.value = [];
   }
 
   // Load missing character info
   const { loading, onResult } = useCharacterSearchQuery(
     () => ({
-      pick: favoriteIds.value.filter((id) => {
+      pick: savedCharacterIds.value.filter((id) => {
         return !characterIds.value.includes(id);
       }),
     }),
@@ -79,17 +79,17 @@ export const useFavoritesStore = defineStore('favorites', () => {
   // Save character info
   onResult(({ data }) => {
     createCharacterFromCharacterSearchResult(data, ({ id, ...info }) => {
-      addFavorite(id, info);
+      saveCharacter(id, info);
     });
   });
 
   return {
-    addFavorite,
     characterIds,
     characters,
-    favoriteIds,
     loading,
-    removeFavorite,
+    removeCharacter,
     reset,
+    saveCharacter,
+    savedCharacterIds,
   };
 });

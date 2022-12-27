@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCharacterDragStore } from '@/stores/useCharacterDrag';
-import { useFavoritesStore } from '@/stores/useFavorites';
+import { useCharactersStore } from '@/stores/useCharacters';
 import { useTierStore } from '@/stores/useTier';
 import type { Tier } from '@/types/Tier';
 import { useMouseInElement } from '@vueuse/core';
@@ -47,9 +47,9 @@ characterDragStore.onDrop(({ characterInfo }) => {
   }
 });
 
-const favoritesStore = useFavoritesStore();
+const charactersStore = useCharactersStore();
 const tierCharacters = computed(() => {
-  return favoritesStore.characters.filter(({ id }) => {
+  return charactersStore.characters.filter(({ id }) => {
     return props.info.characterIds?.includes(id);
   });
 });

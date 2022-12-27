@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCharacterDragStore } from '@/stores/useCharacterDrag';
-import { useFavoritesStore } from '@/stores/useFavorites';
+import { useCharactersStore } from '@/stores/useCharacters';
 import type { Character } from '@/types/Character';
 import { omitBy } from 'lodash-es';
 import { storeToRefs } from 'pinia';
@@ -26,17 +26,17 @@ const imageWidth = computed(() => {
   return `${props.imageWidth ?? defaultWidth}px`;
 });
 
-const favoritesStore = useFavoritesStore();
-const { favoriteIds } = storeToRefs(favoritesStore);
-const isFavorite = computed(() => {
-  return favoriteIds.value.includes(props.info.id);
+const charactersStore = useCharactersStore();
+const { savedCharacterIds } = storeToRefs(charactersStore);
+const isCharacterSaved = computed(() => {
+  return savedCharacterIds.value.includes(props.info.id);
 });
 
-function toggleFavorite() {
-  if (isFavorite.value) {
-    favoritesStore.removeFavorite(props.info.id);
+function toggleSaved() {
+  if (isCharacterSaved.value) {
+    charactersStore.removeCharacter(props.info.id);
   } else {
-    favoritesStore.addFavorite(
+    charactersStore.saveCharacter(
       props.info.id,
       omitBy(props.info, (_, key) => {
         return key === 'id';
@@ -65,8 +65,8 @@ function onMouseDown() {
       <div>{{ info.fullName }}</div>
       <div>{{ info.animeName }}</div>
     </div>
-    <button v-if="!card" type="button" @click="toggleFavorite">
-      {{ isFavorite ? 'Remove' : 'Add' }}
+    <button v-if="!card" type="button" @click="toggleSaved">
+      {{ isCharacterSaved ? 'Remove' : 'Add' }}
     </button>
   </div>
 </template>

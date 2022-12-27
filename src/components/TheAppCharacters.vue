@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useFavoritesStore } from '@/stores/useFavorites';
+import { useCharactersStore } from '@/stores/useCharacters';
 import { storeToRefs } from 'pinia';
 import BaseCharacter from './BaseCharacter.vue';
 
-const favoritesStore = useFavoritesStore();
-const { reset } = favoritesStore;
-const { characters } = storeToRefs(favoritesStore);
+const charactersStore = useCharactersStore();
+const { reset } = charactersStore;
+const { characters } = storeToRefs(charactersStore);
 </script>
 
 <template>
   <div>
     <button type="button" @click="reset">Reset characters</button>
-    <ul :class="$style.favorites">
+    <ul :class="$style.cards">
       <li v-for="character in characters" :key="character.id">
         <BaseCharacter card :info="character" />
       </li>
@@ -20,7 +20,7 @@ const { characters } = storeToRefs(favoritesStore);
 </template>
 
 <style module lang="scss">
-.favorites {
+.cards {
   column-gap: 12px;
   display: flex;
   list-style: none;
