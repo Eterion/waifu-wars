@@ -73,6 +73,16 @@ export const useTierStore = defineStore('tier', () => {
   }
 
   /**
+   * Clears characters from all {@link tiers}.
+   */
+
+  function clearCharacters() {
+    tiers.value.forEach((tier) => {
+      tier.characterIds = [];
+    });
+  }
+
+  /**
    * Moves or adds character to tier.
    * @param info - Move info
    */
@@ -123,6 +133,7 @@ export const useTierStore = defineStore('tier', () => {
 
   return {
     addTier,
+    clearCharacters,
     moveCharacter,
     removeTier,
     reset,
