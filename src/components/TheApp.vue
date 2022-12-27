@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useCharacterSearchQuery } from '@/composables/useGraphQL';
+import { useColorSchemeStore } from '@/stores/useColorScheme';
 import type { Character } from '@/types/Character';
 import { computed, reactive, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
@@ -9,8 +10,10 @@ import GridIcon from './icons/GridIcon.vue';
 import ListIcon from './icons/ListIcon.vue';
 import MoonIcon from './icons/MoonIcon.vue';
 import ShareIcon from './icons/ShareIcon.vue';
+import SunIcon from './icons/SunIcon.vue';
 import SearchBox from './SearchBox.vue';
 
+const colorSchemeStore = useColorSchemeStore();
 const searchQuery = ref<string>();
 const isGrid = ref(false);
 const isFilter = reactive({
@@ -118,8 +121,9 @@ const filteredCharacters = computed(() => {
             </a>
           </li>
           <li>
-            <button type="button">
-              <MoonIcon />
+            <button type="button" @click="colorSchemeStore.toggle()">
+              <SunIcon v-if="colorSchemeStore.isDark" />
+              <MoonIcon v-else />
             </button>
           </li>
         </ul>
