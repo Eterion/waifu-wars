@@ -2,10 +2,12 @@
 import { useCharacterSearchQuery } from '@/composables/useGraphQL';
 import { useColorSchemeStore } from '@/stores/useColorScheme';
 import { useFavoritesStore } from '@/stores/useFavorites';
+import { useTierStore } from '@/stores/useTier';
 import { createCharacterFromCharacterSearchResult } from '@/utils/createCharacter';
 import { computed, reactive, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 import BaseChip from './BaseChip.vue';
+import BaseTier from './BaseTier.vue';
 import GithubIcon from './icons/GithubIcon.vue';
 import GridIcon from './icons/GridIcon.vue';
 import ListIcon from './icons/ListIcon.vue';
@@ -15,6 +17,7 @@ import SunIcon from './icons/SunIcon.vue';
 import SearchBox from './SearchBox.vue';
 
 const favoritesStore = useFavoritesStore();
+const tierStore = useTierStore();
 const colorSchemeStore = useColorSchemeStore();
 const searchQuery = ref<string>();
 const isGrid = ref(false);
@@ -117,6 +120,14 @@ const filteredCharacters = computed(() => {
             v-for="character in favoritesStore.characters"
             :key="character.id">
             <BaseCharacter card :info="character" />
+          </li>
+        </ul>
+      </div>
+      <div>
+        <button type="button" @click="tierStore.reset">Reset tiers</button>
+        <ul>
+          <li v-for="tier in tierStore.tiers" :key="tier.id">
+            <BaseTier :id="tier.id" />
           </li>
         </ul>
       </div>
