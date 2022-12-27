@@ -2,6 +2,7 @@
 import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useCharactersStore } from '@/stores/useCharacters';
 import type { Character } from '@/types/Character';
+import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { omitBy } from 'lodash-es';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
@@ -11,6 +12,10 @@ const props = defineProps<{
    * Changes display format to a card.
    */
   card?: boolean;
+  /**
+   * Origin of the drag event.
+   */
+  dragEventOrigin: DragEventOrigin | false;
   /**
    * Image width, in pixels.
    */
@@ -47,7 +52,11 @@ function toggleSaved() {
 
 const characterDragStore = useCharacterDragStore();
 function onMouseDown() {
-  characterDragStore.drag(props.info);
+  if (props.dragEventOrigin)
+    characterDragStore.drag({
+      character: props.info,
+      origin: props.dragEventOrigin,
+    });
 }
 </script>
 

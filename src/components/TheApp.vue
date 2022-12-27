@@ -2,7 +2,7 @@
 import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useEventListener, useMouse } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 import TheAppCharacters from './TheAppCharacters.vue';
 import TheAppHeader from './TheAppHeader.vue';
@@ -11,11 +11,15 @@ import TheAppSocial from './TheAppSocial.vue';
 import TheAppTiers from './TheAppTiers.vue';
 
 const characterDragStore = useCharacterDragStore();
-const { dragging: draggingCharacter } = storeToRefs(characterDragStore);
+const { dragging: draggingInfo } = storeToRefs(characterDragStore);
 const mouse = reactive(useMouse());
+
+const draggingCharacter = computed(() => {
+  return draggingInfo.value?.character;
+});
+
 useEventListener('mouseup', (event) => {
-  const info = characterDragStore.drop();
-  if (info) {
+  if (characterDragStore.drop()) {
     event.preventDefault();
     event.stopImmediatePropagation();
   }
@@ -27,9 +31,10 @@ useEventListener('mouseup', (event) => {
     <Teleport to="body">
       <BaseCharacter
         v-if="draggingCharacter"
-        card
+        :class="$style.draggingCharacter"
+        :drag-event-origin="false"
         :info="draggingCharacter"
-        :class="$style.draggingCharacter" />
+        card />
     </Teleport>
     <aside :class="$style.sidebar">
       <TheAppHeader />

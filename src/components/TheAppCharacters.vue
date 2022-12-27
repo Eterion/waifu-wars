@@ -13,7 +13,7 @@ const { characters } = storeToRefs(charactersStore);
     <button type="button" @click="reset">Reset characters</button>
     <ul :class="$style.cards">
       <li v-for="character in characters" :key="character.id">
-        <BaseCharacter card :info="character" />
+        <BaseCharacter :info="character" card drag-event-origin="character" />
       </li>
     </ul>
   </div>

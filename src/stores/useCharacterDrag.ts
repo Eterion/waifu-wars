@@ -1,26 +1,26 @@
-import type { Character } from '@/types/Character';
+import type { DragInfo } from '@/types/DragInfo';
 import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 
 export const useCharacterDragStore = defineStore('characterDrag', () => {
   /**
-   * Dragging character info.
+   * Dragging info.
    */
 
-  const dragging = ref<Character>();
+  const dragging = ref<DragInfo>();
 
   /**
    * Drag and hold character in memory.
-   * @param character - Character info
+   * @param dragInfo - Drag info
    */
 
-  function drag(character: Character) {
-    dragging.value = character;
+  function drag(dragInfo: DragInfo) {
+    dragging.value = dragInfo;
   }
 
   /**
    * Drop character.
-   * @returns Character info
+   * @returns Dragn info
    */
 
   function drop() {
@@ -36,14 +36,14 @@ export const useCharacterDragStore = defineStore('characterDrag', () => {
 
   function onDrop(
     callback: (context: {
-      /** Character info. */
-      characterInfo: Character;
+      /** Drag info. */
+      dragInfo: DragInfo;
     }) => void
   ) {
-    return watch(dragging, (_, wasCharacterInfo) => {
-      if (wasCharacterInfo) {
+    return watch(dragging, (_, wasValue) => {
+      if (wasValue) {
         callback.call(null, {
-          characterInfo: wasCharacterInfo,
+          dragInfo: wasValue,
         });
       }
     });

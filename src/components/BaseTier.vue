@@ -38,10 +38,10 @@ const { isOutside } = useMouseInElement(rootRef);
 const isInDropArea = computed(() => {
   return characterDragStore.dragging && !isOutside.value;
 });
-characterDragStore.onDrop(({ characterInfo }) => {
+characterDragStore.onDrop(({ dragInfo }) => {
   if (!isOutside.value) {
     tierStore.moveCharacter({
-      characterId: characterInfo.id,
+      characterId: dragInfo.character.id,
       tierId: props.info.id,
     });
   }
@@ -63,8 +63,9 @@ const tierCharacters = computed(() => {
     <BaseCharacter
       v-for="tierCharacter in tierCharacters"
       :key="tierCharacter.id"
+      :info="tierCharacter"
       card
-      :info="tierCharacter" />
+      drag-event-origin="tier" />
     <button type="button" @click="removeTier">Remove</button>
   </div>
 </template>

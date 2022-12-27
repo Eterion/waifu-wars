@@ -67,7 +67,10 @@ const filteredCharacters = computed(() => {
     <div>
       <ul>
         <li v-for="characterInfo in filteredCharacters" :key="characterInfo.id">
-          <BaseCharacter :card="isGrid" :info="characterInfo" />
+          <BaseCharacter
+            :card="isGrid"
+            :info="characterInfo"
+            drag-event-origin="search" />
         </li>
       </ul>
     </div>
