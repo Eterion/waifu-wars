@@ -58,7 +58,7 @@ characterDragStore.onDrop(({ dragInfo }) => {
 @use 'open-color/open-color' as *;
 
 .drop {
-  background-color: $oc-gray-2;
+  background-color: $oc-black;
 }
 
 .cards {

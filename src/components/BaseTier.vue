@@ -84,7 +84,7 @@ const tierCharacters = computed(() => {
   display: flex;
 
   &.drop {
-    background-color: $oc-gray-2;
+    background-color: $oc-black;
   }
 }
 
