@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useCharacterSearchQuery } from '@/composables/useGraphQL';
 import { useColorSchemeStore } from '@/stores/useColorScheme';
-import type { Character } from '@/types/Character';
+import { useFavoritesStore } from '@/stores/useFavorites';
+import { createCharacterFromCharacterSearchResult } from '@/utils/createCharacter';
 import { computed, reactive, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 import BaseChip from './BaseChip.vue';
@@ -13,6 +14,7 @@ import ShareIcon from './icons/ShareIcon.vue';
 import SunIcon from './icons/SunIcon.vue';
 import SearchBox from './SearchBox.vue';
 
+const favoritesStore = useFavoritesStore();
 const colorSchemeStore = useColorSchemeStore();
 const searchQuery = ref<string>();
 const isGrid = ref(false);
@@ -28,26 +30,7 @@ const { result } = useCharacterSearchQuery(
 );
 
 const characters = computed(() => {
-  return result?.value?.Page?.characters?.reduce<Character[]>(
-    (arr, character) => {
-      if (character) {
-        const anime = character.media?.nodes?.at(0);
-        arr.push({
-          id: character.id,
-          age: character.age,
-          animeMalId: anime?.idMal,
-          animeName: anime?.title?.userPreferred,
-          animeUrl: anime?.title?.userPreferred,
-          fullName: character.name?.userPreferred,
-          gender: character.gender,
-          imageUrl: character.image?.large,
-          siteUrl: character.siteUrl,
-        });
-      }
-      return arr;
-    },
-    []
-  );
+  return createCharacterFromCharacterSearchResult(result.value);
 });
 
 const filteredCharacters = computed(() => {
@@ -128,6 +111,15 @@ const filteredCharacters = computed(() => {
           </li>
         </ul>
       </div>
+      <div>
+        <ul :class="$style.favorites">
+          <li
+            v-for="character in favoritesStore.characters"
+            :key="character.id">
+            <BaseCharacter card :info="character" />
+          </li>
+        </ul>
+      </div>
     </main>
   </div>
 </template>
@@ -141,5 +133,12 @@ const filteredCharacters = computed(() => {
 .sidebar,
 .main {
   padding: 64px;
+}
+
+.favorites {
+  column-gap: 12px;
+  display: flex;
+  list-style: none;
+  padding: 0;
 }
 </style>

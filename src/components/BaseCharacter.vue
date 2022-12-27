@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useFavoritesStore } from '@/stores/useFavorites';
 import type { Character } from '@/types/Character';
+import { omitBy } from 'lodash-es';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -21,6 +24,25 @@ const imageWidth = computed(() => {
   const defaultWidth = props.card ? 100 : 46;
   return `${props.imageWidth ?? defaultWidth}px`;
 });
+
+const favoritesStore = useFavoritesStore();
+const { favoriteIds } = storeToRefs(favoritesStore);
+const isFavorite = computed(() => {
+  return favoriteIds.value.includes(props.info.id);
+});
+
+function toggleFavorite() {
+  if (isFavorite.value) {
+    favoritesStore.removeFavorite(props.info.id);
+  } else {
+    favoritesStore.addFavorite(
+      props.info.id,
+      omitBy(props.info, (_, key) => {
+        return key === 'id';
+      })
+    );
+  }
+}
 </script>
 
 <template>
@@ -35,6 +57,9 @@ const imageWidth = computed(() => {
       <div>{{ info.fullName }}</div>
       <div>{{ info.animeName }}</div>
     </div>
+    <button v-if="!card" type="button" @click="toggleFavorite">
+      {{ isFavorite ? 'Remove' : 'Add' }}
+    </button>
   </div>
 </template>
 
