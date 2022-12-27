@@ -17,7 +17,7 @@ const isFilter = reactive({
 });
 
 const { result } = useCharacterSearchQuery(
-  () => ({ search: searchQuery.value }),
+  () => ({ search: searchQuery.value || undefined }),
   { debounce: 300 }
 );
 
