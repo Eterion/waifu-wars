@@ -41,7 +41,7 @@ function onMouseDown() {
 <template>
   <div
     :class="card ? $style.card : $style.default"
-    @mousedown.stop.prevent="onMouseDown">
+    @mousedown.left.stop.prevent="onMouseDown">
     <img
       v-if="info.imageUrl"
       :class="$style.img"
