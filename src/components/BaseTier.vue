@@ -40,6 +40,10 @@ const isInDropArea = computed(() => {
 });
 characterDragStore.onDrop(({ dragInfo }) => {
   if (!isOutside.value) {
+    if (dragInfo.origin === 'search') {
+      const { id, ...info } = dragInfo.character;
+      charactersStore.saveCharacter(id, info);
+    }
     tierStore.moveCharacter({
       characterId: dragInfo.character.id,
       tierId: props.info.id,

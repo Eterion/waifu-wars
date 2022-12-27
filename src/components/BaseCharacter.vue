@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { useCharacterDragStore } from '@/stores/useCharacterDrag';
-import { useCharactersStore } from '@/stores/useCharacters';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
-import { omitBy } from 'lodash-es';
-import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -31,25 +28,6 @@ const imageWidth = computed(() => {
   return `${props.imageWidth ?? defaultWidth}px`;
 });
 
-const charactersStore = useCharactersStore();
-const { savedCharacterIds } = storeToRefs(charactersStore);
-const isCharacterSaved = computed(() => {
-  return savedCharacterIds.value.includes(props.info.id);
-});
-
-function toggleSaved() {
-  if (isCharacterSaved.value) {
-    charactersStore.removeCharacter(props.info.id);
-  } else {
-    charactersStore.saveCharacter(
-      props.info.id,
-      omitBy(props.info, (_, key) => {
-        return key === 'id';
-      })
-    );
-  }
-}
-
 const characterDragStore = useCharacterDragStore();
 function onMouseDown() {
   if (props.dragEventOrigin)
@@ -61,34 +39,23 @@ function onMouseDown() {
 </script>
 
 <template>
-  <div :class="$style.el">
-    <div
-      :class="card ? $style.card : $style.default"
-      @mousedown.stop.prevent="onMouseDown">
-      <img
-        v-if="info.imageUrl"
-        :class="$style.img"
-        :src="info.imageUrl"
-        :alt="info.fullName || 'Unknown'"
-        loading="lazy" />
-      <div v-if="!card">
-        <div>{{ info.fullName }}</div>
-        <div>{{ info.animeName }}</div>
-      </div>
-    </div>
-    <div>
-      <button v-if="!card" type="button" @click="toggleSaved">
-        {{ isCharacterSaved ? 'Remove' : 'Add' }}
-      </button>
+  <div
+    :class="card ? $style.card : $style.default"
+    @mousedown.stop.prevent="onMouseDown">
+    <img
+      v-if="info.imageUrl"
+      :class="$style.img"
+      :src="info.imageUrl"
+      :alt="info.fullName || 'Unknown'"
+      loading="lazy" />
+    <div v-if="!card">
+      <div>{{ info.fullName }}</div>
+      <div>{{ info.animeName }}</div>
     </div>
   </div>
 </template>
 
 <style module lang="scss">
-.el {
-  display: inline-flex;
-}
-
 .default {
   align-items: center;
   display: flex;

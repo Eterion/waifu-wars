@@ -96,13 +96,7 @@ export const useTierStore = defineStore('tier', () => {
     /** Tier id. */
     tierId: number;
   }) {
-    tiers.value.forEach((tier) => {
-      if (tier.characterIds?.includes(characterId)) {
-        remove(tier.characterIds, (id) => {
-          return id === characterId;
-        });
-      }
-    });
+    removeCharacter(characterId);
     const tier = tiers.value.find(({ id }) => {
       return id === tierId;
     });
@@ -110,6 +104,20 @@ export const useTierStore = defineStore('tier', () => {
       if (!tier.characterIds) tier.characterIds = [];
       tier.characterIds.push(characterId);
     }
+  }
+
+  /**
+   * Removes character from tier.
+   * @param characterId - Character id
+   */
+
+  function removeCharacter(characterId: number) {
+    tiers.value.forEach((tier) => {
+      if (tier.characterIds?.includes(characterId))
+        remove(tier.characterIds, (id) => {
+          return id === characterId;
+        });
+    });
   }
 
   /**
@@ -135,6 +143,7 @@ export const useTierStore = defineStore('tier', () => {
     addTier,
     clearCharacters,
     moveCharacter,
+    removeCharacter,
     removeTier,
     reset,
     tierIds,
