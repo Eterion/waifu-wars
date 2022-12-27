@@ -2,6 +2,7 @@
 import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useTierStore } from '@/stores/useTier';
+import type { Character } from '@/types/Character';
 import type { Tier } from '@/types/Tier';
 import { useMouseInElement } from '@vueuse/core';
 import { computed, ref } from 'vue';
@@ -53,9 +54,13 @@ characterDragStore.onDrop(({ dragInfo }) => {
 
 const charactersStore = useCharactersStore();
 const tierCharacters = computed(() => {
-  return charactersStore.characters.filter(({ id }) => {
-    return props.info.characterIds?.includes(id);
-  });
+  return (props.info.characterIds || []).reduce<Character[]>((arr, id) => {
+    const character = charactersStore.characters.find(({ id: _id }) => {
+      return _id === id;
+    });
+    if (character) arr.push(character);
+    return arr;
+  }, []);
 });
 </script>
 
