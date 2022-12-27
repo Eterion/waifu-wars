@@ -7,10 +7,6 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 
-const charactersStore = useCharactersStore();
-const { reset } = charactersStore;
-const { characters } = storeToRefs(charactersStore);
-
 const characterDragStore = useCharacterDragStore();
 const dropRref = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(dropRref);
@@ -19,6 +15,20 @@ const isInDropArea = computed(() => {
 });
 
 const tierStore = useTierStore();
+const charactersStore = useCharactersStore();
+const { reset } = charactersStore;
+const { characters } = storeToRefs(charactersStore);
+const filteredCharacters = computed(() => {
+  return characters.value.filter(({ id }) => {
+    return (
+      id !== characterDragStore.dragging?.character.id &&
+      !tierStore.tiers
+        .flatMap(({ characterIds }) => characterIds || [])
+        .includes(id)
+    );
+  });
+});
+
 characterDragStore.onDrop(({ dragInfo }) => {
   if (!isOutside.value) {
     if (dragInfo.origin === 'search') {
@@ -36,7 +46,7 @@ characterDragStore.onDrop(({ dragInfo }) => {
     <button type="button" @click="reset">Reset characters</button>
     <div ref="dropRref" :class="{ [$style.drop]: isInDropArea }">
       <ul :class="$style.cards">
-        <li v-for="character in characters" :key="character.id">
+        <li v-for="character in filteredCharacters" :key="character.id">
           <BaseCharacter :info="character" card drag-event-origin="character" />
         </li>
       </ul>
