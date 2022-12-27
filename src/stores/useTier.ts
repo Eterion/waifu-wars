@@ -95,6 +95,7 @@ export const useTierStore = defineStore('tier', () => {
     addTier,
     removeTier,
     reset,
+    tierIds,
     tiers,
   };
 });
