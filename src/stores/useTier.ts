@@ -1,6 +1,6 @@
 import type { Tier } from '@/types/Tier';
 import { useStorage } from '@vueuse/core';
-import { remove } from 'lodash-es';
+import { isNumber, remove } from 'lodash-es';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
 
@@ -62,14 +62,30 @@ export const useTierStore = defineStore('tier', () => {
   /**
    * Adds new tier.
    * @param info - Info
+   * @param options - Options
+   * @returns Tier info
    */
 
-  function addTier({ caption, color }: Pick<Tier, 'caption' | 'color'>) {
-    tiers.value.push({
+  function addTier(
+    { caption, color }: Pick<Tier, 'caption' | 'color'>,
+    {
+      atIndex,
+    }: {
+      /** Create at specific index. */
+      atIndex?: number;
+    } = {}
+  ) {
+    const tier: Tier = {
       id: Math.max(...tierIds.value) + 1,
       caption,
       color,
-    });
+    };
+    if (isNumber(atIndex)) {
+      tiers.value.splice(atIndex, 0, tier);
+    } else {
+      tiers.value.push(tier);
+    }
+    return tier;
   }
 
   /**

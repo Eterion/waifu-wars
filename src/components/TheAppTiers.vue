@@ -1,28 +1,48 @@
 <script setup lang="ts">
 import { useTierStore } from '@/stores/useTier';
-import { storeToRefs } from 'pinia';
+import type { Tier } from '@/types/Tier';
+import { random } from 'lodash-es';
+import OpenColor from 'open-color';
+import { computed } from 'vue';
 import BaseTier from './BaseTier.vue';
 
 const tierStore = useTierStore();
 const { reset, clearCharacters } = tierStore;
-const { tiers } = storeToRefs(tierStore);
+const colorOptions = Object.keys(OpenColor).filter((key) => {
+  return !['black', 'white'].includes(key);
+}) as Array<Tier['color']>;
+
+function addTier(options?: Parameters<typeof tierStore.addTier>[1]) {
+  tierStore.addTier(
+    { color: colorOptions[random(colorOptions.length - 1)] },
+    options
+  );
+}
+
+const tiers = computed(() => {
+  return tierStore.tiers.map((tierInfo, index) => {
+    return {
+      ...tierInfo,
+      onAddTier: () => {
+        addTier({ atIndex: index });
+      },
+    };
+  });
+});
 </script>
 
 <template>
   <div>
     <button type="button" @click="reset">Reset tiers</button>
     <button type="button" @click="clearCharacters">Clear characters</button>
-    <ul :class="$style.tiers">
-      <li v-for="tierInfo in tiers" :key="tierInfo.id">
-        <BaseTier :info="tierInfo" />
-      </li>
-    </ul>
+    <template v-for="tierInfo in tiers" :key="tierInfo.id">
+      <div>
+        <button type="button" @click="tierInfo.onAddTier">Add Tier</button>
+      </div>
+      <BaseTier :info="tierInfo" />
+    </template>
+    <div>
+      <button type="button" @click="addTier()">Add Tier</button>
+    </div>
   </div>
 </template>
-
-<style module lang="scss">
-.tiers {
-  list-style: none;
-  padding: 0;
-}
-</style>
