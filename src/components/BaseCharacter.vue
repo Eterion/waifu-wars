@@ -67,17 +67,17 @@ function onMouseDown() {
         <div>{{ info.animeName }}</div>
       </div>
     </div>
-    <button v-if="!card" type="button" @click="toggleSaved">
-      {{ isCharacterSaved ? 'Remove' : 'Add' }}
-    </button>
+    <div>
+      <button v-if="!card" type="button" @click="toggleSaved">
+        {{ isCharacterSaved ? 'Remove' : 'Add' }}
+      </button>
+    </div>
   </div>
 </template>
 
 <style module lang="scss">
 .el {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
+  display: inline-flex;
 }
 
 .default {
