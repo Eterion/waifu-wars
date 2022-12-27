@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useCharacterSearchQuery } from '@/composables/useGraphQL';
-import { reactive, ref } from 'vue';
+import type { Character } from '@/types/Character';
+import { computed, reactive, ref } from 'vue';
+import BaseCharacter from './BaseCharacter.vue';
 import BaseChip from './BaseChip.vue';
 import GridIcon from './icons/GridIcon.vue';
 import ListIcon from './icons/ListIcon.vue';
@@ -18,6 +20,42 @@ const { result } = useCharacterSearchQuery(
   () => ({ search: searchQuery.value }),
   { debounce: 300 }
 );
+
+const characters = computed(() => {
+  return result?.value?.Page?.characters?.reduce<Character[]>(
+    (arr, character) => {
+      if (character) {
+        const anime = character.media?.nodes?.at(0);
+        arr.push({
+          id: character.id,
+          age: character.age,
+          animeMalId: anime?.idMal,
+          animeName: anime?.title?.userPreferred,
+          animeUrl: anime?.title?.userPreferred,
+          fullName: character.name?.userPreferred,
+          gender: character.gender,
+          imageUrl: character.image?.large,
+          siteUrl: character.siteUrl,
+        });
+      }
+      return arr;
+    },
+    []
+  );
+});
+
+const filteredCharacters = computed(() => {
+  return characters.value?.filter(({ gender }) => {
+    switch (gender) {
+      case 'Male':
+        return isFilter.husbandos;
+      case 'Female':
+        return isFilter.waifus;
+      default:
+        return isFilter.other;
+    }
+  });
+});
 </script>
 
 <template>
@@ -53,7 +91,11 @@ const { result } = useCharacterSearchQuery(
       </ul>
     </div>
     <div>
-      <pre>{{ result }}</pre>
+      <ul>
+        <li v-for="characterInfo in filteredCharacters" :key="characterInfo.id">
+          <BaseCharacter :card="isGrid" :info="characterInfo" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>
