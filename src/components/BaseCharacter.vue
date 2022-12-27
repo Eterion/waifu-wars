@@ -52,18 +52,20 @@ function onMouseDown() {
 </script>
 
 <template>
-  <div
-    :class="card ? $style.card : $style.el"
-    @mousedown.stop.prevent="onMouseDown">
-    <img
-      v-if="info.imageUrl"
-      :class="$style.img"
-      :src="info.imageUrl"
-      :alt="info.fullName || 'Unknown'"
-      loading="lazy" />
-    <div v-if="!card">
-      <div>{{ info.fullName }}</div>
-      <div>{{ info.animeName }}</div>
+  <div :class="$style.el">
+    <div
+      :class="card ? $style.card : $style.default"
+      @mousedown.stop.prevent="onMouseDown">
+      <img
+        v-if="info.imageUrl"
+        :class="$style.img"
+        :src="info.imageUrl"
+        :alt="info.fullName || 'Unknown'"
+        loading="lazy" />
+      <div v-if="!card">
+        <div>{{ info.fullName }}</div>
+        <div>{{ info.animeName }}</div>
+      </div>
     </div>
     <button v-if="!card" type="button" @click="toggleSaved">
       {{ isCharacterSaved ? 'Remove' : 'Add' }}
@@ -73,6 +75,12 @@ function onMouseDown() {
 
 <style module lang="scss">
 .el {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.default {
   align-items: center;
   display: flex;
 
