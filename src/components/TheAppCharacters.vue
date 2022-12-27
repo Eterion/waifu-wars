@@ -10,7 +10,7 @@ const { characters } = storeToRefs(favoritesStore);
 
 <template>
   <div>
-    <button type="button" @click="reset">Reset favorites</button>
+    <button type="button" @click="reset">Reset characters</button>
     <ul :class="$style.favorites">
       <li v-for="character in characters" :key="character.id">
         <BaseCharacter card :info="character" />

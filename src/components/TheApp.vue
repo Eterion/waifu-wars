@@ -4,10 +4,10 @@ import { useEventListener, useMouse } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
-import TheAppButtons from './TheAppButtons.vue';
-import TheAppFavorites from './TheAppFavorites.vue';
+import TheAppCharacters from './TheAppCharacters.vue';
 import TheAppHeader from './TheAppHeader.vue';
 import TheAppSearch from './TheAppSearch.vue';
+import TheAppSocial from './TheAppSocial.vue';
 import TheAppTiers from './TheAppTiers.vue';
 
 const characterDragStore = useCharacterDragStore();
@@ -36,8 +36,8 @@ useEventListener('mouseup', (event) => {
       <TheAppSearch />
     </aside>
     <main :class="$style.main">
-      <TheAppButtons />
-      <TheAppFavorites />
+      <TheAppSocial />
+      <TheAppCharacters />
       <TheAppTiers />
     </main>
   </div>
