@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useFavoritesStore } from '@/stores/useFavorites';
 import type { Character } from '@/types/Character';
 import { omitBy } from 'lodash-es';
@@ -43,10 +44,17 @@ function toggleFavorite() {
     );
   }
 }
+
+const characterDragStore = useCharacterDragStore();
+function onMouseDown() {
+  characterDragStore.drag(props.info);
+}
 </script>
 
 <template>
-  <div :class="card ? $style.card : $style.el">
+  <div
+    :class="card ? $style.card : $style.el"
+    @mousedown.stop.prevent="onMouseDown">
     <img
       v-if="info.imageUrl"
       :class="$style.img"

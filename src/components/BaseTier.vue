@@ -1,21 +1,25 @@
 <script setup lang="ts">
+import { useCharacterDragStore } from '@/stores/useCharacterDrag';
+import { useFavoritesStore } from '@/stores/useFavorites';
 import { useTierStore } from '@/stores/useTier';
-import { computed } from 'vue';
+import type { Tier } from '@/types/Tier';
+import { useMouseInElement } from '@vueuse/core';
+import { computed, ref } from 'vue';
+import BaseCharacter from './BaseCharacter.vue';
 
 const props = defineProps<{
   /**
-   * Tier id.
+   * Tier information.
    */
-  id: number;
+  info: Tier;
 }>();
 
 const tierStore = useTierStore();
 const tier = computed(() => {
   return tierStore.tiers.find(({ id }) => {
-    return id === props.id;
+    return id === props.info.id;
   });
 });
-
 const caption = computed({
   get: () => tier.value?.caption,
   set: (caption) => {
@@ -24,26 +28,60 @@ const caption = computed({
     }
   },
 });
-
 function removeTier() {
-  tierStore.removeTier(props.id);
+  tierStore.removeTier(props.info.id);
 }
+
+const characterDragStore = useCharacterDragStore();
+const rootRef = ref<HTMLElement>();
+const { isOutside } = useMouseInElement(rootRef);
+const isInDropArea = computed(() => {
+  return characterDragStore.dragging && !isOutside.value;
+});
+characterDragStore.onDrop(({ characterInfo }) => {
+  if (!isOutside.value) {
+    tierStore.moveCharacter({
+      characterId: characterInfo.id,
+      tierId: props.info.id,
+    });
+  }
+});
+
+const favoritesStore = useFavoritesStore();
+const tierCharacters = computed(() => {
+  return favoritesStore.characters.filter(({ id }) => {
+    return props.info.characterIds?.includes(id);
+  });
+});
 </script>
 
 <template>
-  <div>
-    <template v-if="tier">
-      <div :class="[$style.caption, $style[tier?.color]]">
-        <input v-model.lazy="caption" type="text" />
-      </div>
-      <button type="button" @click="removeTier">Remove</button>
-    </template>
+  <div ref="rootRef" :class="[$style.el, { [$style.drop]: isInDropArea }]">
+    <div :class="[$style.caption, $style[info.color]]">
+      <input v-model.lazy="caption" type="text" />
+    </div>
+    <BaseCharacter
+      v-for="tierCharacter in tierCharacters"
+      :key="tierCharacter.id"
+      card
+      :info="tierCharacter" />
+    <button type="button" @click="removeTier">Remove</button>
   </div>
 </template>
 
 <style module lang="scss">
 @use 'open-color/open-color' as *;
 @use 'sass:map';
+
+.el {
+  align-items: center;
+  column-gap: 12px;
+  display: flex;
+
+  &.drop {
+    background-color: $oc-gray-2;
+  }
+}
 
 .caption {
   align-items: center;

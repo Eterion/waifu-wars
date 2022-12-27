@@ -73,6 +73,36 @@ export const useTierStore = defineStore('tier', () => {
   }
 
   /**
+   * Moves or adds character to tier.
+   * @param info - Move info
+   */
+
+  function moveCharacter({
+    characterId,
+    tierId,
+  }: {
+    /** Character id. */
+    characterId: number;
+    /** Tier id. */
+    tierId: number;
+  }) {
+    tiers.value.forEach((tier) => {
+      if (tier.characterIds?.includes(characterId)) {
+        remove(tier.characterIds, (id) => {
+          return id === characterId;
+        });
+      }
+    });
+    const tier = tiers.value.find(({ id }) => {
+      return id === tierId;
+    });
+    if (tier) {
+      if (!tier.characterIds) tier.characterIds = [];
+      tier.characterIds.push(characterId);
+    }
+  }
+
+  /**
    * Removes existing tier.
    * @param id - Tier id
    */
@@ -93,6 +123,7 @@ export const useTierStore = defineStore('tier', () => {
 
   return {
     addTier,
+    moveCharacter,
     removeTier,
     reset,
     tierIds,
