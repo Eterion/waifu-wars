@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useCharacterSearchQuery } from '@/composables/useGraphQL';
+import { useCharactersStore } from '@/stores/useCharacters';
 import { createCharacterFromCharacterSearchResult } from '@/utils/createCharacter';
 import { computed, reactive, ref } from 'vue';
 import BaseCharacter from '../BaseCharacter.vue';
@@ -25,9 +26,19 @@ const characters = computed(() => {
   return createCharacterFromCharacterSearchResult(result.value);
 });
 
+const characterStore = useCharactersStore();
+const charactersWithSavedInfo = computed(() => {
+  return (characters.value || []).map((characterInfo) => {
+    return {
+      characterInfo,
+      isSaved: characterStore.savedCharacterIds.includes(characterInfo.id),
+    };
+  });
+});
+
 const filteredCharacters = computed(() => {
-  return characters.value?.filter(({ gender }) => {
-    switch (gender) {
+  return charactersWithSavedInfo.value.filter(({ characterInfo }) => {
+    switch (characterInfo.gender) {
       case 'Male':
         return isFilter.husbandos;
       case 'Female':
@@ -66,10 +77,13 @@ const filteredCharacters = computed(() => {
     </div>
     <div>
       <ul>
-        <li v-for="characterInfo in filteredCharacters" :key="characterInfo.id">
+        <li
+          v-for="{ characterInfo, isSaved } in filteredCharacters"
+          :key="characterInfo.id">
           <BaseCharacter
             :card="isGrid"
             :info="characterInfo"
+            :is-saved="isSaved"
             drag-event-origin="search" />
         </li>
       </ul>

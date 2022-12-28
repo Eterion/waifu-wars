@@ -4,6 +4,7 @@ import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed } from 'vue';
+import CheckIcon from './icons/CheckIcon.vue';
 
 const props = defineProps<{
   /**
@@ -22,6 +23,10 @@ const props = defineProps<{
    * Character info.
    */
   info: Character;
+  /**
+   * Indicates the character is saved.
+   */
+  isSaved?: boolean;
 }>();
 
 const imageWidth = computed(() => {
@@ -44,43 +49,64 @@ function onMouseDown() {
 </script>
 
 <template>
-  <div
-    :class="card ? $style.card : $style.default"
-    @mousedown.left.stop.prevent="onMouseDown">
-    <img
-      v-if="info.imageUrl"
-      :class="$style.img"
-      :src="info.imageUrl"
-      :alt="info.fullName || 'Unknown'"
-      loading="lazy" />
-    <div v-if="!card">
-      <div>{{ info.fullName }}</div>
-      <div>{{ info.animeName }}</div>
+  <div @mousedown.left.stop.prevent="onMouseDown">
+    <div :class="[$style.el, card ? $style.card : $style.default]">
+      <div :class="[$style.img, card ? $style.card : $style.default]">
+        <div v-if="isSaved" :class="$style.saved">
+          <CheckIcon />
+        </div>
+        <img
+          v-if="info.imageUrl"
+          :src="info.imageUrl"
+          :alt="info.fullName || 'Unknown'"
+          loading="lazy" />
+      </div>
+      <div v-if="!card">
+        <div>{{ info.fullName }}</div>
+        <div>{{ info.animeName }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <style module lang="scss">
-.default {
-  align-items: center;
-  display: flex;
+@use 'open-color/open-color' as *;
 
-  .img {
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    object-fit: cover;
-    size: v-bind(imageWidth);
+.el {
+  &.default {
+    align-items: center;
+    column-gap: 12px;
+    display: flex;
   }
 }
 
-.card {
-  aspect-ratio: 4 / 5;
+.img {
   overflow: hidden;
+  position: relative;
   width: v-bind(imageWidth);
 
-  .img {
+  &.default {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &.card {
+    aspect-ratio: 4 / 5;
+  }
+
+  & > img {
+    display: block;
     object-fit: cover;
     width: 100%;
   }
+}
+
+.saved {
+  align-items: center;
+  background-color: rgba($oc-gray-9, 0.75);
+  display: flex;
+  justify-content: center;
+  position: absolute 0;
 }
 </style>
