@@ -44,7 +44,9 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 <template>
   <div>
     <button type="button" @click="reset">Reset characters</button>
-    <div ref="dropRref" :class="{ [$style.drop]: isInDropArea }">
+    <div
+      ref="dropRref"
+      :class="[$style.drop, { [$style.active]: isInDropArea }]">
       <ul :class="$style.cards">
         <li v-for="character in filteredCharacters" :key="character.id">
           <BaseCharacter :info="character" card drag-event-origin="character" />
@@ -56,14 +58,19 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 
 <style module lang="scss">
 @use 'open-color/open-color' as *;
+@use 'sass:math';
 
 .drop {
-  background-color: $oc-black;
+  min-height: math.div(100px, 4) * 5;
+  &.active {
+    background-color: $oc-black;
+  }
 }
 
 .cards {
-  column-gap: 12px;
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   list-style: none;
   padding: 0;
 }
