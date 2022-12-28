@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
+import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed } from 'vue';
@@ -28,13 +29,17 @@ const imageWidth = computed(() => {
   return `${props.imageWidth ?? defaultWidth}px`;
 });
 
+const tierStore = useTierStore();
 const draggingCharacterStore = useDraggingCharacterStore();
 function onMouseDown() {
-  if (props.dragEventOrigin)
+  if (props.dragEventOrigin) {
+    if (props.dragEventOrigin === 'search' || props.dragEventOrigin === 'tier')
+      tierStore.removeCharacter(props.info.id);
     draggingCharacterStore.drag({
       character: props.info,
       origin: props.dragEventOrigin,
     });
+  }
 }
 </script>
 
