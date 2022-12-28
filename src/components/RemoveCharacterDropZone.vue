@@ -22,7 +22,7 @@ const isCharacterSaved = computed(() => {
   return false;
 });
 
-const isInDropArea = computed(() => {
+const isInDropZone = computed(() => {
   return isCharacterSaved.value && !isOutside.value;
 });
 
@@ -42,7 +42,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     <div
       v-if="isCharacterSaved"
       ref="rootRef"
-      :class="[$style.el, { [$style.drop]: isInDropArea }]">
+      :class="[$style.el, { [$style.active]: isInDropZone }]">
       Drop here to remove
     </div>
   </Teleport>
@@ -53,18 +53,21 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 
 .el {
   align-items: center;
-  background-color: transparent;
-  color: $oc-white;
+  background-image: linear-gradient(to bottom, var(--gray), transparent);
+  color: var(--text-light);
   display: flex;
+  font-size: 14px;
   justify-content: center;
   left: 0;
+  opacity: 0.75;
   padding: 32px;
   position: fixed;
   right: 0;
   top: 0;
-
-  &.drop {
-    background-color: $oc-red-6;
+  transition-duration: 200ms;
+  transition-property: opacity;
+  &.active {
+    opacity: 1;
   }
 }
 </style>
