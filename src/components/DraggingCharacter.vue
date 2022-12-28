@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useCharacterDragStore } from '@/stores/useCharacterDrag';
+import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useEventListener, useMouse } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, reactive } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 
-const characterDragStore = useCharacterDragStore();
-const { dragging: draggingInfo } = storeToRefs(characterDragStore);
+const draggingCharacterStore = useDraggingCharacterStore();
+const { draggingInfo } = storeToRefs(draggingCharacterStore);
 const mouse = reactive(useMouse());
 const mouseX = computed(() => `${mouse.x}px`);
 const mouseY = computed(() => `${mouse.y}px`);
@@ -16,7 +16,7 @@ const draggingCharacter = computed(() => {
 });
 
 useEventListener('mouseup', (event) => {
-  if (characterDragStore.drop()) {
+  if (draggingCharacterStore.drop()) {
     event.preventDefault();
     event.stopImmediatePropagation();
   }

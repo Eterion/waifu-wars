@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useCharactersStore } from '@/stores/useCharacters';
+import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
@@ -8,12 +8,12 @@ import { computed, ref } from 'vue';
 const rootRef = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(rootRef);
 const charactersStore = useCharactersStore();
-const characterDragStore = useCharacterDragStore();
-const { dragging } = storeToRefs(characterDragStore);
+const draggingCharacterStore = useDraggingCharacterStore();
+const { draggingInfo } = storeToRefs(draggingCharacterStore);
 
 const isCharacterSaved = computed(() => {
-  if (dragging.value) {
-    const { character, origin } = dragging.value;
+  if (draggingInfo.value) {
+    const { character, origin } = draggingInfo.value;
     return (
       (origin === 'character' || origin === 'tier') &&
       charactersStore.savedCharacterIds.includes(character.id)
@@ -26,12 +26,12 @@ const isInDropArea = computed(() => {
   return isCharacterSaved.value && !isOutside.value;
 });
 
-characterDragStore.onDrop(({ dragInfo }) => {
+draggingCharacterStore.onDrop(({ draggingInfo }) => {
   if (!isOutside.value) {
-    switch (dragInfo.origin) {
+    switch (draggingInfo.origin) {
       case 'character':
       case 'tier':
-        charactersStore.removeCharacter(dragInfo.character.id);
+        charactersStore.removeCharacter(draggingInfo.character.id);
     }
   }
 });

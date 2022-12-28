@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useCharactersStore } from '@/stores/useCharacters';
+import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
 import { useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 
-const characterDragStore = useCharacterDragStore();
+const draggingCharacterStore = useDraggingCharacterStore();
 const dropRref = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(dropRref);
 const isInDropArea = computed(() => {
-  return characterDragStore.dragging && !isOutside.value;
+  return draggingCharacterStore.draggingInfo && !isOutside.value;
 });
 
 const tierStore = useTierStore();
@@ -21,7 +21,7 @@ const { characters } = storeToRefs(charactersStore);
 const filteredCharacters = computed(() => {
   return characters.value.filter(({ id }) => {
     return (
-      id !== characterDragStore.dragging?.character.id &&
+      id !== draggingCharacterStore.draggingInfo?.character.id &&
       !tierStore.tiers
         .flatMap(({ characterIds }) => characterIds || [])
         .includes(id)
@@ -29,13 +29,13 @@ const filteredCharacters = computed(() => {
   });
 });
 
-characterDragStore.onDrop(({ dragInfo }) => {
+draggingCharacterStore.onDrop(({ draggingInfo }) => {
   if (!isOutside.value) {
-    if (dragInfo.origin === 'search') {
-      const { id, ...info } = dragInfo.character;
+    if (draggingInfo.origin === 'search') {
+      const { id, ...info } = draggingInfo.character;
       charactersStore.saveCharacter(id, info);
-    } else if (dragInfo.origin === 'tier') {
-      tierStore.removeCharacter(dragInfo.character.id);
+    } else if (draggingInfo.origin === 'tier') {
+      tierStore.removeCharacter(draggingInfo.character.id);
     }
   }
 });

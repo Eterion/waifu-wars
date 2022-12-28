@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useCharacterDragStore } from '@/stores/useCharacterDrag';
 import { useCharactersStore } from '@/stores/useCharacters';
+import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { Tier } from '@/types/Tier';
@@ -33,20 +33,20 @@ function removeTier() {
   tierStore.removeTier(props.info.id);
 }
 
-const characterDragStore = useCharacterDragStore();
+const draggingCharacterStore = useDraggingCharacterStore();
 const rootRef = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(rootRef);
 const isInDropArea = computed(() => {
-  return characterDragStore.dragging && !isOutside.value;
+  return draggingCharacterStore.draggingInfo && !isOutside.value;
 });
-characterDragStore.onDrop(({ dragInfo }) => {
+draggingCharacterStore.onDrop(({ draggingInfo }) => {
   if (!isOutside.value) {
-    if (dragInfo.origin === 'search') {
-      const { id, ...info } = dragInfo.character;
+    if (draggingInfo.origin === 'search') {
+      const { id, ...info } = draggingInfo.character;
       charactersStore.saveCharacter(id, info);
     }
     tierStore.moveCharacter({
-      characterId: dragInfo.character.id,
+      characterId: draggingInfo.character.id,
       tierId: props.info.id,
     });
   }

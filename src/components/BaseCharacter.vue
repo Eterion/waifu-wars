@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCharacterDragStore } from '@/stores/useCharacterDrag';
+import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed } from 'vue';
@@ -28,10 +28,10 @@ const imageWidth = computed(() => {
   return `${props.imageWidth ?? defaultWidth}px`;
 });
 
-const characterDragStore = useCharacterDragStore();
+const draggingCharacterStore = useDraggingCharacterStore();
 function onMouseDown() {
   if (props.dragEventOrigin)
-    characterDragStore.drag({
+    draggingCharacterStore.drag({
       character: props.info,
       origin: props.dragEventOrigin,
     });
