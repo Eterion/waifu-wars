@@ -1,6 +1,6 @@
 import type { Tier } from '@/types/Tier';
 import { useStorage } from '@vueuse/core';
-import { isNumber, remove } from 'lodash-es';
+import { clamp, isNumber, remove } from 'lodash-es';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
 
@@ -81,7 +81,9 @@ export const useTierStore = defineStore('tier', () => {
       color,
     };
     if (isNumber(atIndex)) {
-      tiers.value.splice(atIndex, 0, tier);
+      const maxIndex = Math.max(0, tiers.value.length - 1);
+      const index = clamp(atIndex, 0, maxIndex);
+      tiers.value.splice(index, 0, tier);
     } else {
       tiers.value.push(tier);
     }
@@ -104,9 +106,12 @@ export const useTierStore = defineStore('tier', () => {
    */
 
   function moveOrAddCharacter({
+    atIndex,
     characterId,
     tierId,
   }: {
+    /** At specific index. */
+    atIndex?: number;
     /** Character id. */
     characterId: number;
     /** Tier id. */
@@ -118,7 +123,13 @@ export const useTierStore = defineStore('tier', () => {
     });
     if (tier) {
       if (!tier.characterIds) tier.characterIds = [];
-      tier.characterIds.push(characterId);
+      if (isNumber(atIndex)) {
+        const maxIndex = Math.max(0, tier.characterIds.length - 1);
+        const index = clamp(atIndex, 0, maxIndex);
+        tier.characterIds.splice(index, 0, characterId);
+      } else {
+        tier.characterIds.push(characterId);
+      }
     }
   }
 
