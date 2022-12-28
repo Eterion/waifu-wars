@@ -9,30 +9,43 @@ import TheAppTiers from './TheAppTiers.vue';
 </script>
 
 <template>
-  <div :class="$style.el">
-    <RemoveCharacterDropZone />
-    <DraggingCharacter />
-    <aside :class="$style.sidebar">
-      <TheAppHeader />
-      <TheAppSearch />
-    </aside>
-    <main :class="$style.main">
-      <TheAppSocial />
-      <TheAppCharacters />
-      <TheAppTiers />
-    </main>
-  </div>
+  <RemoveCharacterDropZone />
+  <DraggingCharacter />
+  <aside :class="$style.sidebar">
+    <TheAppSocial :class="$style.social" />
+    <TheAppHeader />
+    <TheAppSearch />
+  </aside>
+  <main :class="$style.main">
+    <TheAppCharacters />
+    <TheAppTiers />
+  </main>
 </template>
 
 <style module lang="scss">
-.el {
+.sidebar {
+  background-color: var(--background);
+  bottom: 0;
   display: grid;
-  grid-template-columns: 480px 1fr;
-  height: 100%;
+  grid-template-rows: auto 1fr;
+  left: 0;
+  min-height: 0;
+  padding: 64px;
+  position: fixed;
+  row-gap: 32px;
+  top: 0;
+  width: 480px;
 }
 
-.sidebar,
+.social {
+  position: absolute;
+  right: 48px;
+  top: 24px;
+}
+
 .main {
+  margin-left: 480px;
+  min-height: 0;
   padding: 64px;
 }
 </style>

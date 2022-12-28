@@ -10,11 +10,12 @@
 
 :root {
   --aspect-ratio: 4 / 5;
-  --background: #{$oc-white};
+  --background: #{$oc-gray-1};
   --border: #{$oc-gray-4};
   --danger: #{$oc-red-6};
   --disabled: #{$oc-gray-5};
   --drop: #{$oc-gray-1};
+  --foreground: #{$oc-white};
   --gray: #{$oc-gray-2};
   --primary: #{$oc-blue-7};
   --text-light: #{$oc-gray-6};
@@ -22,9 +23,10 @@
 }
 
 .dark {
-  --background: #{$oc-gray-9};
+  --background: #{$oc-gray-8};
   --border: #{$oc-gray-6};
   --drop: #{$oc-gray-8};
+  --foreground: #{$oc-gray-9};
   --gray: #{$oc-gray-7};
   --primary: #{$oc-blue-4};
   --text-light: #{$oc-gray-5};
@@ -33,7 +35,7 @@
 }
 
 html {
-  background-color: var(--background);
+  background-color: var(--foreground);
   color: var(--text);
   color-scheme: light;
   font-family: fantasy;

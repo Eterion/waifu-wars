@@ -16,7 +16,7 @@ const props = defineProps<{
   info: Tier;
 }>();
 
-const CHARACTER_WIDTH = 100;
+const CHARACTER_WIDTH = 75;
 const tierStore = useTierStore();
 
 const tier = computed(() => {

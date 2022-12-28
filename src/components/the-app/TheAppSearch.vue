@@ -151,6 +151,8 @@ const displayedCharacters = computed(() => {
 .el {
   display: grid;
   grid-template-rows: auto 1fr;
+  height: 100%;
+  min-height: 0;
   row-gap: 24px;
 }
 
@@ -198,6 +200,8 @@ const displayedCharacters = computed(() => {
 
 .searchResults {
   min-width: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
 
   .grid {
     display: grid;

@@ -7,6 +7,7 @@ import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import BaseCharacter from '../BaseCharacter.vue';
 
+const IMAGE_WIDTH = 75;
 const draggingCharacterStore = useDraggingCharacterStore();
 const dropRref = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(dropRref);
@@ -50,7 +51,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       <ul v-if="filteredCharacters.length" :class="$style.cards">
         <li v-for="character in filteredCharacters" :key="character.id">
           <BaseCharacter
-            :image-width="100"
+            :image-width="IMAGE_WIDTH"
             :info="character"
             card
             drag-event-origin="character" />
@@ -63,10 +64,9 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 
 <style module lang="scss">
 @use 'open-color/open-color' as *;
-@use 'sass:math';
 
 .drop {
-  min-height: math.div(100px, 4) * 5;
+  min-height: calc(v-bind(IMAGE_WIDTH) * (1 + (1 - var(--aspect-ratio))) * 1px);
   &.active {
     background-color: $oc-black;
   }
