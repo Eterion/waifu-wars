@@ -30,7 +30,7 @@ const props = defineProps<{
 }>();
 
 const imageWidth = computed(() => {
-  const defaultWidth = props.card ? 100 : 46;
+  const defaultWidth = props.card ? 100 : 42;
   return `${props.imageWidth ?? defaultWidth}px`;
 });
 
@@ -50,8 +50,8 @@ function onMouseDown() {
 
 <template>
   <div @mousedown.left.stop.prevent="onMouseDown">
-    <div :class="[$style.el, card ? $style.card : $style.default]">
-      <div :class="[$style.img, card ? $style.card : $style.default]">
+    <div :class="[$style.el, { [$style.default]: !card }]">
+      <div :class="[$style.img, { [$style.default]: !card }]">
         <div v-if="isSaved" :class="$style.saved">
           <CheckIcon />
         </div>
@@ -81,18 +81,13 @@ function onMouseDown() {
 }
 
 .img {
+  aspect-ratio: 4 / 5;
   overflow: hidden;
   position: relative;
   width: v-bind(imageWidth);
 
   &.default {
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
     flex-shrink: 0;
-  }
-
-  &.card {
-    aspect-ratio: 4 / 5;
   }
 
   & > img {
