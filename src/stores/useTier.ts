@@ -103,7 +103,7 @@ export const useTierStore = defineStore('tier', () => {
    * @param info - Move info
    */
 
-  function moveCharacter({
+  function moveOrAddCharacter({
     characterId,
     tierId,
   }: {
@@ -158,7 +158,7 @@ export const useTierStore = defineStore('tier', () => {
   return {
     addTier,
     clearCharacters,
-    moveCharacter,
+    moveOrAddCharacter,
     removeCharacter,
     removeTier,
     reset,

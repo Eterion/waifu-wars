@@ -45,7 +45,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       const { id, ...info } = draggingInfo.character;
       charactersStore.saveCharacter(id, info);
     }
-    tierStore.moveCharacter({
+    tierStore.moveOrAddCharacter({
       characterId: draggingInfo.character.id,
       tierId: props.info.id,
     });
