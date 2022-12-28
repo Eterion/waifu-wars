@@ -20,7 +20,7 @@ const focused = ref(false);
 const modelValue = useVModel(props, 'modelValue', emit);
 
 const isClearVisible = computed(() => {
-  return !!modelValue.value;
+  return !!modelValue.value && focused.value;
 });
 
 function clear() {
@@ -40,7 +40,7 @@ useEventListener(document, 'keydown', (event) => {
 <template>
   <label :class="[$style.el, { [$style.focused]: focused }]">
     <span :class="$style.icon">
-      <SearchIcon />
+      <SearchIcon :size="20" />
     </span>
     <input
       ref="inputRef"
@@ -56,9 +56,9 @@ useEventListener(document, 'keydown', (event) => {
       :tabindex="-1"
       type="button"
       @click="clear">
-      <XIcon :size="20" />
+      <XIcon :size="18" />
     </button>
-    <span :class="$style.key">^K</span>
+    <span v-else :class="$style.key">^K</span>
   </label>
 </template>
 
