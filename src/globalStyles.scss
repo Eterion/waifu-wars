@@ -1,4 +1,5 @@
 @use 'open-color/open-color' as *;
+@use 'sass:math';
 
 *,
 *::before,
@@ -10,12 +11,20 @@
 :root {
   --aspect-ratio: 4 / 5;
   --background: #{$oc-white};
+  --border: #{$oc-gray-4};
+  --danger: #{$oc-red-6};
+  --disabled: #{$oc-gray-5};
+  --gray: #{$oc-gray-2};
+  --primary: #{$oc-blue-7};
+  --text-light: #{$oc-gray-6};
   --text: #{$oc-gray-9};
-  color-scheme: light;
 }
 
 .dark {
   --background: #{$oc-gray-9};
+  --border: #{$oc-gray-6};
+  --gray: #{$oc-gray-7};
+  --text-light: #{$oc-gray-5};
   --text: #{$oc-white};
   color-scheme: dark;
 }
@@ -23,4 +32,19 @@
 html {
   background-color: var(--background);
   color: var(--text);
+  color-scheme: light;
+  font-family: fantasy;
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+
+html,
+body,
+#app {
+  size: 100%;
 }

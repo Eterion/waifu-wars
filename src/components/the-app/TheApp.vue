@@ -28,6 +28,7 @@ import TheAppTiers from './TheAppTiers.vue';
 .el {
   display: grid;
   grid-template-columns: 480px 1fr;
+  height: 100%;
 }
 
 .sidebar,
