@@ -81,7 +81,7 @@ function onMouseDown() {
 }
 
 .img {
-  aspect-ratio: 4 / 5;
+  aspect-ratio: var(--aspect-ratio);
   overflow: hidden;
   position: relative;
   width: v-bind(imageWidth);

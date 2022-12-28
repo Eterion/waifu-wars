@@ -8,6 +8,7 @@
 }
 
 :root {
+  --aspect-ratio: 4 / 5;
   --background: #{$oc-white};
   --text: #{$oc-gray-9};
   color-scheme: light;
