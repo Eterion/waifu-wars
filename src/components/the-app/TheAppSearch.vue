@@ -40,10 +40,11 @@ const characterSearchCharacters = computed(() => {
   return createCharacterFromCharacterSearchResult(characterSearchResult.value);
 });
 watch(
-  () => characterSearchCharacters.value.length,
-  (length) => {
-    options.anime = !length;
-  }
+  characterSearchCharacters,
+  (searchResult) => {
+    options.anime = !searchResult.length;
+  },
+  { deep: true }
 );
 
 const characterSearchResults = computed(() => {
