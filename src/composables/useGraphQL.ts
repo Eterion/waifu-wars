@@ -4668,6 +4668,13 @@ export type YearStats = {
   year?: Maybe<Scalars['Int']>;
 };
 
+export type AnimeSearchQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type AnimeSearchQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', media?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null, characters?: { __typename?: 'CharacterConnection', nodes?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null } | null> | null } | null } | null> | null } | null };
+
 export type CharacterSearchQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']>;
   pick?: InputMaybe<Array<InputMaybe<Scalars['Int']>> | InputMaybe<Scalars['Int']>>;
@@ -4678,6 +4685,61 @@ export type CharacterSearchQueryVariables = Exact<{
 export type CharacterSearchQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', characters?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null, media?: { __typename?: 'MediaConnection', nodes?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null> | null } | null } | null> | null } | null };
 
 
+export const AnimeSearchDocument = gql`
+    query animeSearch($search: String) {
+  Page {
+    media(
+      search: $search
+      sort: [SEARCH_MATCH, POPULARITY_DESC, FAVOURITES_DESC]
+      type: ANIME
+    ) {
+      id
+      idMal
+      siteUrl
+      title {
+        userPreferred
+      }
+      characters(sort: FAVOURITES_DESC) {
+        nodes {
+          id
+          age
+          gender
+          siteUrl
+          name {
+            userPreferred
+          }
+          image {
+            large
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useAnimeSearchQuery__
+ *
+ * To run a query within a Vue component, call `useAnimeSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAnimeSearchQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param variables that will be passed into the query
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useAnimeSearchQuery({
+ *   search: // value for 'search'
+ * });
+ */
+export function useAnimeSearchQuery(variables: AnimeSearchQueryVariables | VueCompositionApi.Ref<AnimeSearchQueryVariables> | ReactiveFunction<AnimeSearchQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<AnimeSearchQuery, AnimeSearchQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<AnimeSearchQuery, AnimeSearchQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<AnimeSearchQuery, AnimeSearchQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<AnimeSearchQuery, AnimeSearchQueryVariables>(AnimeSearchDocument, variables, options);
+}
+export function useAnimeSearchLazyQuery(variables: AnimeSearchQueryVariables | VueCompositionApi.Ref<AnimeSearchQueryVariables> | ReactiveFunction<AnimeSearchQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<AnimeSearchQuery, AnimeSearchQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<AnimeSearchQuery, AnimeSearchQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<AnimeSearchQuery, AnimeSearchQueryVariables>> = {}) {
+  return VueApolloComposable.useLazyQuery<AnimeSearchQuery, AnimeSearchQueryVariables>(AnimeSearchDocument, variables, options);
+}
+export type AnimeSearchQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<AnimeSearchQuery, AnimeSearchQueryVariables>;
 export const CharacterSearchDocument = gql`
     query characterSearch($search: String, $pick: [Int], $omit: [Int]) {
   Page {

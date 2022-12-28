@@ -1,0 +1,30 @@
+query animeSearch($search: String) {
+  Page {
+    media(
+      search: $search
+      sort: [SEARCH_MATCH, POPULARITY_DESC, FAVOURITES_DESC]
+      type: ANIME
+    ) {
+      id
+      idMal
+      siteUrl
+      title {
+        userPreferred
+      }
+      characters(sort: FAVOURITES_DESC) {
+        nodes {
+          id
+          age
+          gender
+          siteUrl
+          name {
+            userPreferred
+          }
+          image {
+            large
+          }
+        }
+      }
+    }
+  }
+}
