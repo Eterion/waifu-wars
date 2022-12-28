@@ -8,6 +8,7 @@ import {
   createCharacterFromAnimeSearchResult,
   createCharacterFromCharacterSearchResult,
 } from '@/utils/createCharacter';
+import { useUrlSearchParams } from '@vueuse/core';
 import { computed, reactive, ref, watch } from 'vue';
 import BaseCharacter from '../BaseCharacter.vue';
 import BaseChip from '../BaseChip.vue';
@@ -15,7 +16,12 @@ import GridIcon from '../icons/GridIcon.vue';
 import ListIcon from '../icons/ListIcon.vue';
 import SearchBox from '../SearchBox.vue';
 
-const searchQuery = ref<string>();
+const params = useUrlSearchParams<{ q?: string }>('history');
+const searchQuery = ref<string | undefined>(params.q);
+watch(searchQuery, (searchQuery) => {
+  params.q = searchQuery;
+});
+
 const options = reactive({
   grid: false,
   anime: false,
