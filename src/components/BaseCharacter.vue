@@ -4,7 +4,6 @@ import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed } from 'vue';
-import CheckIcon from './icons/CheckIcon.vue';
 
 const props = defineProps<{
   /**
@@ -49,20 +48,22 @@ function onMouseDown() {
 
 <template>
   <div @mousedown.left.stop.prevent="onMouseDown">
-    <div :class="[$style.el, { [$style.default]: !card }]">
-      <div :class="[$style.img, { [$style.default]: !card }]">
-        <div v-if="isSaved" :class="$style.saved">
-          <CheckIcon />
-        </div>
+    <div
+      :class="[
+        $style.el,
+        card ? $style.card : $style.default,
+        { [$style.saved]: isSaved },
+      ]">
+      <div :class="[$style.img, card ? $style.card : $style.default]">
         <img
           v-if="info.imageUrl"
           :src="info.imageUrl"
           :alt="info.fullName || 'Unknown'"
           loading="lazy" />
       </div>
-      <div v-if="!card">
-        <div>{{ info.fullName }}</div>
-        <div>{{ info.animeName }}</div>
+      <div v-if="!card" :class="$style.text">
+        <div :class="$style.fullName">{{ info.fullName }}</div>
+        <div :class="$style.animeName">{{ info.animeName }}</div>
       </div>
     </div>
   </div>
@@ -76,6 +77,12 @@ function onMouseDown() {
     align-items: center;
     column-gap: 12px;
     display: flex;
+    line-height: 1.4;
+    min-width: 0;
+  }
+
+  &.saved {
+    opacity: 0.25;
   }
 }
 
@@ -86,7 +93,12 @@ function onMouseDown() {
   width: v-bind(imageWidth);
 
   &.default {
+    border-radius: 6px;
     flex-shrink: 0;
+  }
+
+  &.card {
+    border-radius: 12px;
   }
 
   & > img {
@@ -96,11 +108,19 @@ function onMouseDown() {
   }
 }
 
-.saved {
-  align-items: center;
-  background-color: rgba($oc-gray-9, 0.75);
-  display: flex;
-  justify-content: center;
-  position: absolute 0;
+.text {
+  min-width: 0;
+}
+
+.fullName {
+  font-weight: semibold;
+}
+
+.animeName {
+  color: var(--text-light);
+  font-size: 0.8125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>
