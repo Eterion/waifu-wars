@@ -18,7 +18,7 @@ const props = defineProps<{
   /**
    * Image width, in pixels.
    */
-  imageWidth?: number;
+  imageWidth: number;
   /**
    * Character info.
    */
@@ -30,8 +30,7 @@ const props = defineProps<{
 }>();
 
 const imageWidth = computed(() => {
-  const defaultWidth = props.card ? 100 : 42;
-  return `${props.imageWidth ?? defaultWidth}px`;
+  return `${props.imageWidth}px`;
 });
 
 const tierStore = useTierStore();

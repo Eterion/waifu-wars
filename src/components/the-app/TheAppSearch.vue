@@ -82,6 +82,7 @@ const filteredCharacters = computed(() => {
           :key="characterInfo.id">
           <BaseCharacter
             :card="isGrid"
+            :image-width="42"
             :info="characterInfo"
             :is-saved="isSaved"
             drag-event-origin="search" />

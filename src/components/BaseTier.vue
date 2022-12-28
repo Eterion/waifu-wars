@@ -72,6 +72,7 @@ const tierCharacters = computed(() => {
     <BaseCharacter
       v-for="tierCharacter in tierCharacters"
       :key="tierCharacter.id"
+      :image-width="100"
       :info="tierCharacter"
       card
       drag-event-origin="tier" />
