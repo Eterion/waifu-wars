@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useColorSchemeStore } from '@/stores/useColorScheme';
 import { storeToRefs } from 'pinia';
-import GithubIcon from './icons/GithubIcon.vue';
-import MoonIcon from './icons/MoonIcon.vue';
-import ShareIcon from './icons/ShareIcon.vue';
-import SunIcon from './icons/SunIcon.vue';
+import GithubIcon from '../icons/GithubIcon.vue';
+import MoonIcon from '../icons/MoonIcon.vue';
+import ShareIcon from '../icons/ShareIcon.vue';
+import SunIcon from '../icons/SunIcon.vue';
 
 const colorSchemeStore = useColorSchemeStore();
 const { toggle } = colorSchemeStore;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import DraggingCharacter from './DraggingCharacter.vue';
-import DropCharacterToRemove from './DropCharacterToRemove.vue';
+import DraggingCharacter from '../DraggingCharacter.vue';
+import DropCharacterToRemove from '../DropCharacterToRemove.vue';
 import TheAppCharacters from './TheAppCharacters.vue';
 import TheAppHeader from './TheAppHeader.vue';
 import TheAppSearch from './TheAppSearch.vue';

@@ -6,7 +6,7 @@ import {
 } from '@apollo/client/core';
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import { provide } from 'vue';
-import TheApp from './components/TheApp.vue';
+import TheApp from './components/the-app/TheApp.vue';
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache({

@@ -4,7 +4,7 @@ import type { Tier } from '@/types/Tier';
 import { random } from 'lodash-es';
 import OpenColor from 'open-color';
 import { computed } from 'vue';
-import BaseTier from './BaseTier.vue';
+import BaseTier from '../BaseTier.vue';
 
 const tierStore = useTierStore();
 const { reset, clearCharacters } = tierStore;

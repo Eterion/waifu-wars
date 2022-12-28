@@ -5,7 +5,7 @@ import { useTierStore } from '@/stores/useTier';
 import { useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
-import BaseCharacter from './BaseCharacter.vue';
+import BaseCharacter from '../BaseCharacter.vue';
 
 const draggingCharacterStore = useDraggingCharacterStore();
 const dropRref = ref<HTMLElement>();
