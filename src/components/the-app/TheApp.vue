@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DraggingCharacter from '../DraggingCharacter.vue';
-import DropCharacterToRemove from '../DropCharacterToRemove.vue';
+import RemoveCharacterDropZone from '../RemoveCharacterDropZone.vue';
 import TheAppCharacters from './TheAppCharacters.vue';
 import TheAppHeader from './TheAppHeader.vue';
 import TheAppSearch from './TheAppSearch.vue';
@@ -10,7 +10,7 @@ import TheAppTiers from './TheAppTiers.vue';
 
 <template>
   <div :class="$style.el">
-    <DropCharacterToRemove />
+    <RemoveCharacterDropZone />
     <DraggingCharacter />
     <aside :class="$style.sidebar">
       <TheAppHeader />
