@@ -14,6 +14,7 @@
   --border: #{$oc-gray-4};
   --danger: #{$oc-red-6};
   --disabled: #{$oc-gray-5};
+  --drop: #{$oc-gray-1};
   --gray: #{$oc-gray-2};
   --primary: #{$oc-blue-7};
   --text-light: #{$oc-gray-6};
@@ -23,6 +24,7 @@
 .dark {
   --background: #{$oc-gray-9};
   --border: #{$oc-gray-6};
+  --drop: #{$oc-gray-8};
   --gray: #{$oc-gray-7};
   --primary: #{$oc-blue-4};
   --text-light: #{$oc-gray-5};
