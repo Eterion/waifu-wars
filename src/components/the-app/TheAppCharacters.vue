@@ -47,11 +47,12 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     <div
       ref="dropRref"
       :class="[$style.drop, { [$style.active]: isInDropArea }]">
-      <ul :class="$style.cards">
+      <ul v-if="filteredCharacters.length" :class="$style.cards">
         <li v-for="character in filteredCharacters" :key="character.id">
           <BaseCharacter :info="character" card drag-event-origin="character" />
         </li>
       </ul>
+      <div v-else>Drop character here to save into list</div>
     </div>
   </div>
 </template>
