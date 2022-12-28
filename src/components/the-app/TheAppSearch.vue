@@ -12,10 +12,12 @@ import { useUrlSearchParams } from '@vueuse/core';
 import { computed, reactive, ref, watch } from 'vue';
 import BaseCharacter from '../BaseCharacter.vue';
 import BaseChip from '../BaseChip.vue';
+import ExternalLinkIcon from '../icons/ExternalLinkIcon.vue';
 import GridIcon from '../icons/GridIcon.vue';
 import ListIcon from '../icons/ListIcon.vue';
 import SearchBox from '../SearchBox.vue';
 
+const GRID_WIDTH = 79;
 const params = useUrlSearchParams<{ q?: string }>('history');
 const searchQuery = ref<string | undefined>(params.q);
 watch(searchQuery, (searchQuery) => {
@@ -23,7 +25,7 @@ watch(searchQuery, (searchQuery) => {
 });
 
 const options = reactive({
-  grid: false,
+  grid: true,
   anime: false,
   waifus: true,
   husbandos: false,
@@ -84,41 +86,58 @@ const displayedCharacters = computed(() => {
 </script>
 
 <template>
-  <div>
+  <div :class="$style.el">
     <div>
-      <SearchBox v-model="searchQuery" />
-      <div>Search powered by Anilist public api.</div>
-    </div>
-    <div>
-      <ul>
+      <SearchBox v-model="searchQuery" :class="$style.searchBox" />
+      <div :class="$style.poweredBy">
+        Search powered by
+        <a
+          href="https://anilist.gitbook.io/anilist-apiv2-docs/"
+          :class="$style.link"
+          target="_blank">
+          anilist.co <ExternalLinkIcon :size="12" />
+        </a>
+      </div>
+      <ul :class="$style.filter">
         <li>
-          <button type="button" @click="options.grid = !options.grid">
-            <ListIcon v-if="options.grid" />
-            <GridIcon v-else />
+          <button
+            :class="$style.displayFormat"
+            type="button"
+            @click="options.grid = !options.grid">
+            <ListIcon v-if="options.grid" :size="18" />
+            <GridIcon v-else :size="18" />
           </button>
         </li>
         <li>
-          <BaseChip v-model:active="options.anime">Anime</BaseChip>
+          <BaseChip v-model:active="options.anime" color="gray">
+            Anime
+          </BaseChip>
         </li>
         <li>
-          <BaseChip v-model:active="options.waifus">Waifus</BaseChip>
+          <BaseChip v-model:active="options.waifus" color="pink">
+            Waifus
+          </BaseChip>
         </li>
         <li>
-          <BaseChip v-model:active="options.husbandos">Husbandos</BaseChip>
+          <BaseChip v-model:active="options.husbandos" color="blue">
+            Husbandos
+          </BaseChip>
         </li>
         <li>
-          <BaseChip v-model:active="options.other">Other</BaseChip>
+          <BaseChip v-model:active="options.other" color="teal">
+            Other
+          </BaseChip>
         </li>
       </ul>
     </div>
-    <div>
-      <ul>
+    <div :class="$style.searchResults">
+      <ul :class="options.grid ? $style.grid : $style.list">
         <li
           v-for="{ characterInfo, isSaved } in displayedCharacters"
           :key="characterInfo.id">
           <BaseCharacter
             :card="options.grid"
-            :image-width="42"
+            :image-width="options.grid ? GRID_WIDTH : 42"
             :info="characterInfo"
             :is-saved="isSaved"
             drag-event-origin="search" />
@@ -127,3 +146,73 @@ const displayedCharacters = computed(() => {
     </div>
   </div>
 </template>
+
+<style module lang="scss">
+.el {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 24px;
+}
+
+.searchBox {
+  margin-bottom: 6px;
+}
+
+.poweredBy {
+  color: var(--text-light);
+  font-size: 0.8125rem;
+  margin-bottom: 12px;
+  padding: false 6px;
+
+  .link {
+    color: var(--primary);
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.filter {
+  align-items: center;
+  column-gap: 6px;
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.displayFormat {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  size: 36px;
+  &:hover {
+    color: var(--text);
+  }
+}
+
+.searchResults {
+  min-width: 0;
+
+  .grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, calc(v-bind(GRID_WIDTH) * 1px));
+    list-style: none;
+    padding: 0;
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    & > li:not(:last-child) {
+      margin-bottom: 6px;
+    }
+  }
+}
+</style>
