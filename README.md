@@ -13,3 +13,4 @@ Things to do in no particular order.
 - [ ] Context menu for characters - links to anilist, mal
 - [ ] Custom order of characters in saved list and tiers.
 - [ ] Manga search?
+- [ ] Tooltip for card characters
