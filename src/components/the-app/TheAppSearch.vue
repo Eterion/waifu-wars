@@ -17,7 +17,7 @@ import GridIcon from '../icons/GridIcon.vue';
 import ListIcon from '../icons/ListIcon.vue';
 import SearchBox from '../SearchBox.vue';
 
-const GRID_WIDTH = 79;
+const GRID_WIDTH = 75;
 const params = useUrlSearchParams<{ q?: string }>('history');
 const searchQuery = ref<string | undefined>(params.q);
 watch(searchQuery, (searchQuery) => {
@@ -148,6 +148,8 @@ const displayedCharacters = computed(() => {
 </template>
 
 <style module lang="scss">
+@use '@/sass/scrollbar';
+
 .el {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -199,9 +201,10 @@ const displayedCharacters = computed(() => {
 }
 
 .searchResults {
+  @include scrollbar.thin;
   min-width: 0;
   overflow-y: auto;
-  scrollbar-width: thin;
+  scrollbar-gutter: stable;
 
   .grid {
     display: grid;
