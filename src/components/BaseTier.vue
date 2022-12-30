@@ -4,9 +4,10 @@ import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { Tier } from '@/types/Tier';
-import { useMouseInElement } from '@vueuse/core';
+import { useElementHover, useMouseInElement } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
+import CharacterCardPlaceholder from './CharacterCardPlaceholder.vue';
 import TrashIcon from './icons/TrashIcon.vue';
 
 const props = defineProps<{
@@ -16,8 +17,10 @@ const props = defineProps<{
   info: Tier;
 }>();
 
-const CHARACTER_WIDTH = 75;
+const IMAGE_WIDTH = 75;
 const tierStore = useTierStore();
+const captionRef = ref<HTMLElement>();
+const captionHovered = useElementHover(captionRef);
 
 const tier = computed(() => {
   return tierStore.tiers.find(({ id }) => {
@@ -42,14 +45,15 @@ function onCaptionChange(event: Event) {
 }
 
 function removeTier() {
-  tierStore.removeTier(props.info.id);
+  if (confirm(`Remove tier ${props.info.caption}?`))
+    tierStore.removeTier(props.info.id);
 }
 
 const draggingCharacterStore = useDraggingCharacterStore();
 const rootRef = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(rootRef);
 
-const isInDropArea = computed(() => {
+const isInDropZone = computed(() => {
   return draggingCharacterStore.draggingInfo && !isOutside.value;
 });
 
@@ -79,26 +83,33 @@ const tierCharacters = computed(() => {
 </script>
 
 <template>
-  <div ref="rootRef" :class="[$style.el, { [$style.drop]: isInDropArea }]">
-    <div
-      :class="[$style.tier, $style[info.color]]"
-      contenteditable
-      @blur="onCaptionChange">
-      {{ caption }}
+  <div ref="rootRef" :class="[$style.el, { [$style.active]: isInDropZone }]">
+    <div ref="captionRef" :class="$style.caption">
+      <div
+        :class="[$style.tier, $style[info.color]]"
+        contenteditable
+        @blur="onCaptionChange">
+        {{ caption }}
+      </div>
+      <button
+        v-if="captionHovered"
+        :class="$style.remove"
+        type="button"
+        @click="removeTier">
+        <TrashIcon :size="18" />
+      </button>
     </div>
     <div :class="$style.characters">
       <BaseCharacter
         v-for="tierCharacter in tierCharacters"
         :key="tierCharacter.id"
-        :image-width="CHARACTER_WIDTH"
+        :image-width="IMAGE_WIDTH"
         :info="tierCharacter"
         card
         drag-event-origin="tier" />
-    </div>
-    <div>
-      <button :class="$style.removeButton" type="button" @click="removeTier">
-        <TrashIcon :size="18" />
-      </button>
+      <CharacterCardPlaceholder
+        v-if="isInDropZone"
+        :image-width="IMAGE_WIDTH" />
     </div>
   </div>
 </template>
@@ -109,15 +120,37 @@ const tierCharacters = computed(() => {
 
 .el {
   align-items: center;
-  border-radius: 12px;
   column-gap: 12px;
   display: flex;
-  padding: 24px;
-  transition-duration: 150ms;
-  transition-property: background-color;
-  &.drop {
-    background-color: var(--drop);
+  position: relative;
+  z-index: 0;
+
+  &::before {
+    border-radius: inherit;
+    border-radius: 12px;
+    content: '';
+    display: block;
+    position: absolute -12px;
+    z-index: -1;
   }
+
+  &.active {
+    &::before {
+      background-color: var(--background);
+    }
+  }
+}
+
+.caption {
+  align-self: flex-start;
+  position: relative;
+}
+
+.characters {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .tier {
@@ -129,7 +162,7 @@ const tierCharacters = computed(() => {
   justify-content: center;
   padding: 12px;
   text-align: center;
-  width: calc(v-bind(CHARACTER_WIDTH) * 1px);
+  width: calc(v-bind(IMAGE_WIDTH) * 1px);
   &:focus {
     outline: 2px solid var(--primary);
   }
@@ -141,23 +174,22 @@ const tierCharacters = computed(() => {
   }
 }
 
-.characters {
-  display: flex;
-  flex-grow: 1;
-  gap: 12px;
-}
-
-.removeButton {
+.remove {
   align-items: center;
   background-color: transparent;
+  background-color: var(--foreground);
   border: none;
-  border-radius: 12px;
+  border-radius: 50%;
   color: var(--text-light);
   cursor: pointer;
   display: flex;
   justify-content: center;
   padding: 0;
-  size: 46px;
+  position: absolute;
+  right: left;
+  size: 36px;
+  top: 50%;
+  transform: translate(-50%, -50%);
   &:hover {
     color: var(--danger);
   }
