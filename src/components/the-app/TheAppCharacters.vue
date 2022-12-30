@@ -2,7 +2,7 @@
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
-import { useMouseInElement } from '@vueuse/core';
+import { useElementSize, useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import BaseButton from '../BaseButton.vue';
@@ -13,6 +13,9 @@ const IMAGE_WIDTH = 75;
 const draggingCharacterStore = useDraggingCharacterStore();
 const dropRref = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(dropRref);
+const placeholderRef = ref<HTMLElement>();
+const { height: minHeight } = useElementSize(placeholderRef);
+
 const isInDropZone = computed(() => {
   return draggingCharacterStore.draggingInfo && !isOutside.value;
 });
@@ -62,6 +65,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     <div
       ref="dropRref"
       :class="[$style.drop, { [$style.active]: isInDropZone }]">
+      <div ref="placeholderRef" :class="$style.placeholder" />
       <div v-if="filteredCharacters.length" :class="$style.cards">
         <BaseCharacter
           v-for="character in filteredCharacters"
@@ -93,7 +97,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 }
 
 .drop {
-  min-height: calc(v-bind(IMAGE_WIDTH) * (1 + (1 - var(--aspect-ratio))) * 1px);
+  min-height: calc(v-bind(minHeight) * 1px);
   position: relative;
   z-index: 0;
 
@@ -114,6 +118,14 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
   }
 }
 
+.placeholder {
+  aspect-ratio: var(--aspect-ratio);
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+  width: calc(v-bind(IMAGE_WIDTH) * 1px);
+}
+
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -127,7 +139,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
   border: 1px dashed var(--border);
   border-radius: 12px;
   display: flex;
-  height: calc(v-bind(IMAGE_WIDTH) * (1 + (1 - var(--aspect-ratio))) * 1px);
+  height: calc(v-bind(minHeight) * 1px);
   justify-content: center;
   line-height: 1.4;
   text-align: center;
