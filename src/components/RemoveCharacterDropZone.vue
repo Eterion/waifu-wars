@@ -5,8 +5,8 @@ import { useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
-const rootRef = ref<HTMLElement>();
-const { isOutside } = useMouseInElement(rootRef);
+const dropZoneRef = ref<HTMLElement>();
+const { isOutside } = useMouseInElement(dropZoneRef);
 const charactersStore = useCharactersStore();
 const draggingCharacterStore = useDraggingCharacterStore();
 const { draggingInfo } = storeToRefs(draggingCharacterStore);
@@ -35,16 +35,21 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     }
   }
 });
+
+const text = computed(() => {
+  if (isInDropZone.value)
+    return `Remove ${draggingInfo.value?.character.fullName}?`;
+  return 'Drop here to remove...';
+});
 </script>
 
 <template>
   <Teleport to="body">
-    <div
-      v-if="isCharacterSaved"
-      ref="rootRef"
-      :class="[$style.el, { [$style.active]: isInDropZone }]">
-      Drop here to remove
-    </div>
+    <Transition>
+      <div v-if="isCharacterSaved" ref="dropZoneRef" :class="$style.el">
+        {{ text }}
+      </div>
+    </Transition>
   </Teleport>
 </template>
 
@@ -53,21 +58,26 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 
 .el {
   align-items: center;
-  background-image: linear-gradient(to bottom, var(--gray), transparent);
-  color: var(--text-light);
+  background-color: var(--danger);
+  color: $oc-white;
   display: flex;
-  font-size: 14px;
+  font-size: 0.875rem;
   justify-content: center;
   left: 0;
-  opacity: 0.75;
-  padding: 32px;
+  padding: 12px 0;
   position: fixed;
   right: 0;
   top: 0;
-  transition-duration: 200ms;
-  transition-property: opacity;
-  &.active {
-    opacity: 1;
+
+  &:global(.v-enter-from),
+  &:global(.v-leave-to) {
+    transform: translateY(-100%);
+  }
+
+  &:global(.v-enter-active),
+  &:global(.v-leave-active) {
+    transition-duration: 200ms;
+    transition-property: transform;
   }
 }
 </style>
