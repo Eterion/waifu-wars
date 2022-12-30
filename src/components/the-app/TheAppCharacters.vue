@@ -79,6 +79,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     border-radius: 12px;
     content: '';
     display: block;
+    pointer-events: none;
     position: absolute -12px;
     z-index: -1;
   }
