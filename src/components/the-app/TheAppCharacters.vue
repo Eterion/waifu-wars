@@ -68,7 +68,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       </div>
       <div v-else :class="$style.empty">
         <div>
-          <div>Drop a character here to save into a list</div>
+          <div>Drop a character here or in a tier to save into a list</div>
           <div :class="$style.characterCount">
             Your have {{ characterCount }} saved characters placed in various
             tiers
