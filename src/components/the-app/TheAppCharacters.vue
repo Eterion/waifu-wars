@@ -19,9 +19,17 @@ const isInDropZone = computed(() => {
 
 const tierStore = useTierStore();
 const charactersStore = useCharactersStore();
-const { reset } = charactersStore;
 const { characters } = storeToRefs(charactersStore);
 const characterCount = computed(() => characters.value.length);
+
+function resetSaved() {
+  if (
+    confirm(
+      'All saved characters will be removed and tiers cleared. Tier configuration will be preserved. Reset characters?'
+    )
+  )
+    charactersStore.reset();
+}
 
 const filteredCharacters = computed(() => {
   return characters.value.filter(({ id }) => {
@@ -49,7 +57,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 <template>
   <div>
     <div :class="$style.buttons">
-      <BaseButton @click="reset">Reset characters</BaseButton>
+      <BaseButton @click="resetSaved">Reset characters</BaseButton>
     </div>
     <div
       ref="dropRref"
