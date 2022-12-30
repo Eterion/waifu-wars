@@ -49,10 +49,14 @@ $-height: 30px;
   opacity: 0.65;
   padding: 0 10px;
   transition-duration: 150ms;
-  transition-property: background-color, color, opacity;
+  transition-property: background-color, color, opacity, transform;
 
   &:hover {
     opacity: 1;
+  }
+
+  &:active {
+    transform: scale(0.9);
   }
 
   &.active {
