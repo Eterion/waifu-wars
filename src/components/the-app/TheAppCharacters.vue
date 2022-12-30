@@ -6,12 +6,13 @@ import { useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 import BaseCharacter from '../BaseCharacter.vue';
+import CharacterCardPlaceholder from '../CharacterCardPlaceholder.vue';
 
 const IMAGE_WIDTH = 75;
 const draggingCharacterStore = useDraggingCharacterStore();
 const dropRref = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(dropRref);
-const isInDropArea = computed(() => {
+const isInDropZone = computed(() => {
   return draggingCharacterStore.draggingInfo && !isOutside.value;
 });
 
@@ -47,7 +48,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     <button type="button" @click="reset">Reset characters</button>
     <div
       ref="dropRref"
-      :class="[$style.drop, { [$style.active]: isInDropArea }]">
+      :class="[$style.drop, { [$style.active]: isInDropZone }]">
       <ul v-if="filteredCharacters.length" :class="$style.cards">
         <li v-for="character in filteredCharacters" :key="character.id">
           <BaseCharacter
@@ -56,6 +57,11 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
             card
             drag-event-origin="character" />
         </li>
+        <li>
+          <CharacterCardPlaceholder
+            v-if="isInDropZone"
+            :image-width="IMAGE_WIDTH" />
+        </li>
       </ul>
       <div v-else>Drop character here to save into list</div>
     </div>
@@ -63,12 +69,24 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 </template>
 
 <style module lang="scss">
-@use 'open-color/open-color' as *;
-
 .drop {
   min-height: calc(v-bind(IMAGE_WIDTH) * (1 + (1 - var(--aspect-ratio))) * 1px);
+  position: relative;
+  z-index: 0;
+
+  &::before {
+    border-radius: inherit;
+    border-radius: 12px;
+    content: '';
+    display: block;
+    position: absolute -12px;
+    z-index: -1;
+  }
+
   &.active {
-    background-color: $oc-black;
+    &::before {
+      background-color: var(--background);
+    }
   }
 }
 
