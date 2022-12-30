@@ -2,7 +2,6 @@
 import { useEventListener, useVModel } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import SearchIcon from './icons/SearchIcon.vue';
-import XIcon from './icons/XIcon.vue';
 
 const props = defineProps<{
   /**
@@ -19,8 +18,8 @@ const inputRef = ref<HTMLInputElement>();
 const focused = ref(false);
 const modelValue = useVModel(props, 'modelValue', emit);
 
-const isClearVisible = computed(() => {
-  return !!modelValue.value && focused.value;
+const isKeyVisible = computed(() => {
+  return !focused.value;
 });
 
 function clear() {
@@ -50,15 +49,7 @@ useEventListener(document, 'keydown', (event) => {
       :class="$style.input"
       @focus="focused = true"
       @blur="focused = false" />
-    <button
-      v-if="isClearVisible"
-      :class="$style.clear"
-      :tabindex="-1"
-      type="button"
-      @click="clear">
-      <XIcon :size="18" />
-    </button>
-    <span v-else :class="$style.key">^K</span>
+    <span v-if="isKeyVisible" :class="$style.key">^K</span>
   </label>
 </template>
 
@@ -101,22 +92,14 @@ $-height: 52px;
   outline: none;
   padding: 0;
 
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+
   &::placeholder {
     color: var(--disabled);
     opacity: 1;
   }
-}
-
-.clear {
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  color: var(--danger);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  size: $-height;
 }
 
 .key {
