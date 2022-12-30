@@ -8,17 +8,17 @@
 @use 'open-color/open-color' as *;
 
 .el {
-  background-color: var(--background);
-  border: none;
+  background-color: transparent;
+  border: 1px solid var(--border);
   border-radius: 6px;
-  color: var(--text-light);
+  color: var(--text);
   cursor: pointer;
   font-family: inherit;
   font-size: 0.875rem;
   height: 36px;
   padding: 0 12px;
   transition-duration: 150ms;
-  transition-property: background-color, color, transform;
+  transition-property: background-color, border-color, color, transform;
 
   &:active {
     transform: scale(0.95);
@@ -26,6 +26,7 @@
 
   &:hover {
     background-color: var(--primary);
+    border-color: transparent;
     color: var(--primary-contrast);
   }
 }
