@@ -18,7 +18,8 @@
   --drop: #{$oc-gray-1};
   --foreground: #{$oc-white};
   --gray: #{$oc-gray-2};
-  --primary: #{$oc-blue-7};
+  --primary: #{$oc-gray-9};
+  --primary-contrast: #{$oc-white};
   --text-light: #{$oc-gray-6};
   --text: #{$oc-gray-9};
 }
@@ -30,7 +31,8 @@
   --drop: #{$oc-gray-8};
   --foreground: #{$oc-gray-9};
   --gray: #{$oc-gray-7};
-  --primary: #{$oc-blue-4};
+  --primary: #{$oc-white};
+  --primary-contrast: #{$oc-gray-9};
   --text-light: #{$oc-gray-5};
   --text: #{$oc-white};
   color-scheme: dark;

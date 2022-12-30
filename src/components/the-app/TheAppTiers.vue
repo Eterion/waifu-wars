@@ -5,7 +5,9 @@ import { random } from 'lodash-es';
 import OpenColor from 'open-color';
 import { computed } from 'vue';
 import AddTier from '../AddTier.vue';
+import BaseButton from '../BaseButton.vue';
 import BaseTier from '../BaseTier.vue';
+import ButtonGroup from '../ButtonGroup.vue';
 
 const tierStore = useTierStore();
 const { reset, clearCharacters } = tierStore;
@@ -34,8 +36,10 @@ const tiers = computed(() => {
 
 <template>
   <div>
-    <button type="button" @click="reset">Reset tiers</button>
-    <button type="button" @click="clearCharacters">Clear characters</button>
+    <ButtonGroup>
+      <BaseButton @click="reset">Reset tiers</BaseButton>
+      <BaseButton @click="clearCharacters">Clear characters</BaseButton>
+    </ButtonGroup>
     <template v-for="tierInfo in tiers" :key="tierInfo.id">
       <AddTier @add="tierInfo.onAddTier" />
       <BaseTier :info="tierInfo" />

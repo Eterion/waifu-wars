@@ -5,6 +5,7 @@ import { useTierStore } from '@/stores/useTier';
 import { useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
+import BaseButton from '../BaseButton.vue';
 import BaseCharacter from '../BaseCharacter.vue';
 import CharacterCardPlaceholder from '../CharacterCardPlaceholder.vue';
 
@@ -45,7 +46,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 
 <template>
   <div>
-    <button type="button" @click="reset">Reset characters</button>
+    <BaseButton @click="reset">Reset characters</BaseButton>
     <div
       ref="dropRref"
       :class="[$style.drop, { [$style.active]: isInDropZone }]">
