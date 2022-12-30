@@ -5,7 +5,7 @@ import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { Tier } from '@/types/Tier';
 import { useElementHover, useMouseInElement } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
 import CharacterCardPlaceholder from './CharacterCardPlaceholder.vue';
 import TrashIcon from './icons/TrashIcon.vue';
@@ -49,6 +49,7 @@ function removeTier() {
     tierStore.removeTier(props.info.id);
 }
 
+const charactersStore = useCharactersStore();
 const draggingCharacterStore = useDraggingCharacterStore();
 const rootRef = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(rootRef);
@@ -63,14 +64,15 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       const { id, ...info } = draggingInfo.character;
       charactersStore.saveCharacter(id, info);
     }
-    tierStore.moveOrAddCharacter({
-      characterId: draggingInfo.character.id,
-      tierId: props.info.id,
+    nextTick(() => {
+      tierStore.moveOrAddCharacter({
+        characterId: draggingInfo.character.id,
+        tierId: props.info.id,
+      });
     });
   }
 });
 
-const charactersStore = useCharactersStore();
 const tierCharacters = computed(() => {
   return (props.info.characterIds || []).reduce<Character[]>((arr, id) => {
     const character = charactersStore.characters.find(({ id: _id }) => {
