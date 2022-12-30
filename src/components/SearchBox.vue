@@ -78,7 +78,7 @@ $-height: 52px;
   }
 
   &.focused {
-    background-color: var(--background);
+    background-color: var(--foreground);
     border-color: var(--primary);
     outline: 1px solid var(--primary);
   }
