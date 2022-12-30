@@ -17,8 +17,8 @@ import TheAppTiers from './TheAppTiers.vue';
     <TheAppSearch />
   </aside>
   <main :class="$style.main">
-    <TheAppCharacters :class="$style.main_characters" />
-    <TheAppTiers />
+    <TheAppTiers :class="$style.main_tiers" />
+    <TheAppCharacters />
   </main>
 </template>
 
@@ -48,7 +48,7 @@ import TheAppTiers from './TheAppTiers.vue';
   min-height: 0;
   padding: 64px;
 
-  &_characters {
+  &_tiers {
     margin-bottom: 24px;
   }
 }
