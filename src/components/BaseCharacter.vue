@@ -82,6 +82,7 @@ function onMouseDown() {
   }
 
   &.saved {
+    filter: grayscale(1);
     opacity: 0.25;
   }
 }
