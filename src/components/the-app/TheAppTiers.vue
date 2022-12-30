@@ -4,6 +4,7 @@ import type { Tier } from '@/types/Tier';
 import { random } from 'lodash-es';
 import OpenColor from 'open-color';
 import { computed } from 'vue';
+import AddTier from '../AddTier.vue';
 import BaseTier from '../BaseTier.vue';
 
 const tierStore = useTierStore();
@@ -36,13 +37,9 @@ const tiers = computed(() => {
     <button type="button" @click="reset">Reset tiers</button>
     <button type="button" @click="clearCharacters">Clear characters</button>
     <template v-for="tierInfo in tiers" :key="tierInfo.id">
-      <div>
-        <button type="button" @click="tierInfo.onAddTier">Add Tier</button>
-      </div>
+      <AddTier @add="tierInfo.onAddTier" />
       <BaseTier :info="tierInfo" />
     </template>
-    <div>
-      <button type="button" @click="addTier()">Add Tier</button>
-    </div>
+    <AddTier @add="addTier" />
   </div>
 </template>

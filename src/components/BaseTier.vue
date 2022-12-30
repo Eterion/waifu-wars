@@ -95,6 +95,7 @@ const tierCharacters = computed(() => {
         v-if="captionHovered"
         :class="$style.remove"
         type="button"
+        title="Remove Tier"
         @click="removeTier">
         <TrashIcon :size="18" />
       </button>
