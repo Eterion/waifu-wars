@@ -17,7 +17,7 @@ import TheAppTiers from './TheAppTiers.vue';
     <TheAppSearch />
   </aside>
   <main :class="$style.main">
-    <TheAppCharacters />
+    <TheAppCharacters :class="$style.main_characters" />
     <TheAppTiers />
   </main>
 </template>
@@ -47,5 +47,9 @@ import TheAppTiers from './TheAppTiers.vue';
   margin-left: var(--sidebar-width);
   min-height: 0;
   padding: 64px;
+
+  &_characters {
+    margin-bottom: 24px;
+  }
 }
 </style>

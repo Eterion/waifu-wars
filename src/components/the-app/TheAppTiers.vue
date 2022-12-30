@@ -36,7 +36,7 @@ const tiers = computed(() => {
 
 <template>
   <div>
-    <ButtonGroup>
+    <ButtonGroup :class="$style.buttons">
       <BaseButton @click="reset">Reset tiers</BaseButton>
       <BaseButton @click="clearCharacters">Clear characters</BaseButton>
     </ButtonGroup>
@@ -47,3 +47,9 @@ const tiers = computed(() => {
     <AddTier @add="addTier" />
   </div>
 </template>
+
+<style module lang="scss">
+.buttons {
+  margin-bottom: 24px;
+}
+</style>

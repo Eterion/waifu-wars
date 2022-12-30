@@ -21,6 +21,8 @@ const tierStore = useTierStore();
 const charactersStore = useCharactersStore();
 const { reset } = charactersStore;
 const { characters } = storeToRefs(charactersStore);
+const characterCount = computed(() => characters.value.length);
+
 const filteredCharacters = computed(() => {
   return characters.value.filter(({ id }) => {
     return (
@@ -46,30 +48,42 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 
 <template>
   <div>
-    <BaseButton @click="reset">Reset characters</BaseButton>
+    <div :class="$style.buttons">
+      <BaseButton @click="reset">Reset characters</BaseButton>
+    </div>
     <div
       ref="dropRref"
       :class="[$style.drop, { [$style.active]: isInDropZone }]">
-      <ul v-if="filteredCharacters.length" :class="$style.cards">
-        <li v-for="character in filteredCharacters" :key="character.id">
-          <BaseCharacter
-            :image-width="IMAGE_WIDTH"
-            :info="character"
-            card
-            drag-event-origin="character" />
-        </li>
-        <li>
-          <CharacterCardPlaceholder
-            v-if="isInDropZone"
-            :image-width="IMAGE_WIDTH" />
-        </li>
-      </ul>
-      <div v-else>Drop character here to save into list</div>
+      <div v-if="filteredCharacters.length" :class="$style.cards">
+        <BaseCharacter
+          v-for="character in filteredCharacters"
+          :key="character.id"
+          :image-width="IMAGE_WIDTH"
+          :info="character"
+          card
+          drag-event-origin="character" />
+        <CharacterCardPlaceholder
+          v-if="isInDropZone"
+          :image-width="IMAGE_WIDTH" />
+      </div>
+      <div v-else :class="$style.empty">
+        <div>
+          <div>Drop a character here to save into a list</div>
+          <div :class="$style.characterCount">
+            Your have {{ characterCount }} saved characters placed in various
+            tiers
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style module lang="scss">
+.buttons {
+  margin-bottom: 24px;
+}
+
 .drop {
   min-height: calc(v-bind(IMAGE_WIDTH) * (1 + (1 - var(--aspect-ratio))) * 1px);
   position: relative;
@@ -98,5 +112,21 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
   gap: 12px;
   list-style: none;
   padding: 0;
+}
+
+.empty {
+  align-items: center;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  display: flex;
+  height: calc(v-bind(IMAGE_WIDTH) * (1 + (1 - var(--aspect-ratio))) * 1px);
+  justify-content: center;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.characterCount {
+  color: var(--text-light);
+  font-size: 0.875rem;
 }
 </style>
