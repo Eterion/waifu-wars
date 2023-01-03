@@ -18,4 +18,4 @@ Things to do in no particular order.
 - [ ] Manga search?
 - [ ] Mobile support
 - [ ] Share saved character list and tier placement (probably via url)
-- [ ] Tooltip for card characters
+- [x] Tooltip for card characters

@@ -3,7 +3,8 @@ import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import BaseTooltip from './BaseTooltip.vue';
 
 const props = defineProps<{
   /**
@@ -28,6 +29,9 @@ const props = defineProps<{
   isSaved?: boolean;
 }>();
 
+const elRef = ref<HTMLElement>();
+const hasTooltip = computed(() => props.card && props.dragEventOrigin);
+
 const imageWidth = computed(() => {
   return `${props.imageWidth}px`;
 });
@@ -49,6 +53,7 @@ function onMouseDown() {
 <template>
   <div @mousedown.left.stop.prevent="onMouseDown">
     <div
+      ref="elRef"
       :class="[
         $style.el,
         card ? $style.card : $style.default,
@@ -66,6 +71,14 @@ function onMouseDown() {
         <div :class="$style.animeName">{{ info.animeName }}</div>
       </div>
     </div>
+    <BaseTooltip
+      v-if="hasTooltip"
+      :outside-reference-el="elRef"
+      placement="top">
+      <template #value>
+        {{ info.fullName }}
+      </template>
+    </BaseTooltip>
   </div>
 </template>
 
