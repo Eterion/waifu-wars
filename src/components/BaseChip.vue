@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
 import type OpenColor from 'open-color';
+import type { PropType } from 'vue';
 
-const props = defineProps<{
+const props = defineProps({
   /**
    * Controls active state.
    */
-  active?: boolean;
+  active: Boolean,
   /**
    * Color.
    */
-  color: Exclude<keyof OpenColor, 'black' | 'white'>;
-}>();
+  color: {
+    required: true,
+    type: String as PropType<Exclude<keyof OpenColor, 'black' | 'white'>>,
+  },
+});
 
 const emit = defineEmits<{
   (e: 'update:active', active?: boolean): void;

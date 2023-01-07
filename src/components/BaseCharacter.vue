@@ -3,31 +3,40 @@ import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
-import { computed, ref } from 'vue';
+import { computed, ref, type PropType } from 'vue';
 import BaseTooltip from './BaseTooltip.vue';
 
-const props = defineProps<{
+const props = defineProps({
   /**
    * Changes display format to a card.
    */
-  card?: boolean;
+  card: Boolean,
   /**
    * Origin of the drag event.
    */
-  dragEventOrigin: DragEventOrigin | false;
+  dragEventOrigin: {
+    default: false,
+    type: [Boolean, String] as PropType<false | DragEventOrigin>,
+  },
   /**
    * Image width, in pixels.
    */
-  imageWidth: number;
+  imageWidth: {
+    required: true,
+    type: Number,
+  },
   /**
    * Character info.
    */
-  info: Character;
+  info: {
+    required: true,
+    type: Object as PropType<Character>,
+  },
   /**
    * Indicates the character is saved.
    */
-  isSaved?: boolean;
-}>();
+  isSaved: Boolean,
+});
 
 const elRef = ref<HTMLElement>();
 const hasTooltip = computed(() => props.card && props.dragEventOrigin);
