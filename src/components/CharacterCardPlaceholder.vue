@@ -23,7 +23,7 @@ const imageWidth = computed(() => {
 <style module lang="scss">
 .el {
   align-items: center;
-  aspect-ratio: var(--aspect-ratio);
+  aspect-ratio: var(--card-aspect-ratio);
   border: 1px dashed currentColor;
   border-radius: 12px;
   color: var(--text-light);

@@ -110,7 +110,7 @@ function onMouseDown() {
 }
 
 .img {
-  aspect-ratio: var(--aspect-ratio);
+  aspect-ratio: var(--card-aspect-ratio);
   overflow: hidden;
   position: relative;
   width: v-bind(imageWidth);

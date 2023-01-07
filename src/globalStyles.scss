@@ -10,8 +10,8 @@
 }
 
 :root {
-  --aspect-ratio: 4 / 5;
-  --sidebar-width: 480px;
+  --app-sidebar-width: 480px;
+  --card-aspect-ratio: 4 / 5;
   --background: #{$oc-gray-1};
   --border: #{$oc-gray-4};
   --danger: #{$oc-red-6};
@@ -20,8 +20,8 @@
   --foreground: #{$oc-white};
   --gray: #{$oc-gray-2};
   --primary: #{$oc-gray-9};
-  --primary-contrast: #{$oc-white};
   --text-light: #{$oc-gray-6};
+  --text-on-primary: #{$oc-white};
   --text: #{$oc-gray-9};
 }
 
@@ -33,8 +33,8 @@
   --foreground: #{$oc-gray-9};
   --gray: #{$oc-gray-7};
   --primary: #{$oc-white};
-  --primary-contrast: #{$oc-gray-9};
   --text-light: #{$oc-gray-5};
+  --text-on-primary: #{$oc-gray-9};
   --text: #{$oc-white};
   color-scheme: dark;
 }

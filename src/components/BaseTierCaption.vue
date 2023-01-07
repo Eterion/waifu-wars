@@ -50,7 +50,7 @@ function onCaptionChange(event: Event) {
 
 .el {
   align-items: center;
-  aspect-ratio: var(--aspect-ratio);
+  aspect-ratio: var(--card-aspect-ratio);
   border-radius: 12px;
   color: $oc-white;
   display: flex;

@@ -34,7 +34,7 @@ import TheAppTiers from './TheAppTiers.vue';
   position: fixed;
   row-gap: 32px;
   top: 0;
-  width: var(--sidebar-width);
+  width: var(--app-sidebar-width);
 }
 
 .social {
@@ -44,7 +44,7 @@ import TheAppTiers from './TheAppTiers.vue';
 }
 
 .main {
-  margin-left: var(--sidebar-width);
+  margin-left: var(--app-sidebar-width);
   min-height: 0;
   padding: 64px;
 

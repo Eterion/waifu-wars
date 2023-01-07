@@ -119,7 +119,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
 }
 
 .placeholder {
-  aspect-ratio: var(--aspect-ratio);
+  aspect-ratio: var(--card-aspect-ratio);
   pointer-events: none;
   position: absolute;
   visibility: hidden;

@@ -53,7 +53,7 @@ useEventListener('mouseup', (event) => {
 
 <style module lang="scss">
 .el {
-  aspect-ratio: var(--aspect-ratio);
+  aspect-ratio: var(--card-aspect-ratio);
   position: fixed 0;
   transform: translate(v-bind(translateX), v-bind(translateY));
   width: calc(v-bind(IMAGE_WIDTH) * 1px);
