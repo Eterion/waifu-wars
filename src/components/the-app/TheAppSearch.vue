@@ -8,7 +8,7 @@ import {
   createCharacterFromAnimeSearchResult,
   createCharacterFromCharacterSearchResult,
 } from '@/utils/createCharacter';
-import { useUrlSearchParams } from '@vueuse/core';
+import { useElementSize, useUrlSearchParams } from '@vueuse/core';
 import { computed, reactive, ref, watch } from 'vue';
 import BaseCharacter from '../BaseCharacter.vue';
 import BaseChip from '../BaseChip.vue';
@@ -17,7 +17,6 @@ import GridIcon from '../icons/GridIcon.vue';
 import ListIcon from '../icons/ListIcon.vue';
 import SearchBox from '../SearchBox.vue';
 
-const GRID_WIDTH = 75;
 const params = useUrlSearchParams<{ q?: string }>('history');
 const searchQuery = ref<string | undefined>(params.q);
 watch(searchQuery, (searchQuery) => {
@@ -83,6 +82,23 @@ const displayedCharacters = computed(() => {
     }
   });
 });
+
+const GRID_GAP = 12;
+const GRID_COLUMNS = 5;
+const searchResultsRef = ref<HTMLElement>();
+const { width: searchResultsWidth } = useElementSize(searchResultsRef);
+const gridWidth = computed(() => {
+  return (searchResultsWidth.value - GRID_GAP * GRID_COLUMNS) / GRID_COLUMNS;
+});
+const searchResultsMarginRight = computed(() => {
+  if (searchResultsRef.value instanceof HTMLElement)
+    return `${
+      searchResultsRef.value.clientWidth -
+      searchResultsRef.value.offsetWidth -
+      GRID_GAP
+    }px`;
+  return 0;
+});
 </script>
 
 <template>
@@ -130,14 +146,14 @@ const displayedCharacters = computed(() => {
         </li>
       </ul>
     </div>
-    <div :class="$style.searchResults">
+    <div ref="searchResultsRef" :class="$style.searchResults">
       <ul :class="options.grid ? $style.grid : $style.list">
         <li
           v-for="{ characterInfo, isSaved } in displayedCharacters"
           :key="characterInfo.id">
           <BaseCharacter
             :card="options.grid"
-            :image-width="options.grid ? GRID_WIDTH : 42"
+            :image-width="options.grid ? gridWidth : 42"
             :info="characterInfo"
             :is-saved="isSaved"
             drag-event-origin="search" />
@@ -202,14 +218,15 @@ const displayedCharacters = computed(() => {
 
 .searchResults {
   @include scrollbar.thin;
+  margin-right: v-bind(searchResultsMarginRight);
   min-width: 0;
   overflow-y: auto;
   scrollbar-gutter: stable;
 
   .grid {
     display: grid;
-    gap: 12px;
-    grid-template-columns: repeat(auto-fill, calc(v-bind(GRID_WIDTH) * 1px));
+    gap: calc(v-bind(GRID_GAP) * 1px);
+    grid-template-columns: repeat(auto-fill, calc(v-bind(gridWidth) * 1px));
     list-style: none;
     padding: 0;
   }
