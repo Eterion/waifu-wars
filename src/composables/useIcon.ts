@@ -23,7 +23,7 @@ export const iconProps = {
     default: 24,
     type: Number,
   },
-};
+} as const;
 
 /**
  * Composable for icon component.
