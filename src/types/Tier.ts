@@ -1,8 +1,12 @@
-import type OpenColor from 'open-color';
+import type { TierColor } from '@/stores/useTier';
 
 export interface Tier {
+  /** Caption text. */
   caption?: string;
+  /** List of placed character ids, in order. */
   characterIds?: number[];
-  color: Exclude<keyof OpenColor, 'black' | 'white'>;
+  /** Color key. */
+  color: TierColor;
+  /** Unique identifier. */
   id: number;
 }

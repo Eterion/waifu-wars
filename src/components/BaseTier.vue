@@ -7,8 +7,10 @@ import type { Tier } from '@/types/Tier';
 import { useElementHover, useMouseInElement } from '@vueuse/core';
 import { computed, nextTick, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
+import BaseTierCaption from './BaseTierCaption.vue';
+import BaseTierColor from './BaseTierColor.vue';
 import CharacterCardPlaceholder from './CharacterCardPlaceholder.vue';
-import TrashIcon from './icons/TrashIcon.vue';
+import XIcon from './icons/XIcon.vue';
 
 const props = defineProps<{
   /**
@@ -19,40 +21,13 @@ const props = defineProps<{
 
 const IMAGE_WIDTH = 75;
 const tierStore = useTierStore();
-const captionRef = ref<HTMLElement>();
-const captionHovered = useElementHover(captionRef);
-
-const tier = computed(() => {
-  return tierStore.tiers.find(({ id }) => {
-    return id === props.info.id;
-  });
-});
-
-const caption = computed({
-  get: () => tier.value?.caption,
-  set: (caption) => {
-    if (tier.value) {
-      tier.value.caption = caption;
-    }
-  },
-});
-
-function onCaptionChange(event: Event) {
-  if (event.target instanceof HTMLElement) {
-    caption.value = event.target.innerText.trim();
-    event.target.innerText = caption.value;
-  }
-}
-
-function removeTier() {
-  if (confirm(`Remove tier ${props.info.caption}?`))
-    tierStore.removeTier(props.info.id);
-}
-
 const charactersStore = useCharactersStore();
 const draggingCharacterStore = useDraggingCharacterStore();
 const rootRef = ref<HTMLElement>();
 const { isOutside } = useMouseInElement(rootRef);
+const hoverRef = ref<HTMLElement>();
+const hovered = useElementHover(hoverRef);
+const isChangingColor = ref(false);
 
 const isInDropZone = computed(() => {
   return draggingCharacterStore.draggingInfo && !isOutside.value;
@@ -73,41 +48,54 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
   }
 });
 
-const tierCharacters = computed(() => {
+const characterList = computed(() => {
   return (props.info.characterIds || []).reduce<Character[]>((arr, id) => {
-    const character = charactersStore.characters.find(({ id: _id }) => {
-      return _id === id;
-    });
+    const character = charactersStore.findById(id);
     if (character) arr.push(character);
     return arr;
   }, []);
 });
+
+function removeTier() {
+  if (confirm(`Remove tier ${props.info.caption}?`))
+    tierStore.removeTier(props.info.id);
+}
 </script>
 
 <template>
   <div ref="rootRef" :class="[$style.el, { [$style.active]: isInDropZone }]">
-    <div ref="captionRef" :class="$style.caption">
-      <div
-        :class="[$style.tier, $style[info.color]]"
-        contenteditable
-        @blur="onCaptionChange">
-        {{ caption }}
-      </div>
-      <button
-        v-if="captionHovered"
-        :class="$style.remove"
-        type="button"
-        title="Remove Tier"
-        @click="removeTier">
-        <TrashIcon :size="18" />
-      </button>
+    <div ref="hoverRef">
+      <Transition
+        :enter-from-class="$style.vHidden"
+        :leave-to-class="$style.vHidden"
+        :enter-active-class="$style.vActive"
+        :leave-active-class="$style.vActive">
+        <ul v-if="isChangingColor || hovered" :class="$style.buttons">
+          <li>
+            <BaseTierColor
+              :info="info"
+              :class="[$style.button, info.color]"
+              @visible="isChangingColor = $event" />
+          </li>
+          <li>
+            <button
+              :class="$style.button"
+              type="button"
+              title="Remove Tier"
+              @click="removeTier">
+              <XIcon :size="12" />
+            </button>
+          </li>
+        </ul>
+      </Transition>
+      <BaseTierCaption :image-width="IMAGE_WIDTH" :info="info" />
     </div>
-    <div :class="$style.characters">
+    <div :class="$style.characterList">
       <BaseCharacter
-        v-for="tierCharacter in tierCharacters"
-        :key="tierCharacter.id"
+        v-for="character in characterList"
+        :key="character.id"
         :image-width="IMAGE_WIDTH"
-        :info="tierCharacter"
+        :info="character"
         card
         drag-event-origin="tier" />
       <CharacterCardPlaceholder
@@ -118,13 +106,10 @@ const tierCharacters = computed(() => {
 </template>
 
 <style module lang="scss">
-@use 'open-color/open-color' as *;
-@use 'sass:map';
-
 .el {
-  align-items: center;
   column-gap: 12px;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   position: relative;
   z-index: 0;
 
@@ -140,62 +125,48 @@ const tierCharacters = computed(() => {
 
   &.active {
     &::before {
-      background-color: var(--background);
+      background-color: var(--drop);
     }
   }
 }
 
-.caption {
-  align-self: flex-start;
-  position: relative;
-}
-
-.characters {
-  display: flex;
-  flex-grow: 1;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.tier {
+.buttons {
   align-items: center;
-  aspect-ratio: var(--aspect-ratio);
-  border-radius: 12px;
-  color: $oc-white;
+  bottom: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 12px;
-  text-align: center;
-  width: calc(v-bind(IMAGE_WIDTH) * 1px);
-  &:focus {
-    outline: 2px solid var(--primary);
+  list-style: none;
+  padding: false 12px;
+  position: absolute;
+  right: 100%;
+  row-gap: 6px;
+  top: 0;
+  &.vHidden {
+    opacity: 0;
+    transform: translateX(6px);
+  }
+  &.vActive {
+    transition-duration: 200ms;
+    transition-property: opacity, transform;
   }
 }
 
-@each $-colors, $-key in $oc-color-list {
-  .#{$-key} {
-    background-color: map.get($-colors, '6');
-  }
-}
-
-.remove {
+.button {
   align-items: center;
-  background-color: transparent;
-  background-color: var(--foreground);
   border: none;
   border-radius: 50%;
-  color: var(--text-light);
   cursor: pointer;
   display: flex;
   justify-content: center;
   padding: 0;
-  position: absolute;
-  right: left;
-  size: 36px;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  &:hover {
-    color: var(--danger);
-  }
+  size: 20px;
+}
+
+.characterList {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 </style>

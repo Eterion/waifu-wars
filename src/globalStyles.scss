@@ -1,5 +1,6 @@
 @use 'open-color/open-color' as *;
 @use 'sass:math';
+@use 'sass:map';
 
 *,
 *::before,
@@ -56,4 +57,14 @@ html,
 body,
 #app {
   size: 100%;
+}
+
+// Tier colors
+@each $-colors, $-key in $oc-color-list {
+  .#{$-key} {
+    background-color: map.get($-colors, '6');
+    &-2 {
+      background-color: map.get($-colors, '9');
+    }
+  }
 }

@@ -1,8 +1,33 @@
 import type { Tier } from '@/types/Tier';
 import { useStorage } from '@vueuse/core';
 import { clamp, isNumber, remove } from 'lodash-es';
+import OpenColor from 'open-color';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
+
+/**
+ * Filtered open color keys.
+ * @internal
+ */
+
+type Keys = Exclude<keyof OpenColor, 'black' | 'white'>;
+
+/**
+ * Tier color.
+ */
+
+export type TierColor = Keys | `${Keys}-2`;
+
+/**
+ * Array of possible tier colors.
+ */
+
+export const TIER_COLOR_KEYS = Object.keys(OpenColor)
+  .filter((key) => !['black', 'white'].includes(key))
+  .reduce<TierColor[]>((arr, key) => {
+    arr.push(key as TierColor, `${key}-2` as TierColor);
+    return arr;
+  }, []);
 
 /**
  * Default array of tiers.
@@ -58,6 +83,18 @@ export const useTierStore = defineStore('tier', () => {
       return id;
     });
   });
+
+  /**
+   * Finds tier value by `id`.
+   * @param tierId - Tier id
+   * @returns Tier value
+   */
+
+  function findById(tierId: number) {
+    return tiers.value.find(({ id }) => {
+      return id === tierId;
+    });
+  }
 
   /**
    * Adds new tier.
@@ -169,6 +206,7 @@ export const useTierStore = defineStore('tier', () => {
   return {
     addTier,
     clearCharacters,
+    findById,
     moveOrAddCharacter,
     removeCharacter,
     removeTier,

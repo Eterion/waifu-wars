@@ -9,7 +9,7 @@ https://eterion.github.io/waifu-wars/
 
 Things to do in no particular order.
 
-- [ ] Change tier color
+- [x] Change tier color
 - [ ] Character image replacement in case of missing (or have better)
 - [ ] Context menu for characters - links to anilist, mal
 - [ ] Custom confirmation dialogs

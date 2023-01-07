@@ -31,6 +31,17 @@ export const useCharactersStore = defineStore('characters', () => {
   });
 
   /**
+   * Finds character by `id`.
+   * @param id - Character id
+   */
+
+  function findById(id: number) {
+    return characters.value.find(({ id: _id }) => {
+      return _id === id;
+    });
+  }
+
+  /**
    * Adds new character to {@link savedCharacterIds}.
    * @param id - Character id
    * @param info - Info
@@ -88,6 +99,7 @@ export const useCharactersStore = defineStore('characters', () => {
   return {
     characterIds,
     characters,
+    findById,
     loading,
     removeCharacter,
     reset,

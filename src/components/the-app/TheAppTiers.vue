@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useTierStore } from '@/stores/useTier';
-import type { Tier } from '@/types/Tier';
+import { TIER_COLOR_KEYS, useTierStore } from '@/stores/useTier';
 import { random } from 'lodash-es';
-import OpenColor from 'open-color';
 import { computed } from 'vue';
 import AddTier from '../AddTier.vue';
 import BaseButton from '../BaseButton.vue';
@@ -10,9 +8,6 @@ import BaseTier from '../BaseTier.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 
 const tierStore = useTierStore();
-const colorOptions = Object.keys(OpenColor).filter((key) => {
-  return !['black', 'white'].includes(key);
-}) as Array<Tier['color']>;
 
 function resetTiers() {
   if (
@@ -34,7 +29,7 @@ function clearCharacters() {
 
 function addTier(options?: Parameters<typeof tierStore.addTier>[1]) {
   tierStore.addTier(
-    { color: colorOptions[random(colorOptions.length - 1)] },
+    { color: TIER_COLOR_KEYS[random(TIER_COLOR_KEYS.length - 1)] },
     options
   );
 }
