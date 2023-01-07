@@ -12,7 +12,7 @@ Things to do in no particular order.
 - [x] Change tier color
 - [ ] Character image replacement in case of missing (or have better)
 - [ ] Context menu for characters - links to anilist, mal
-- [ ] Custom confirmation dialogs
+- [x] Custom confirmation dialogs
 - [ ] Custom order of characters in saved list and tiers
 - [ ] Drag and move tiers
 - [ ] Manga search?

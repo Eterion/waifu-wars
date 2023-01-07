@@ -4,6 +4,7 @@ import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { Tier } from '@/types/Tier';
+import { confirm } from '@/utils/confirm';
 import { useElementHover, useMouseInElement } from '@vueuse/core';
 import { computed, nextTick, ref } from 'vue';
 import BaseCharacter from './BaseCharacter.vue';
@@ -56,8 +57,8 @@ const characterList = computed(() => {
   }, []);
 });
 
-function removeTier() {
-  if (confirm(`Remove tier ${props.info.caption}?`))
+async function removeTier() {
+  if (await confirm(`Remove tier ${props.info.caption}?`))
     tierStore.removeTier(props.info.id);
 }
 </script>

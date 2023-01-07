@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useColorSchemeStore } from '@/stores/useColorScheme';
+import { alert } from '@/utils/alert';
 import { storeToRefs } from 'pinia';
 import GithubIcon from '../icons/GithubIcon.vue';
 import MoonIcon from '../icons/MoonIcon.vue';
@@ -10,8 +11,8 @@ const colorSchemeStore = useColorSchemeStore();
 const { toggle: toggleColorScheme } = colorSchemeStore;
 const { isDark } = storeToRefs(colorSchemeStore);
 
-function share() {
-  alert('Not yet implemented');
+async function share() {
+  await alert('This feature is not yet implemented');
 }
 </script>
 

@@ -2,6 +2,7 @@
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
+import { confirm } from '@/utils/confirm';
 import { useElementSize, useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
@@ -25,9 +26,9 @@ const charactersStore = useCharactersStore();
 const { characters } = storeToRefs(charactersStore);
 const characterCount = computed(() => characters.value.length);
 
-function resetSaved() {
+async function resetSaved() {
   if (
-    confirm(
+    await confirm(
       'All saved characters will be removed and tiers cleared. Tier configuration will be preserved. Reset characters?'
     )
   )

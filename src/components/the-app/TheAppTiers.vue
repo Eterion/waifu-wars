@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { TIER_COLOR_KEYS, useTierStore } from '@/stores/useTier';
+import { confirm } from '@/utils/confirm';
 import { random } from 'lodash-es';
 import { computed } from 'vue';
 import AddTier from '../AddTier.vue';
@@ -9,18 +10,18 @@ import ButtonGroup from '../ButtonGroup.vue';
 
 const tierStore = useTierStore();
 
-function resetTiers() {
+async function resetTiers() {
   if (
-    confirm(
+    await confirm(
       "Tiers will be restored tiers to default and removes any placed character. Characters won't be removed from the saved list. Reset tiers?"
     )
   )
     tierStore.reset();
 }
 
-function clearCharacters() {
+async function clearCharacters() {
   if (
-    confirm(
+    await confirm(
       "All tiers will be cleared of all characters. Characters won't be removed from the saved list. Clear characters?"
     )
   )

@@ -12,6 +12,8 @@
 :root {
   --app-sidebar-width: 480px;
   --card-aspect-ratio: 4 / 5;
+  // ---
+  --backdrop: #{rgba($oc-gray-2, 0.95)};
   --background: #{$oc-gray-1};
   --border: #{$oc-gray-4};
   --danger: #{$oc-red-6};
@@ -26,6 +28,7 @@
 }
 
 .dark {
+  --backdrop: #{rgba($oc-black, 0.9)};
   --background: #{$oc-gray-8};
   --border: #{$oc-gray-6};
   --disabled: #{$oc-gray-6};
