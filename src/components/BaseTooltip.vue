@@ -26,7 +26,7 @@ const props = withDefaults(
     /**
      * Reference element oustide of the component.
      */
-    outsideReferenceEl?: HTMLElement;
+    outsideReferenceElement?: HTMLElement;
     /**
      * Content value.
      */
@@ -34,12 +34,12 @@ const props = withDefaults(
   }>(),
   {
     placement: 'bottom',
-    outsideReferenceEl: undefined,
+    outsideReferenceElement: undefined,
     value: undefined,
   }
 );
 
-const { floating, reference, strategy, update, x, y } = useFloating(
+const { floatingRef, referenceRef, strategy, update, x, y } = useFloating(
   reactive({
     middleware: [flip(), shift({ padding: 5 }), offset({ mainAxis: 5 })],
     placement: toRef(props, 'placement'),
@@ -48,8 +48,8 @@ const { floating, reference, strategy, update, x, y } = useFloating(
 );
 
 watchEffect(() => {
-  if (props.outsideReferenceEl) {
-    reference.value = props.outsideReferenceEl;
+  if (props.outsideReferenceElement) {
+    referenceRef.value = props.outsideReferenceElement;
   }
 });
 
@@ -60,18 +60,18 @@ const style = computed<CSSProperties>(() => {
   };
 });
 
-const hovered = useElementHover(reference);
+const hovered = useElementHover(referenceRef);
 watch(toRef(props, 'value'), () => {
   update();
 });
 </script>
 
 <template>
-  <slot :reference-ref="(el: any) => void (reference = el)" />
+  <slot :reference-ref="(el: any) => void (referenceRef = el)" />
   <Teleport to="body" :disabled="!hovered">
     <div
       v-if="hovered"
-      ref="floating"
+      ref="floatingRef"
       :class="$style.el"
       :style="style"
       v-bind="$attrs">

@@ -5,6 +5,7 @@ import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed, ref, type PropType } from 'vue';
 import BaseTooltip from './BaseTooltip.vue';
+import ContextMenu from './ContextMenu.vue';
 
 const props = defineProps({
   /**
@@ -72,7 +73,7 @@ function onMouseDown() {
         <img
           v-if="info.imageUrl"
           :src="info.imageUrl"
-          :alt="info.fullName || 'Unknown'"
+          :alt="info.fullName || 'N/A'"
           loading="lazy" />
       </div>
       <div v-if="!card" :class="$style.text">
@@ -82,12 +83,50 @@ function onMouseDown() {
     </div>
     <BaseTooltip
       v-if="hasTooltip"
-      :outside-reference-el="elRef"
+      :outside-reference-element="elRef"
       placement="top">
       <template #value>
         {{ info.fullName }}
       </template>
     </BaseTooltip>
+    <ContextMenu :outside-reference-element="elRef" :class="$style.contextMenu">
+      <template #contextMenu>
+        <img
+          v-if="info.imageUrl"
+          :src="info.imageUrl"
+          :alt="info.fullName || 'N/A'"
+          loading="lazy"
+          :class="$style.contextMenu_img" />
+        <dl :class="$style.contextMenu_data">
+          <dt>Name</dt>
+          <dd>
+            {{ info.fullName }}
+          </dd>
+          <dd v-if="info.siteUrl">
+            <a :href="info.siteUrl" target="_blank" rel="noopener,noreferer">
+              Anilist.co
+            </a>
+          </dd>
+          <dt>Anime</dt>
+          <dd>
+            {{ info.animeName }}
+          </dd>
+          <dd v-if="info.animeUrl">
+            <a :href="info.animeUrl" target="_blank" rel="noopener,noreferer">
+              Anilist.co
+            </a>
+          </dd>
+          <dd v-if="info.animeMalId">
+            <a
+              :href="`https://myanimelist.net/anime/${info.animeMalId}`"
+              target="_blank"
+              rel="noopener,noreferer">
+              My Anime List
+            </a>
+          </dd>
+        </dl>
+      </template>
+    </ContextMenu>
   </div>
 </template>
 
@@ -145,5 +184,24 @@ function onMouseDown() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.contextMenu {
+  align-items: flex-start;
+  background-color: var(--foreground);
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(#000, 0.05);
+  column-gap: 12px;
+  display: flex;
+  padding: 12px;
+  &_img {
+    border-radius: 6px;
+    width: 100px;
+  }
+  &_data {
+    & > dt {
+      color: var(--text-light);
+    }
+  }
 }
 </style>

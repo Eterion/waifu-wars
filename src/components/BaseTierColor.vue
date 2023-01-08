@@ -46,7 +46,7 @@ watch(isVisible, (isVisible) => {
   emit('visible', isVisible);
 });
 
-const { floating, reference, strategy, update, x, y } = useFloating({
+const { floatingRef, referenceRef, strategy, update, x, y } = useFloating({
   middleware: [offset({ mainAxis: 12 }), flip()],
   placement: 'top',
   strategy: 'fixed',
@@ -60,15 +60,15 @@ const floatingStyle = computed<CSSProperties>(() => {
 });
 
 const element = computed(() => {
-  if (reference.value instanceof HTMLElement) return reference.value;
+  if (referenceRef.value instanceof HTMLElement) return referenceRef.value;
   return undefined;
 });
 
 const elementBounding = reactive(useElementBounding(element));
 watch(elementBounding, ary(update, 0), { deep: true });
-onClickOutside(floating, (event) => {
+onClickOutside(floatingRef, (event) => {
   if (event.target instanceof HTMLElement)
-    if (!reference.value?.contains(event.target)) {
+    if (!referenceRef.value?.contains(event.target)) {
       isVisible.value = false;
     }
 });
@@ -76,14 +76,14 @@ onClickOutside(floating, (event) => {
 
 <template>
   <button
-    ref="reference"
+    ref="referenceRef"
     type="button"
     title="Change Color"
     @click="isVisible = !isVisible">
     <Teleport to="body">
       <div
         v-if="isVisible"
-        ref="floating"
+        ref="floatingRef"
         :class="$style.dropdown"
         :style="floatingStyle">
         <ul :class="$style.grid">

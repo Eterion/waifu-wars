@@ -20,8 +20,8 @@ import { reactive, ref, toRef, watch } from 'vue';
 export function useFloating(
   options: Omit<Partial<ComputePositionConfig>, 'platform'> = {}
 ) {
-  const reference = ref<Element>();
-  const floating = ref<HTMLElement>();
+  const referenceRef = ref<Element>();
+  const floatingRef = ref<HTMLElement>();
   const middlewareData = ref<MiddlewareData>({});
   const x = ref<number>();
   const y = ref<number>();
@@ -50,35 +50,35 @@ export function useFloating(
   };
 
   async function update(virtualElement?: VirtualElement) {
-    if (!floating.value) return;
+    if (!floatingRef.value) return;
     if (virtualElement) {
       handleComputePositionData(
         await computePosition(
           virtualElement,
-          floating.value,
+          floatingRef.value,
           computePositionConfig
         )
       );
-    } else if (reference.value) {
+    } else if (referenceRef.value) {
       handleComputePositionData(
         await computePosition(
-          reference.value,
-          floating.value,
+          referenceRef.value,
+          floatingRef.value,
           computePositionConfig
         )
       );
     }
   }
 
-  watch(reference, ary(update, 0), { deep: true });
-  watch(floating, ary(update, 0), { deep: true });
+  watch(referenceRef, ary(update, 0), { deep: true });
+  watch(floatingRef, ary(update, 0), { deep: true });
   watch(() => computePositionConfig, ary(update, 0), { deep: true });
 
   return {
-    floating,
+    floatingRef,
     middleware,
     placement,
-    reference,
+    referenceRef,
     strategy,
     update,
     x,
