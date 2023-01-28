@@ -17,5 +17,7 @@ Things to do in no particular order.
 - [ ] Drag and move tiers
 - [ ] Manga search?
 - [ ] Mobile support
+- [ ] Presets for seasonal, popular etc.
 - [ ] Share saved character list and tier placement (probably via url)
+- [ ] Support for anime (and manga?) tiers
 - [x] Tooltip for card characters
