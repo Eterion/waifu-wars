@@ -58,7 +58,7 @@ const text = computed(() => {
 
 .el {
   align-items: center;
-  background-color: var(--danger);
+  background-color: var(--danger-surface);
   color: $oc-white;
   display: flex;
   font-size: 0.875rem;

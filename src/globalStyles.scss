@@ -10,34 +10,38 @@
 }
 
 :root {
-  --app-sidebar-width: 480px;
+  --app-max-width: 1200px;
   --card-aspect-ratio: 4 / 5;
-  // ---
+  // Colors
   --backdrop: #{rgba($oc-gray-2, 0.95)};
-  --background: #{$oc-gray-1};
+  --background: #{$oc-gray-2};
   --border: #{$oc-gray-4};
-  --danger: #{$oc-red-6};
-  --disabled: #{$oc-gray-5};
-  --drop: #{$oc-gray-1};
+  --danger-surface: #{$oc-red-5};
   --foreground: #{$oc-white};
-  --gray: #{$oc-gray-2};
-  --primary: #{$oc-gray-9};
+  --primary-surface: #{$oc-blue-5};
+  --primary-text: #{$oc-blue-7};
+  --success-surface: #{$oc-teal-5};
+  --text-disabled: #{$oc-gray-5};
   --text-light: #{$oc-gray-6};
-  --text-on-primary: #{$oc-white};
+  --text-on-primary-surface: #{$oc-white};
   --text: #{$oc-gray-9};
+
+  // TODO: Remove these probably
+  --app-sidebar-width: 480px;
+  --drop: #{$oc-gray-1};
+  --gray: #{$oc-gray-2};
+  color-scheme: light;
 }
 
 .dark {
   --backdrop: #{rgba($oc-black, 0.9)};
   --background: #{$oc-gray-8};
   --border: #{$oc-gray-6};
-  --disabled: #{$oc-gray-6};
-  --drop: #{$oc-gray-8};
   --foreground: #{$oc-gray-9};
-  --gray: #{$oc-gray-7};
-  --primary: #{$oc-white};
+  --primary-surface: #{$oc-white};
+  --text-disabled: #{$oc-gray-6};
   --text-light: #{$oc-gray-5};
-  --text-on-primary: #{$oc-gray-9};
+  --text-on-primary-surface: #{$oc-gray-9};
   --text: #{$oc-white};
   color-scheme: dark;
 }
@@ -45,8 +49,8 @@
 html {
   background-color: var(--foreground);
   color: var(--text);
-  color-scheme: light;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans',
+    Arial, sans-serif;
   font-size: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

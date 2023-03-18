@@ -185,7 +185,7 @@ const searchResultsMarginRight = computed(() => {
   padding: false 6px;
 
   .link {
-    color: var(--primary);
+    color: var(--primary-surface);
     text-decoration: underline;
     &:hover {
       text-decoration: none;

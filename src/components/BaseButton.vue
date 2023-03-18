@@ -25,9 +25,9 @@
   }
 
   &:hover {
-    background-color: var(--primary);
+    background-color: var(--primary-surface);
     border-color: transparent;
-    color: var(--text-on-primary);
+    color: var(--text-on-primary-surface);
   }
 }
 </style>

@@ -70,8 +70,8 @@ $-height: 52px;
 
   &.focused {
     background-color: var(--foreground);
-    border-color: var(--primary);
-    outline: 1px solid var(--primary);
+    border-color: var(--primary-surface);
+    outline: 1px solid var(--primary-surface);
   }
 }
 
@@ -97,7 +97,7 @@ $-height: 52px;
   }
 
   &::placeholder {
-    color: var(--disabled);
+    color: var(--text-disabled);
     opacity: 1;
   }
 }

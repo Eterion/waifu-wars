@@ -130,7 +130,7 @@ onClickOutside(floatingRef, (event) => {
   display: block;
   size: 24px;
   &.isActive {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--primary-surface);
   }
 }
 </style>

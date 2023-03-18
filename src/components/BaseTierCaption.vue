@@ -59,7 +59,7 @@ function onCaptionChange(event: Event) {
   text-align: center;
   width: calc(v-bind(imageWidth) * 1px);
   &:focus {
-    outline: 2px solid var(--primary);
+    outline: 2px solid var(--primary-surface);
   }
 }
 </style>
