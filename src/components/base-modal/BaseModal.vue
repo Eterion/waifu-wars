@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseBackdrop from './BaseBackdrop.vue';
+import BaseBackdrop from '../base-backdrop/BaseBackdrop.vue';
 
 const props = defineProps<{
   /**
@@ -99,7 +99,7 @@ $-grid-gap: minmax($-gap, 1fr);
 .modal {
   background-color: var(--foreground);
   border-radius: 0.75rem;
-  box-shadow: 0 0 32px rgba(#000, 0.05);
+  box-shadow: 0 0 36px rgba(#000, 0.05);
   grid-area: modal;
   min-height: 0;
   min-width: 0;

@@ -6,8 +6,8 @@ import { confirm } from '@/utils/confirm';
 import { useElementSize, useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
-import BaseButton from '../BaseButton.vue';
-import BaseCharacter from '../BaseCharacter.vue';
+import BaseButton from '../base-button/BaseButton.vue';
+import CharacterCard from '../CharacterCard.vue';
 import CharacterCardPlaceholder from '../CharacterCardPlaceholder.vue';
 
 const IMAGE_WIDTH = 75;
@@ -68,7 +68,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       :class="[$style.drop, { [$style.active]: isInDropZone }]">
       <div ref="placeholderRef" :class="$style.placeholder" />
       <div v-if="filteredCharacters.length" :class="$style.cards">
-        <BaseCharacter
+        <CharacterCard
           v-for="character in filteredCharacters"
           :key="character.id"
           :image-width="IMAGE_WIDTH"

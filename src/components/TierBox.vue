@@ -8,10 +8,10 @@ import { confirm } from '@/utils/confirm';
 import { useElementHover, useMouseInElement } from '@vueuse/core';
 import { computed, nextTick, ref } from 'vue';
 import XIcon from './@icons/XIcon.vue';
-import BaseCharacter from './BaseCharacter.vue';
-import BaseTierCaption from './BaseTierCaption.vue';
-import BaseTierColor from './BaseTierColor.vue';
+import CharacterCard from './CharacterCard.vue';
 import CharacterCardPlaceholder from './CharacterCardPlaceholder.vue';
+import TierBoxCaption from './TierBoxCaption.vue';
+import TierBoxColor from './TierBoxColor.vue';
 
 const props = defineProps<{
   /**
@@ -73,7 +73,7 @@ async function removeTier() {
         :leave-active-class="$style.vActive">
         <ul v-if="isChangingColor || hovered" :class="$style.buttons">
           <li>
-            <BaseTierColor
+            <TierBoxColor
               :info="info"
               :class="[$style.button, info.color]"
               @visible="isChangingColor = $event" />
@@ -89,10 +89,10 @@ async function removeTier() {
           </li>
         </ul>
       </Transition>
-      <BaseTierCaption :image-width="IMAGE_WIDTH" :info="info" />
+      <TierBoxCaption :image-width="IMAGE_WIDTH" :info="info" />
     </div>
     <div :class="$style.characterList">
-      <BaseCharacter
+      <CharacterCard
         v-for="character in characterList"
         :key="character.id"
         :image-width="IMAGE_WIDTH"

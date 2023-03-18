@@ -4,7 +4,7 @@ import { useTierStore } from '@/stores/useTier';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed, ref, type PropType } from 'vue';
-import BaseTooltip from './BaseTooltip.vue';
+import BaseTooltip from './base-tooltip/BaseTooltip.vue';
 import ContextMenu from './ContextMenu.vue';
 
 const props = defineProps({

@@ -2,7 +2,7 @@
 import { useVModel } from '@vueuse/core';
 import { isNumber } from 'lodash-es';
 import { computed } from 'vue';
-import BaseModal from './BaseModal.vue';
+import BaseModal from '../base-modal/BaseModal.vue';
 
 const props = defineProps<{
   /**

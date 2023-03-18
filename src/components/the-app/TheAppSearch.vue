@@ -13,8 +13,8 @@ import { computed, reactive, ref, watch } from 'vue';
 import ExternalLinkIcon from '../@icons/ExternalLinkIcon.vue';
 import GridIcon from '../@icons/GridIcon.vue';
 import ListIcon from '../@icons/ListIcon.vue';
-import BaseCharacter from '../BaseCharacter.vue';
-import BaseChip from '../BaseChip.vue';
+import BaseChip from '../base-chip/BaseChip.vue';
+import CharacterCard from '../CharacterCard.vue';
 import SearchBox from '../SearchBox.vue';
 
 const params = useUrlSearchParams<{ q?: string }>('history');
@@ -151,7 +151,7 @@ const searchResultsMarginRight = computed(() => {
         <li
           v-for="{ characterInfo, isSaved } in displayedCharacters"
           :key="characterInfo.id">
-          <BaseCharacter
+          <CharacterCard
             :card="options.grid"
             :image-width="options.grid ? gridWidth : 42"
             :info="characterInfo"

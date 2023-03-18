@@ -8,7 +8,7 @@ import {
 } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, reactive, ref } from 'vue';
-import BaseCharacter from './BaseCharacter.vue';
+import CharacterCard from './CharacterCard.vue';
 
 const IMAGE_WIDTH = 100;
 const draggingRef = ref<HTMLElement>();
@@ -40,7 +40,7 @@ useEventListener('mouseup', (event) => {
 
 <template>
   <Teleport to="body">
-    <BaseCharacter
+    <CharacterCard
       v-if="draggingCharacter"
       ref="draggingRef"
       :class="$style.el"

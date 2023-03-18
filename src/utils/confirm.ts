@@ -1,4 +1,4 @@
-import PopupConfirm from '@/components/PopupConfirm.vue';
+import BasePopupConfirm from '@/components/base-popup/BasePopupConfirm.vue';
 import { createApp, h, onMounted, ref } from 'vue';
 
 /**
@@ -27,7 +27,7 @@ export async function confirm(
           visible.value = true;
         });
         return () =>
-          h(PopupConfirm, {
+          h(BasePopupConfirm, {
             message,
             cancel: options.cancel,
             confirm: options.confirm,

@@ -4,9 +4,9 @@ import { confirm } from '@/utils/confirm';
 import { random } from 'lodash-es';
 import { computed } from 'vue';
 import PlusIcon from '../@icons/PlusIcon.vue';
-import BaseButton from '../BaseButton.vue';
-import BaseTier from '../BaseTier.vue';
+import BaseButton from '../base-button/BaseButton.vue';
 import ButtonGroup from '../ButtonGroup.vue';
+import TierBox from '../TierBox.vue';
 
 const tierStore = useTierStore();
 
@@ -63,7 +63,7 @@ const tiers = computed(() => {
           <PlusIcon :size="14" />
         </button>
       </div>
-      <BaseTier :info="tierInfo" />
+      <TierBox :info="tierInfo" />
     </template>
     <div :class="$style.add">
       <button

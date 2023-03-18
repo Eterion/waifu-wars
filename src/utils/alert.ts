@@ -1,4 +1,4 @@
-import PopupAlert from '@/components/PopupAlert.vue';
+import BasePopupAlert from '@/components/base-popup/BasePopupAlert.vue';
 import { createApp, h, onMounted, ref } from 'vue';
 
 /**
@@ -25,7 +25,7 @@ export async function alert(
           visible.value = true;
         });
         return () =>
-          h(PopupAlert, {
+          h(BasePopupAlert, {
             message,
             ok: options.ok,
             title: options.title,

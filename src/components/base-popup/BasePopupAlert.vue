@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseButton from './BaseButton.vue';
+import BaseButton from '../base-button/BaseButton.vue';
+import ButtonGroup from '../ButtonGroup.vue';
 import BasePopup from './BasePopup.vue';
-import ButtonGroup from './ButtonGroup.vue';
 
 const props = withDefaults(
   defineProps<{
