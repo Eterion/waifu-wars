@@ -7,11 +7,11 @@ import type { Tier } from '@/types/Tier';
 import { confirm } from '@/utils/confirm';
 import { useElementHover, useMouseInElement } from '@vueuse/core';
 import { computed, nextTick, ref } from 'vue';
+import XIcon from './@icons/XIcon.vue';
 import BaseCharacter from './BaseCharacter.vue';
 import BaseTierCaption from './BaseTierCaption.vue';
 import BaseTierColor from './BaseTierColor.vue';
 import CharacterCardPlaceholder from './CharacterCardPlaceholder.vue';
-import XIcon from './icons/XIcon.vue';
 
 const props = defineProps<{
   /**

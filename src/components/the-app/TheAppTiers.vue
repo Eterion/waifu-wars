@@ -3,10 +3,10 @@ import { TIER_COLOR_KEYS, useTierStore } from '@/stores/useTier';
 import { confirm } from '@/utils/confirm';
 import { random } from 'lodash-es';
 import { computed } from 'vue';
+import PlusIcon from '../@icons/PlusIcon.vue';
 import BaseButton from '../BaseButton.vue';
 import BaseTier from '../BaseTier.vue';
 import ButtonGroup from '../ButtonGroup.vue';
-import PlusIcon from '../icons/PlusIcon.vue';
 
 const tierStore = useTierStore();
 

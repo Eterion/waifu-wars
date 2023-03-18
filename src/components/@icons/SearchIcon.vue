@@ -8,11 +8,11 @@ const { height, width } = useIcon(props);
 <template>
   <svg
     :height="height"
+    :stroke-width="strokeWidth"
     :width="width"
     fill="none"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="2"
     stroke="currentColor"
     viewBox="0 0 24 24">
     <circle cx="11" cy="11" r="8" />

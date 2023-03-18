@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useColorSchemeStore } from '@/stores/useColorScheme';
 import { storeToRefs } from 'pinia';
-import MoonIcon from './icons/MoonIcon.vue';
-import SunIcon from './icons/SunIcon.vue';
+import MoonIcon from './@icons/MoonIcon.vue';
+import SunIcon from './@icons/SunIcon.vue';
 
 const colorSchemeStore = useColorSchemeStore();
 const { toggle } = colorSchemeStore;

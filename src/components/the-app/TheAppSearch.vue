@@ -10,11 +10,11 @@ import {
 } from '@/utils/createCharacter';
 import { useElementSize, useUrlSearchParams } from '@vueuse/core';
 import { computed, reactive, ref, watch } from 'vue';
+import ExternalLinkIcon from '../@icons/ExternalLinkIcon.vue';
+import GridIcon from '../@icons/GridIcon.vue';
+import ListIcon from '../@icons/ListIcon.vue';
 import BaseCharacter from '../BaseCharacter.vue';
 import BaseChip from '../BaseChip.vue';
-import ExternalLinkIcon from '../icons/ExternalLinkIcon.vue';
-import GridIcon from '../icons/GridIcon.vue';
-import ListIcon from '../icons/ListIcon.vue';
 import SearchBox from '../SearchBox.vue';
 
 const params = useUrlSearchParams<{ q?: string }>('history');

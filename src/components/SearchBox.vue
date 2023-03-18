@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useEventListener, useVModel } from '@vueuse/core';
 import { computed, ref } from 'vue';
-import SearchIcon from './icons/SearchIcon.vue';
+import SearchIcon from './@icons/SearchIcon.vue';
 
 const props = defineProps<{
   /**

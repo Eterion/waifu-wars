@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import MinimizeIcon from './icons/MinimizeIcon.vue';
+import MinimizeIcon from './@icons/MinimizeIcon.vue';
 
 const props = defineProps<{
   /**

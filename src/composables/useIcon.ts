@@ -17,6 +17,13 @@ export const iconProps = {
     type: Number,
   },
   /**
+   * Path stroke width.
+   */
+  strokeWidth: {
+    default: 2,
+    type: Number,
+  },
+  /**
    * Width, in pixels.
    */
   width: {
