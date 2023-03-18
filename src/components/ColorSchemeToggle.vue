@@ -31,7 +31,7 @@ $-height: 22px;
   display: block;
   height: $-height;
   padding: 0;
-  width: $-height * 2 + 2px;
+  width: $-height * 2 - 2px;
 
   &:hover {
     border-color: var(--border-dark);
