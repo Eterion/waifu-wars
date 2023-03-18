@@ -10,6 +10,8 @@ import { createApp, h, onMounted, ref } from 'vue';
 export async function alert(
   message: string,
   options: {
+    /** Danger style. */
+    danger?: boolean;
     /** Ok button text. */
     ok?: string;
     /** Title text. */
@@ -27,6 +29,7 @@ export async function alert(
         return () =>
           h(BasePopupAlert, {
             message,
+            danger: options.danger,
             ok: options.ok,
             title: options.title,
             visible: visible.value,

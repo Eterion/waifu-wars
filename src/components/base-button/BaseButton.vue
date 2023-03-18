@@ -1,5 +1,27 @@
+<script setup lang="ts">
+import { computed, useCssModule } from 'vue';
+
+const props = defineProps<{
+  /**
+   * Danger style.
+   */
+  danger?: boolean;
+  /**
+   * Primary style.
+   */
+  primary?: boolean;
+}>();
+
+const $style = useCssModule();
+const css = computed(() => {
+  if (props.danger) return $style.danger;
+  else if (props.primary) return $style.primary;
+  return $style.regular;
+});
+</script>
+
 <template>
-  <button type="button" :class="$style.el">
+  <button type="button" :class="[$style.el, css]">
     <slot />
   </button>
 </template>
@@ -8,26 +30,41 @@
 @use 'open-color/open-color' as *;
 
 .el {
-  background-color: transparent;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   font-family: inherit;
-  font-size: 0.875rem;
-  height: 36px;
-  padding: 0 12px;
+  font-size: 0.9375rem;
+  height: 46px;
+  padding: 0 24px;
   transition-duration: 150ms;
-  transition-property: background-color, border-color, color, transform;
-
+  transition-property: background-color, box-shadow, color, transform;
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.9);
   }
+}
 
+.regular {
+  background-color: var(--foreground);
+  color: var(--text);
   &:hover {
-    background-color: var(--primary-surface);
-    border-color: transparent;
-    color: var(--text-on-primary-surface);
+    box-shadow: 0 0 12px var(--text);
+  }
+}
+
+.danger {
+  background-color: var(--danger-surface);
+  color: var(--text-on-danger-surface);
+  &:hover {
+    box-shadow: 0 0 12px var(--danger-surface);
+  }
+}
+
+.primary {
+  background-color: var(--primary-surface);
+  color: var(--text-on-primary-surface);
+  &:hover {
+    box-shadow: 0 0 12px var(--primary-surface);
   }
 }
 </style>

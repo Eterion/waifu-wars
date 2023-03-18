@@ -6,6 +6,10 @@ import BaseModal from '../base-modal/BaseModal.vue';
 
 const props = defineProps<{
   /**
+   * Danger style.
+   */
+  danger?: boolean;
+  /**
    * Title text.
    */
   title?: string;
@@ -41,7 +45,9 @@ const width = computed(() => {
     @show="$emit('show')"
     @shown="$emit('shown')">
     <div :class="$style.el" :style="{ width }">
-      <h2 v-if="title" :class="$style.title">{{ title }}</h2>
+      <h2 v-if="title" :class="[$style.title, { [$style.isDanger]: danger }]">
+        {{ title }}
+      </h2>
       <slot />
     </div>
   </BaseModal>
@@ -56,5 +62,8 @@ const width = computed(() => {
   font-weight: normal;
   margin-bottom: 0.75rem;
   text-align: center;
+  &.isDanger {
+    color: var(--danger-text);
+  }
 }
 </style>

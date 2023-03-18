@@ -11,6 +11,10 @@ const props = withDefaults(
      */
     message: string;
     /**
+     * Danger style.
+     */
+    danger?: boolean;
+    /**
      * Ok button text.
      */
     ok?: string;
@@ -44,6 +48,7 @@ const visible = useVModel(props, 'visible', emit);
 <template>
   <BasePopup
     v-model:visible="visible"
+    :danger="danger"
     :title="title"
     :width="400"
     @hidden="$emit('hidden')"
@@ -54,7 +59,7 @@ const visible = useVModel(props, 'visible', emit);
       <p>{{ message }}</p>
     </div>
     <ButtonGroup :class="$style.buttons">
-      <BaseButton @click="$emit('ok')">
+      <BaseButton :danger="danger" @click="$emit('ok')">
         {{ ok }}
       </BaseButton>
     </ButtonGroup>

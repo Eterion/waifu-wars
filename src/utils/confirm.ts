@@ -14,6 +14,8 @@ export async function confirm(
     cancel?: string;
     /** Confirm button text. */
     confirm?: string;
+    /** Danger style. */
+    danger?: boolean;
     /** Title text. */
     title?: string;
   } = {}
@@ -29,6 +31,7 @@ export async function confirm(
         return () =>
           h(BasePopupConfirm, {
             message,
+            danger: options.danger,
             cancel: options.cancel,
             confirm: options.confirm,
             title: options.title,
