@@ -1,32 +1,77 @@
+<script setup lang="ts">
+import TheAppNav from './TheAppNav.vue';
+import TheAppSocial from './TheAppSocial.vue';
+</script>
+
 <template>
-  <header>
-    <h1 :class="$style.title">
-      Waifu Wars
-      <span :class="$style.beta">Beta</span>
-    </h1>
-    <p>
-      We all have our favorite waifus. And of course we can scientifically prove
-      it by comparing them to inferior trash.
-    </p>
-  </header>
+  <Teleport to="body">
+    <header :class="$style.el">
+      <div :class="$style.content">
+        <div>
+          <h1 :class="$style.title">
+            Waifu Wars
+            <span :class="$style.beta">beta</span>
+          </h1>
+        </div>
+        <div :class="$style.nav">
+          <TheAppNav />
+          <span :class="$style.divider" />
+          <TheAppSocial />
+        </div>
+      </div>
+    </header>
+  </Teleport>
 </template>
 
 <style module lang="scss">
 @use 'open-color/open-color' as *;
 
+.el {
+  background-color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  box-sizing: content-box;
+  height: var(--app-header-height);
+  position: fixed 0 0 false 0;
+}
+
+.content {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  margin: false auto;
+  max-width: var(--app-max-width);
+  padding: false 36px;
+}
+
 .title {
-  font-size: 2rem;
-  margin-bottom: 0.375rem;
+  font-size: 1.25rem;
+  font-weight: semibold;
 }
 
 .beta {
-  background-color: transparent;
-  border: 1px solid currentColor;
-  border-radius: 21px;
-  color: $oc-orange-6;
-  font-size: 16px;
+  background-color: $oc-orange-6;
+  border-radius: 20px;
+  color: $oc-white;
+  display: inline-block;
+  font-size: 0.75rem;
   font-weight: normal;
-  padding: 6px 12px;
-  vertical-align: middle;
+  padding: 1px 6px;
+  vertical-align: top;
+}
+
+.nav {
+  align-items: center;
+  align-self: stretch;
+  column-gap: 24px;
+  display: flex;
+}
+
+.divider {
+  background-color: var(--border-light);
+  border-radius: 1px;
+  display: block;
+  height: 50%;
+  width: 1px;
 }
 </style>

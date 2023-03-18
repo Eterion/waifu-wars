@@ -218,7 +218,7 @@ const searchResultsMarginRight = computed(() => {
 
 .searchResults {
   @include scrollbar.thin;
-  margin-right: v-bind(searchResultsMarginRight);
+  // margin-right: v-bind(searchResultsMarginRight);
   min-width: 0;
   overflow-y: auto;
   scrollbar-gutter: stable;

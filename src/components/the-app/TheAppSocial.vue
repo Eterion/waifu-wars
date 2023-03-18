@@ -1,41 +1,21 @@
 <script setup lang="ts">
-import { useColorSchemeStore } from '@/stores/useColorScheme';
-import { alert } from '@/utils/alert';
-import { storeToRefs } from 'pinia';
+import ColorSchemeToggle from '../ColorSchemeToggle.vue';
 import GithubIcon from '../icons/GithubIcon.vue';
-import MoonIcon from '../icons/MoonIcon.vue';
-import ShareIcon from '../icons/ShareIcon.vue';
-import SunIcon from '../icons/SunIcon.vue';
-
-const colorSchemeStore = useColorSchemeStore();
-const { toggle: toggleColorScheme } = colorSchemeStore;
-const { isDark } = storeToRefs(colorSchemeStore);
-
-async function share() {
-  await alert('This feature is not yet implemented');
-}
 </script>
 
 <template>
   <ul :class="$style.el">
     <li>
-      <button :class="$style.item" type="button" @click="share">
-        <ShareIcon :size="18" />
-      </button>
+      <ColorSchemeToggle />
     </li>
     <li>
       <a
-        :class="$style.item"
+        :class="$style.icon"
         href="https://github.com/Eterion/waifu-wars"
-        target="_blank">
+        target="_blank"
+        title="GitHub">
         <GithubIcon :size="18" />
       </a>
-    </li>
-    <li>
-      <button :class="$style.item" type="button" @click="toggleColorScheme()">
-        <SunIcon v-if="isDark" :size="18" />
-        <MoonIcon v-else :size="18" />
-      </button>
     </li>
   </ul>
 </template>
@@ -43,12 +23,13 @@ async function share() {
 <style module lang="scss">
 .el {
   align-items: center;
+  column-gap: 12px;
   display: flex;
   list-style: none;
   padding: 0;
 }
 
-.item {
+.icon {
   align-items: center;
   background-color: transparent;
   border: none;
@@ -57,7 +38,8 @@ async function share() {
   display: flex;
   justify-content: center;
   padding: 0;
-  size: 46px;
+  size: 40px;
+
   &:hover {
     color: var(--text);
   }

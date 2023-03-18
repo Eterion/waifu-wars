@@ -4,52 +4,30 @@ import RemoveCharacterDropZone from '../RemoveCharacterDropZone.vue';
 import TheAppCharacters from './TheAppCharacters.vue';
 import TheAppHeader from './TheAppHeader.vue';
 import TheAppSearch from './TheAppSearch.vue';
-import TheAppSocial from './TheAppSocial.vue';
 import TheAppTiers from './TheAppTiers.vue';
 </script>
 
 <template>
-  <RemoveCharacterDropZone />
-  <DraggingCharacter />
-  <aside :class="$style.sidebar">
-    <TheAppSocial :class="$style.social" />
-    <TheAppHeader />
-    <TheAppSearch />
-  </aside>
-  <main :class="$style.main">
-    <TheAppTiers :class="$style.main_tiers" />
-    <TheAppCharacters />
-  </main>
+  <TheAppHeader />
+  <RemoveCharacterDropZone v-if="false" />
+  <DraggingCharacter v-if="false" />
+  <div :class="$style.content">
+    <main :class="$style.main">
+      <TheAppSearch v-if="false" />
+      <TheAppTiers v-if="false" />
+      <TheAppCharacters v-if="false" />
+    </main>
+  </div>
 </template>
 
 <style module lang="scss">
-.sidebar {
-  background-color: var(--background);
-  bottom: 0;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  left: 0;
-  min-height: 0;
-  padding: 64px;
-  position: fixed;
-  row-gap: 32px;
-  top: 0;
-  width: var(--app-sidebar-width);
-}
-
-.social {
-  position: absolute;
-  right: 48px;
-  top: 24px;
+.content {
+  margin: false auto;
+  margin-top: var(--app-header-height);
+  max-width: var(--app-max-width);
 }
 
 .main {
-  margin-left: var(--app-sidebar-width);
-  min-height: 0;
-  padding: 64px;
-
-  &_tiers {
-    margin-bottom: 24px;
-  }
+  padding: 36px;
 }
 </style>

@@ -10,11 +10,14 @@
 }
 
 :root {
+  --app-header-height: 64px;
   --app-max-width: 1200px;
   --card-aspect-ratio: 4 / 5;
   // Colors
   --backdrop: #{rgba($oc-gray-2, 0.95)};
   --background: #{$oc-gray-2};
+  --border-dark: #{$oc-gray-6};
+  --border-light: #{$oc-gray-2};
   --border: #{$oc-gray-4};
   --danger-surface: #{$oc-red-5};
   --foreground: #{$oc-white};
@@ -47,7 +50,7 @@
 }
 
 html {
-  background-color: var(--foreground);
+  background-color: var(--background);
   color: var(--text);
   font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans',
     Arial, sans-serif;
@@ -58,12 +61,6 @@ html {
   line-height: 1.6;
   text-rendering: optimizeLegibility;
   -webkit-text-size-adjust: 100%;
-}
-
-html,
-body,
-#app {
-  size: 100%;
 }
 
 // Tier colors
