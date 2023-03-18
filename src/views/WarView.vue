@@ -1,9 +1,24 @@
 <script setup lang="ts">
 import DraggingCharacter from '@/components/DraggingCharacter.vue';
 import RemoveCharacterDropZone from '@/components/RemoveCharacterDropZone.vue';
-import TheAppCharacters from '@/components/the-app/TheAppCharacters.vue';
-import TheAppSearch from '@/components/the-app/TheAppSearch.vue';
-import TheAppTiers from '@/components/the-app/TheAppTiers.vue';
+import TheAppSearch from '@/views/war/TheAppSearch.vue';
+import SelectedCharacters from './war/SelectedCharacters.vue';
+import TiersView from './war/TiersView.vue';
+
+defineProps<{
+  /**
+   * Load specific list from db.
+   */
+  id?: string;
+  /**
+   * Load characters from season (requires year).
+   */
+  season?: 'winter' | 'spring' | 'summer' | 'fall';
+  /**
+   * Load characters from year.
+   */
+  year?: number;
+}>();
 </script>
 
 <template>
@@ -16,8 +31,8 @@ import TheAppTiers from '@/components/the-app/TheAppTiers.vue';
       Share your rankings or use this list as basis for your own. You can also
       easily populate the list with waifus from previous seasons.
     </p>
-    <TheAppSearch />
-    <TheAppCharacters />
-    <TheAppTiers />
+    <TheAppSearch v-if="false" />
+    <SelectedCharacters />
+    <TiersView />
   </div>
 </template>

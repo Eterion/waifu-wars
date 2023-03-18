@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import BaseButton from '@/components/base-button/BaseButton.vue';
+import CharacterCard from '@/components/CharacterCard.vue';
+import CharacterCardPlaceholder from '@/components/CharacterCardPlaceholder.vue';
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTierStore } from '@/stores/useTier';
@@ -6,9 +9,6 @@ import { confirm } from '@/utils/confirm';
 import { useElementSize, useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
-import BaseButton from '../base-button/BaseButton.vue';
-import CharacterCard from '../CharacterCard.vue';
-import CharacterCardPlaceholder from '../CharacterCardPlaceholder.vue';
 
 const IMAGE_WIDTH = 75;
 const draggingCharacterStore = useDraggingCharacterStore();

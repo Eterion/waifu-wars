@@ -60,6 +60,7 @@ async function show(event: Event) {
 const outsideReferenceElement = toRef(props, 'outsideReferenceElement');
 useEventListener(outsideReferenceElement, 'contextmenu', async (event) => {
   event.preventDefault();
+  event.stopImmediatePropagation();
   await show(event);
 });
 
@@ -83,7 +84,7 @@ onClickOutside(
       :class="$style.el"
       :style="style"
       v-bind="$attrs">
-      <slot name="contextMenu" />
+      <slot name="contextMenu" :hide="hide" />
     </div>
   </Teleport>
 </template>

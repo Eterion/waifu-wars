@@ -1,9 +1,6 @@
 <template>
   <ul :class="$style.el">
     <li>
-      <RouterLink to="/create" :class="$style.link">Create</RouterLink>
-    </li>
-    <li>
       <RouterLink to="/about" :class="$style.link">About</RouterLink>
     </li>
   </ul>
