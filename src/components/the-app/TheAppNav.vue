@@ -1,13 +1,10 @@
 <template>
   <ul :class="$style.el">
     <li>
-      <a href="" :class="$style.link" @click.prevent>Create</a>
+      <RouterLink to="/create" :class="$style.link">Create</RouterLink>
     </li>
     <li>
-      <a href="" :class="$style.link" @click.prevent>Share</a>
-    </li>
-    <li>
-      <a href="" :class="$style.link" @click.prevent>About</a>
+      <RouterLink to="/about" :class="$style.link">About</RouterLink>
     </li>
   </ul>
 </template>
@@ -25,7 +22,9 @@
 .link {
   color: var(--text);
   text-decoration: none;
-  &:hover {
+
+  &:hover,
+  &:global(.router-link-exact-active) {
     color: var(--primary-text);
   }
 }

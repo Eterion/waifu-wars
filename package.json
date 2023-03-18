@@ -24,7 +24,8 @@
     "lodash-es": "^4.17.21",
     "open-color": "^1.9.1",
     "pinia": "^2.0.28",
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.2",

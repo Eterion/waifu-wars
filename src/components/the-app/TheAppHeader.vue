@@ -8,10 +8,10 @@ import TheAppSocial from './TheAppSocial.vue';
     <header :class="$style.el">
       <div :class="$style.content">
         <div>
-          <h1 :class="$style.title">
+          <RouterLink to="/" :class="$style.title">
             Waifu Wars
             <span :class="$style.beta">beta</span>
-          </h1>
+          </RouterLink>
         </div>
         <div :class="$style.nav">
           <TheAppNav />
@@ -45,8 +45,11 @@ import TheAppSocial from './TheAppSocial.vue';
 }
 
 .title {
+  color: inherit;
+  display: inline-block;
   font-size: 1.25rem;
   font-weight: semibold;
+  text-decoration: none;
 }
 
 .beta {
