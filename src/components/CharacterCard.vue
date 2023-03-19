@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
-import { useTierStore } from '@/stores/useTier';
+import { useTiersStore } from '@/stores/useTiers';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { computed, ref, type PropType } from 'vue';
@@ -46,12 +46,12 @@ const imageWidth = computed(() => {
   return `${props.imageWidth}px`;
 });
 
-const tierStore = useTierStore();
+const tiersStore = useTiersStore();
 const draggingCharacterStore = useDraggingCharacterStore();
 function onMouseDown() {
   if (props.dragEventOrigin) {
     if (props.dragEventOrigin === 'search' || props.dragEventOrigin === 'tier')
-      tierStore.removeCharacter(props.info.id);
+      tiersStore.removeCharacter(props.info.id);
     draggingCharacterStore.drag({
       character: props.info,
       origin: props.dragEventOrigin,
@@ -90,42 +90,40 @@ function onMouseDown() {
       </template>
     </BaseTooltip>
     <ContextMenu :outside-reference-element="elRef" :class="$style.contextMenu">
-      <template #contextMenu>
-        <img
-          v-if="info.imageUrl"
-          :src="info.imageUrl"
-          :alt="info.fullName || 'N/A'"
-          loading="lazy"
-          :class="$style.contextMenu_img" />
-        <dl :class="$style.contextMenu_data">
-          <dt>Name</dt>
-          <dd>
-            {{ info.fullName }}
-          </dd>
-          <dd v-if="info.siteUrl">
-            <a :href="info.siteUrl" target="_blank" rel="noopener,noreferer">
-              Anilist.co
-            </a>
-          </dd>
-          <dt>Anime</dt>
-          <dd>
-            {{ info.animeName }}
-          </dd>
-          <dd v-if="info.animeUrl">
-            <a :href="info.animeUrl" target="_blank" rel="noopener,noreferer">
-              Anilist.co
-            </a>
-          </dd>
-          <dd v-if="info.animeMalId">
-            <a
-              :href="`https://myanimelist.net/anime/${info.animeMalId}`"
-              target="_blank"
-              rel="noopener,noreferer">
-              My Anime List
-            </a>
-          </dd>
-        </dl>
-      </template>
+      <img
+        v-if="info.imageUrl"
+        :src="info.imageUrl"
+        :alt="info.fullName || 'N/A'"
+        loading="lazy"
+        :class="$style.contextMenu_img" />
+      <dl :class="$style.contextMenu_data">
+        <dt>Name</dt>
+        <dd>
+          {{ info.fullName }}
+        </dd>
+        <dd v-if="info.siteUrl">
+          <a :href="info.siteUrl" target="_blank" rel="noopener,noreferer">
+            Anilist.co
+          </a>
+        </dd>
+        <dt>Anime</dt>
+        <dd>
+          {{ info.animeName }}
+        </dd>
+        <dd v-if="info.animeUrl">
+          <a :href="info.animeUrl" target="_blank" rel="noopener,noreferer">
+            Anilist.co
+          </a>
+        </dd>
+        <dd v-if="info.animeMalId">
+          <a
+            :href="`https://myanimelist.net/anime/${info.animeMalId}`"
+            target="_blank"
+            rel="noopener,noreferer">
+            My Anime List
+          </a>
+        </dd>
+      </dl>
     </ContextMenu>
   </div>
 </template>

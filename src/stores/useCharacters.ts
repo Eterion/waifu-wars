@@ -5,7 +5,7 @@ import { useStorage } from '@vueuse/core';
 import { remove } from 'lodash-es';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { useTierStore } from './useTier';
+import { useTiersStore } from './useTiers';
 
 export const useCharactersStore = defineStore('characters', () => {
   /**
@@ -74,7 +74,7 @@ export const useCharactersStore = defineStore('characters', () => {
    */
 
   function reset() {
-    useTierStore().clearCharacters();
+    useTiersStore().clearCharacters();
     savedCharacterIds.value = [];
     characters.value = [];
   }

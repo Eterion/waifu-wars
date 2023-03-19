@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTierStore } from '@/stores/useTier';
+import { useTiersStore } from '@/stores/useTiers';
 import type { Tier } from '@/types/Tier';
 import { useElementSize } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
@@ -18,8 +18,8 @@ const emit = defineEmits<{
 const rootRef = ref<HTMLElement>();
 const { width: meassuredWidth } = useElementSize(rootRef);
 watch(meassuredWidth, (width) => void emit('captionWidthChange', width + 48));
-const tierStore = useTierStore();
-const tier = computed(() => tierStore.findById(props.info.id));
+const tiersStore = useTiersStore();
+const tier = computed(() => tiersStore.findById(props.info.id));
 
 const caption = computed({
   get: () => tier.value?.caption,

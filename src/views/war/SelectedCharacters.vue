@@ -4,7 +4,7 @@ import CharacterCard from '@/components/CharacterCard.vue';
 import CharacterCardPlaceholder from '@/components/CharacterCardPlaceholder.vue';
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
-import { useTierStore } from '@/stores/useTier';
+import { useTiersStore } from '@/stores/useTiers';
 import { confirm } from '@/utils/confirm';
 import { useElementSize, useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
@@ -21,7 +21,7 @@ const isInDropZone = computed(() => {
   return draggingCharacterStore.draggingInfo && !isOutside.value;
 });
 
-const tierStore = useTierStore();
+const tiersStore = useTiersStore();
 const charactersStore = useCharactersStore();
 const { characters } = storeToRefs(charactersStore);
 const characterCount = computed(() => characters.value.length);
@@ -39,7 +39,7 @@ const filteredCharacters = computed(() => {
   return characters.value.filter(({ id }) => {
     return (
       id !== draggingCharacterStore.draggingInfo?.character.id &&
-      !tierStore.tiers
+      !tiersStore.tiers
         .flatMap(({ characterIds }) => characterIds || [])
         .includes(id)
     );
@@ -52,7 +52,7 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       const { id, ...info } = draggingInfo.character;
       charactersStore.saveCharacter(id, info);
     } else if (draggingInfo.origin === 'tier') {
-      tierStore.removeCharacter(draggingInfo.character.id);
+      tiersStore.removeCharacter(draggingInfo.character.id);
     }
   }
 });

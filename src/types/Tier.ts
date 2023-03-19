@@ -1,4 +1,4 @@
-import type { TierColor } from '@/stores/useTier';
+import type { TierColor } from './TierColor';
 
 export interface Tier {
   /** Caption text. */

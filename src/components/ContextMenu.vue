@@ -76,7 +76,7 @@ onClickOutside(
 </script>
 
 <template>
-  <slot :show="show" :hide="hide" />
+  <slot :show="show" :hide="hide" name="reference" />
   <Teleport to="body" :disabled="!visible">
     <div
       v-if="visible"
@@ -84,7 +84,7 @@ onClickOutside(
       :class="$style.el"
       :style="style"
       v-bind="$attrs">
-      <slot name="contextMenu" :hide="hide" />
+      <slot :hide="hide" />
     </div>
   </Teleport>
 </template>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import BaseButton from '@/components/base-button/BaseButton.vue';
 import ButtonGroup from '@/components/ButtonGroup.vue';
-import { TIER_COLOR_KEYS, useTierStore } from '@/stores/useTier';
+import { TIER_COLOR_KEYS, useTiersStore } from '@/stores/useTiers';
 import { confirm } from '@/utils/confirm';
 import { random } from 'lodash-es';
 import { computed, ref } from 'vue';
 import AddTierButton from './AddTierButton.vue';
 import TierRow from './TierRow.vue';
 
-const tierStore = useTierStore();
+const tiersStore = useTiersStore();
 
 async function resetTiers() {
   if (
@@ -16,7 +16,7 @@ async function resetTiers() {
       "Tiers will be restored tiers to default and removes any placed character. Characters won't be removed from the saved list. Reset tiers?"
     )
   )
-    tierStore.reset();
+    tiersStore.reset();
 }
 
 async function clearCharacters() {
@@ -25,11 +25,11 @@ async function clearCharacters() {
       "All tiers will be cleared of all characters. Characters won't be removed from the saved list. Clear characters?"
     )
   )
-    tierStore.clearCharacters();
+    tiersStore.clearCharacters();
 }
 
-function addTier(options?: Parameters<typeof tierStore.addTier>[1]) {
-  tierStore.addTier(
+function addTier(options?: Parameters<typeof tiersStore.addTier>[1]) {
+  tiersStore.addTier(
     { color: TIER_COLOR_KEYS[random(TIER_COLOR_KEYS.length - 1)] },
     options
   );
@@ -46,7 +46,7 @@ const minCaptionWidth = computed(() => {
 });
 
 const tiers = computed(() => {
-  return tierStore.tiers.map((tierInfo, index) => {
+  return tiersStore.tiers.map((tierInfo, index) => {
     return {
       tierInfo,
       onAddTier: () => {

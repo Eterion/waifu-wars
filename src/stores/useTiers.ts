@@ -1,22 +1,10 @@
 import type { Tier } from '@/types/Tier';
+import type { TierColor } from '@/types/TierColor';
 import { useStorage } from '@vueuse/core';
 import { clamp, isNumber, remove } from 'lodash-es';
 import OpenColor from 'open-color';
 import { defineStore } from 'pinia';
 import { computed } from 'vue';
-
-/**
- * Filtered open color keys.
- * @internal
- */
-
-type Keys = Exclude<keyof OpenColor, 'black' | 'white'>;
-
-/**
- * Tier color.
- */
-
-export type TierColor = Keys | `${Keys}-2`;
 
 /**
  * Array of possible tier colors.
@@ -25,7 +13,7 @@ export type TierColor = Keys | `${Keys}-2`;
 export const TIER_COLOR_KEYS = Object.keys(OpenColor)
   .filter((key) => !['black', 'white'].includes(key))
   .reduce<TierColor[]>((arr, key) => {
-    arr.push(key as TierColor, `${key}-2` as TierColor);
+    arr.push(key as TierColor);
     return arr;
   }, []);
 
@@ -36,27 +24,27 @@ export const TIER_COLOR_KEYS = Object.keys(OpenColor)
 
 const DEFAULT_TIERS: Tier[] = [
   {
-    caption: 'S',
+    caption: 'God',
     color: 'red',
     id: 0,
   },
   {
-    caption: 'A',
+    caption: 'Great',
     color: 'orange',
     id: 1,
   },
   {
-    caption: 'B',
+    caption: 'Good',
     color: 'yellow',
     id: 2,
   },
   {
-    caption: 'C',
-    color: 'blue',
+    caption: 'Average',
+    color: 'indigo',
     id: 3,
   },
   {
-    caption: 'D',
+    caption: 'Bad',
     color: 'cyan',
     id: 4,
   },
@@ -67,7 +55,7 @@ const DEFAULT_TIERS: Tier[] = [
   },
 ];
 
-export const useTierStore = defineStore('tier', () => {
+export const useTiersStore = defineStore('tiers', () => {
   /**
    * Array of tiers.
    */

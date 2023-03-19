@@ -1,7 +1,6 @@
 @use 'open-color/open-color' as *;
 @use 'sass:color';
 @use 'sass:map';
-@use 'sass:math';
 
 /// Extracts r, g, b values from a color.
 /// @param {Color} $color - Color
@@ -22,6 +21,11 @@
   --app-header-height: 64px;
   --app-max-width: 1200px;
   --card-aspect-ratio: 4 / 5;
+  // Tiers
+  @each $-colors, $-key in $oc-color-list {
+    --tier-#{$-key}: #{map.get($-colors, '5')};
+    --tier-#{$-key}-rgb: #{extract-rgb(map.get($-colors, '5'))};
+  }
   // Colors
   --backdrop: #{rgba($oc-gray-2, 0.95)};
   --background: #{$oc-gray-2};
