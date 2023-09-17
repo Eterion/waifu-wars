@@ -7,6 +7,10 @@ export default defineConfig({
   tree: {
     groups: [
       {
+        id: 'top',
+        title: '',
+      },
+      {
         title: 'Components',
         include: (file) => /^src\/components\/@base/.test(file.path),
       },

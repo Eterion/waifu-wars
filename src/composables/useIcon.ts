@@ -1,53 +1,18 @@
-import { computed, type ExtractPropTypes } from 'vue';
-
-export const iconProps = {
-  /**
-   * Height, in pixels.
-   */
-  height: {
-    default: 24,
-    type: Number,
-  },
-  /**
-   * Sets height and width, in pixels. Takes priority over `height` and `width`
-   * properties.
-   */
-  size: {
-    default: undefined,
-    type: Number,
-  },
-  /**
-   * Path stroke width.
-   */
-  strokeWidth: {
-    default: 2,
-    type: Number,
-  },
-  /**
-   * Width, in pixels.
-   */
-  width: {
-    default: 24,
-    type: Number,
-  },
-} as const;
+import type { IconProps } from '@/types/IconProps';
+import { computed } from 'vue';
 
 /**
  * Composable for icon component.
  * @param props - Icon props
  */
 
-export function useIcon(props: ExtractPropTypes<typeof iconProps>) {
-  const height = computed(() => {
-    return props.size ?? props.height;
-  });
-
-  const width = computed(() => {
-    return props.size ?? props.width;
-  });
-
+export function useIcon(props: IconProps) {
+  const height = computed(() => props.size ?? props.height ?? 24);
+  const width = computed(() => props.size ?? props.width ?? 24);
+  const strokeWidth = computed(() => props.strokeWidth ?? 2);
   return {
     height,
+    strokeWidth,
     width,
   };
 }

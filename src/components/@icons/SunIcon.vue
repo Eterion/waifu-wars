@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { iconProps, useIcon } from '@/composables/useIcon';
+import { useIcon } from '@/composables/useIcon';
+import type { IconProps } from '@/types/IconProps';
 
-const props = defineProps(iconProps);
-const { height, width } = useIcon(props);
+const props = defineProps<IconProps>();
+const { height, width, strokeWidth } = useIcon(props);
 </script>
 
 <template>
