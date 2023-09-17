@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import ButtonGroup from '@/components/@app/ButtonGroup.vue';
 import BaseButton from '@/components/@base/button/BaseButton.vue';
-import ButtonGroup from '@/components/ButtonGroup.vue';
 import { TIER_COLOR_KEYS, useTiersStore } from '@/stores/useTiers';
 import { confirm } from '@/utils/confirm';
 import { random } from 'lodash-es';

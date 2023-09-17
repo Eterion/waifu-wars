@@ -6,7 +6,7 @@
 
 <style module lang="scss">
 .el {
-  align-items: cnter;
+  align-items: center;
   column-gap: 12px;
   display: flex;
 }

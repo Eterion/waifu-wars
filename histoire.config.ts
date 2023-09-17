@@ -15,6 +15,10 @@ export default defineConfig({
         include: (file) => /^src\/components\/@base/.test(file.path),
       },
       {
+        title: 'Application',
+        include: (file) => /^src\/components\/@app/.test(file.path),
+      },
+      {
         title: 'Utils',
         include: (file) => /^src\/utils/.test(file.path),
       },
