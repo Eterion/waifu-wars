@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseBackdrop from '../base-backdrop/BaseBackdrop.vue';
+import BaseBackdrop from '../@base/backdrop/BaseBackdrop.vue';
 
 const props = defineProps<{
   /**
