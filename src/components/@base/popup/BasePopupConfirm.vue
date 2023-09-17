@@ -1,42 +1,35 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseButton from '../@base/button/BaseButton.vue';
-import ButtonGroup from '../ButtonGroup.vue';
+import BaseButton from '../button/BaseButton.vue';
 import BasePopup from './BasePopup.vue';
 
 const props = withDefaults(
   defineProps<{
-    /**
-     * Message text.
-     */
-    message: string;
-    /**
-     * Danger style.
-     */
+    /** Cancel button text. */
+    cancel?: string;
+    /** Confirm button text. */
+    confirm?: string;
+    /** Danger style. */
     danger?: boolean;
-    /**
-     * Ok button text.
-     */
-    ok?: string;
-    /**
-     * Title text.
-     */
+    /** Message text. */
+    message: string;
+    /** Title text. */
     title?: string;
-    /**
-     * Controls visibility.
-     */
+    /** Controls visibility. */
     visible?: boolean;
   }>(),
   {
-    ok: 'Ok',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
     title: undefined,
   },
 );
 
 const emit = defineEmits<{
+  (e: 'cancel'): void;
+  (e: 'confirm'): void;
   (e: 'hidden'): void;
   (e: 'hide'): void;
-  (e: 'ok'): void;
   (e: 'show'): void;
   (e: 'shown'): void;
   (e: 'update:visible', visilbe: boolean): void;
@@ -50,29 +43,38 @@ const visible = useVModel(props, 'visible', emit);
     v-model:visible="visible"
     :danger="danger"
     :title="title"
-    :width="400"
+    :width="560"
     @hidden="$emit('hidden')"
     @hide="$emit('hide')"
     @show="$emit('show')"
     @shown="$emit('shown')">
     <div :class="$style.content">
-      <p>{{ message }}</p>
+      <p :class="$style.message">{{ message }}</p>
     </div>
-    <ButtonGroup :class="$style.buttons">
-      <BaseButton :danger="danger" @click="$emit('ok')">
-        {{ ok }}
+    <div :class="$style.buttons">
+      <BaseButton :danger="danger" :primary="!danger" @click="$emit('confirm')">
+        {{ confirm }}
       </BaseButton>
-    </ButtonGroup>
+      <BaseButton @click="$emit('cancel')">
+        {{ cancel }}
+      </BaseButton>
+    </div>
   </BasePopup>
 </template>
 
 <style module lang="scss">
 .content {
-  margin-bottom: 1.5rem;
-  text-align: center;
+  margin-bottom: 24px;
+}
+
+.message {
+  margin: 0;
 }
 
 .buttons {
+  align-items: center;
+  display: flex;
+  gap: 12px;
   justify-content: center;
 }
 </style>

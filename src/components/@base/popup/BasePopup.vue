@@ -2,24 +2,16 @@
 import { useVModel } from '@vueuse/core';
 import { isNumber } from 'lodash-es';
 import { computed } from 'vue';
-import BaseModal from '../@base/modal/BaseModal.vue';
+import BaseModal from '../modal/BaseModal.vue';
 
 const props = defineProps<{
-  /**
-   * Danger style.
-   */
+  /** Danger style. */
   danger?: boolean;
-  /**
-   * Title text.
-   */
+  /** Title text. */
   title?: string;
-  /**
-   * Controls visibility.
-   */
+  /** Controls visibility. */
   visible?: boolean;
-  /**
-   * Default width, in pixels.
-   */
+  /** Default width, in pixels. */
   width?: number;
 }>();
 
@@ -45,7 +37,7 @@ const width = computed(() => {
     @show="$emit('show')"
     @shown="$emit('shown')">
     <div :class="$style.el" :style="{ width }">
-      <h2 v-if="title" :class="[$style.title, { [$style.isDanger]: danger }]">
+      <h2 v-if="title" :class="[$style.title, { [$style.danger]: danger }]">
         {{ title }}
       </h2>
       <slot />
@@ -55,15 +47,17 @@ const width = computed(() => {
 
 <style module lang="scss">
 .el {
-  padding: 32px;
+  padding: 36px;
+  text-align: center;
 }
 
 .title {
-  font-weight: normal;
-  margin-bottom: 0.75rem;
-  text-align: center;
-  &.isDanger {
-    color: var(--danger-text);
+  font-size: 1.5rem;
+  font-weight: medium;
+  margin-bottom: 12px;
+  margin-top: 0;
+  &.danger {
+    color: var(--danger);
   }
 }
 </style>

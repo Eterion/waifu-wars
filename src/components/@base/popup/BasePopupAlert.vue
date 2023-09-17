@@ -1,46 +1,29 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseButton from '../@base/button/BaseButton.vue';
-import ButtonGroup from '../ButtonGroup.vue';
+import BaseButton from '../button/BaseButton.vue';
 import BasePopup from './BasePopup.vue';
 
 const props = withDefaults(
   defineProps<{
-    /**
-     * Cancel button text.
-     */
-    cancel?: string;
-    /**
-     * Confirm button text.
-     */
-    confirm?: string;
-    /**
-     * Danger style.
-     */
+    /** Close button text. */
+    close?: string;
+    /** Danger style. */
     danger?: boolean;
-    /**
-     * Message text.
-     */
+    /** Message text. */
     message: string;
-    /**
-     * Title text.
-     */
+    /** Title text. */
     title?: string;
-    /**
-     * Controls visibility.
-     */
+    /** Controls visibility. */
     visible?: boolean;
   }>(),
   {
-    cancel: 'Cancel',
-    confirm: 'Confirm',
+    close: 'Close',
     title: undefined,
   },
 );
 
 const emit = defineEmits<{
-  (e: 'cancel'): void;
-  (e: 'confirm'): void;
+  (e: 'close'): void;
   (e: 'hidden'): void;
   (e: 'hide'): void;
   (e: 'show'): void;
@@ -56,32 +39,35 @@ const visible = useVModel(props, 'visible', emit);
     v-model:visible="visible"
     :danger="danger"
     :title="title"
-    :width="400"
+    :width="560"
     @hidden="$emit('hidden')"
     @hide="$emit('hide')"
     @show="$emit('show')"
     @shown="$emit('shown')">
     <div :class="$style.content">
-      <p>{{ message }}</p>
+      <p :class="$style.message">{{ message }}</p>
     </div>
-    <ButtonGroup :class="$style.buttons">
-      <BaseButton :danger="danger" primary @click="$emit('confirm')">
-        {{ confirm }}
+    <div :class="$style.buttons">
+      <BaseButton @click="$emit('close')">
+        {{ close }}
       </BaseButton>
-      <BaseButton @click="$emit('cancel')">
-        {{ cancel }}
-      </BaseButton>
-    </ButtonGroup>
+    </div>
   </BasePopup>
 </template>
 
 <style module lang="scss">
 .content {
-  margin-bottom: 1.5rem;
-  text-align: center;
+  margin-bottom: 24px;
+}
+
+.message {
+  margin: 0;
 }
 
 .buttons {
+  align-items: center;
+  display: flex;
+  gap: 12px;
   justify-content: center;
 }
 </style>

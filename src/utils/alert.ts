@@ -1,4 +1,4 @@
-import BasePopupAlert from '@/components/base-popup/BasePopupAlert.vue';
+import BasePopupAlert from '@/components/@base/popup/BasePopupAlert.vue';
 import { createApp, h, onMounted, ref } from 'vue';
 
 /**
@@ -7,16 +7,16 @@ import { createApp, h, onMounted, ref } from 'vue';
  * @param options - Options
  */
 
-export async function alert(
+export function alert(
   message: string,
   options: {
+    /** Close button text. */
+    close?: string;
     /** Danger style. */
     danger?: boolean;
-    /** Ok button text. */
-    ok?: string;
     /** Title text. */
     title?: string;
-  } = {}
+  } = {},
 ) {
   return new Promise<void>((resolve) => {
     const el = document.createElement('div');
@@ -29,11 +29,11 @@ export async function alert(
         return () =>
           h(BasePopupAlert, {
             message,
+            close: options.close,
             danger: options.danger,
-            ok: options.ok,
             title: options.title,
             visible: visible.value,
-            onOk: () => {
+            onClose: () => {
               resolve();
               visible.value = false;
             },

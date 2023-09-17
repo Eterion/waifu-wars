@@ -1,4 +1,4 @@
-import BasePopupConfirm from '@/components/base-popup/BasePopupConfirm.vue';
+import BasePopupConfirm from '@/components/@base/popup/BasePopupConfirm.vue';
 import { createApp, h, onMounted, ref } from 'vue';
 
 /**
@@ -7,7 +7,7 @@ import { createApp, h, onMounted, ref } from 'vue';
  * @param options - Options
  */
 
-export async function confirm(
+export function confirm(
   message: string,
   options: {
     /** Cancel button text. */
@@ -18,7 +18,7 @@ export async function confirm(
     danger?: boolean;
     /** Title text. */
     title?: string;
-  } = {}
+  } = {},
 ) {
   return new Promise<boolean>((resolve) => {
     const el = document.createElement('div');
