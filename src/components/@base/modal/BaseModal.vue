@@ -1,17 +1,9 @@
-<script lang="ts">
-export default {
-  inheritAttrs: false,
-};
-</script>
-
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseBackdrop from '../@base/backdrop/BaseBackdrop.vue';
+import BaseBackdrop from '../backdrop/BaseBackdrop.vue';
 
 const props = defineProps<{
-  /**
-   * Controls visibility.
-   */
+  /** Controls visibility. */
   visible?: boolean;
 }>();
 
@@ -22,6 +14,10 @@ const emit = defineEmits<{
   (e: 'shown'): void;
   (e: 'update:visible', visilbe: boolean): void;
 }>();
+
+defineOptions({
+  inheritAttrs: false,
+});
 
 const visible = useVModel(props, 'visible', emit);
 function hide() {
@@ -43,7 +39,7 @@ function hide() {
       <div v-if="visible" :class="$style.el">
         <BaseBackdrop :class="$style.backdrop" />
         <div :class="$style.overflow">
-          <div :class="$style.container">
+          <div :class="$style.placement">
             <div v-bind="$attrs" :class="$style.modal">
               <slot :hide="hide" />
             </div>
@@ -73,7 +69,7 @@ $-grid-gap: minmax($-gap, 1fr);
   z-index: 0;
 }
 
-.container {
+.placement {
   display: grid;
   grid-template-areas: '. before .' '. modal .' '. after .';
   grid-template-columns: $-grid-gap auto $-grid-gap;
@@ -98,8 +94,8 @@ $-grid-gap: minmax($-gap, 1fr);
 
 .modal {
   background-color: var(--foreground);
-  border-radius: 0.75rem;
-  box-shadow: 0 0 36px rgba(#000, 0.05);
+  border-radius: 24px;
+  box-shadow: var(--high-shadow);
   grid-area: modal;
   min-height: 0;
   min-width: 0;

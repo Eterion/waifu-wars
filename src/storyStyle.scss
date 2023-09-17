@@ -13,3 +13,11 @@
 .dark {
   @include theme.dark;
 }
+
+html {
+  color: var(--text);
+  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans',
+    Arial, sans-serif;
+  font-size: 100%;
+  line-height: 1.6;
+}

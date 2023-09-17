@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import BaseButton from '@/components/@base/button/BaseButton.vue';
+import BaseModal from '@/components/@base/modal/BaseModal.vue';
 import XIcon from '@/components/@icons/XIcon.vue';
-import BaseModal from '@/components/base-modal/BaseModal.vue';
 import { TIER_COLOR_KEYS, useTiersStore } from '@/stores/useTiers';
 import type { Tier } from '@/types/Tier';
 import { confirm } from '@/utils/confirm';
