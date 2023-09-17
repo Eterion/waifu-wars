@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseButton from '../base-button/BaseButton.vue';
+import BaseButton from '../@base/button/BaseButton.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 import BasePopup from './BasePopup.vue';
 
@@ -30,7 +30,7 @@ const props = withDefaults(
   {
     ok: 'Ok',
     title: undefined,
-  }
+  },
 );
 
 const emit = defineEmits<{

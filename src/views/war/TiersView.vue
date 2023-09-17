@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseButton from '@/components/base-button/BaseButton.vue';
+import BaseButton from '@/components/@base/button/BaseButton.vue';
 import ButtonGroup from '@/components/ButtonGroup.vue';
 import { TIER_COLOR_KEYS, useTiersStore } from '@/stores/useTiers';
 import { confirm } from '@/utils/confirm';
@@ -13,7 +13,7 @@ const tiersStore = useTiersStore();
 async function resetTiers() {
   if (
     await confirm(
-      "Tiers will be restored tiers to default and removes any placed character. Characters won't be removed from the saved list. Reset tiers?"
+      "Tiers will be restored tiers to default and removes any placed character. Characters won't be removed from the saved list. Reset tiers?",
     )
   )
     tiersStore.reset();
@@ -22,7 +22,7 @@ async function resetTiers() {
 async function clearCharacters() {
   if (
     await confirm(
-      "All tiers will be cleared of all characters. Characters won't be removed from the saved list. Clear characters?"
+      "All tiers will be cleared of all characters. Characters won't be removed from the saved list. Clear characters?",
     )
   )
     tiersStore.clearCharacters();
@@ -31,7 +31,7 @@ async function clearCharacters() {
 function addTier(options?: Parameters<typeof tiersStore.addTier>[1]) {
   tiersStore.addTier(
     { color: TIER_COLOR_KEYS[random(TIER_COLOR_KEYS.length - 1)] },
-    options
+    options,
   );
 }
 
@@ -41,7 +41,7 @@ const minCaptionWidth = computed(() => {
     0,
     ...captionWidths.value.map(({ width }) => {
       return width;
-    })
+    }),
   );
 });
 

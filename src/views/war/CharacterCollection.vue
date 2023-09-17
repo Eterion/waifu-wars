@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseButton from '@/components/base-button/BaseButton.vue';
+import BaseButton from '@/components/@base/button/BaseButton.vue';
 import CharacterCard from '@/components/CharacterCard.vue';
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
@@ -26,7 +26,7 @@ const characterCount = computed(() => characters.value.length);
 async function resetSaved() {
   if (
     await confirm(
-      'All saved characters will be removed and tiers cleared. Tier configuration will be preserved. Reset characters?'
+      'All saved characters will be removed and tiers cleared. Tier configuration will be preserved. Reset characters?',
     )
   )
     charactersStore.reset();

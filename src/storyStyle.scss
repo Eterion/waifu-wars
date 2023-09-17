@@ -1,0 +1,15 @@
+@use '@/css/theme';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  @include theme.light;
+}
+
+.dark {
+  @include theme.dark;
+}

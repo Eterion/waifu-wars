@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from '@vueuse/core';
-import BaseButton from '../base-button/BaseButton.vue';
+import BaseButton from '../@base/button/BaseButton.vue';
 import ButtonGroup from '../ButtonGroup.vue';
 import BasePopup from './BasePopup.vue';
 
@@ -35,7 +35,7 @@ const props = withDefaults(
     cancel: 'Cancel',
     confirm: 'Confirm',
     title: undefined,
-  }
+  },
 );
 
 const emit = defineEmits<{
