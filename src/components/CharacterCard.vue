@@ -3,7 +3,8 @@ import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTiersStore } from '@/stores/useTiers';
 import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
-import { computed, ref, type PropType } from 'vue';
+import { useElementBounding, useMouse } from '@vueuse/core';
+import { computed, reactive, ref, watch, type PropType } from 'vue';
 import BaseTooltip from './base-tooltip/BaseTooltip.vue';
 import ContextMenu from './ContextMenu.vue';
 
@@ -39,8 +40,22 @@ const props = defineProps({
   isSaved: Boolean,
 });
 
+const emit = defineEmits<{
+  (e: 'mouseInSecondQuadrant', id: number, isInQuadrant: boolean): void;
+}>();
+
 const elRef = ref<HTMLElement>();
 const hasTooltip = computed(() => props.card && props.dragEventOrigin);
+const bounding = reactive(useElementBounding(elRef));
+const mouse = reactive(useMouse());
+
+const isMouseInSecondQuadrant = computed(() => {
+  return mouse.x < bounding.right && mouse.y < bounding.bottom;
+});
+
+watch(isMouseInSecondQuadrant, (isMouseInSecondQuadrant) => {
+  emit('mouseInSecondQuadrant', props.info.id, isMouseInSecondQuadrant);
+});
 
 const imageWidth = computed(() => {
   return `${props.imageWidth}px`;

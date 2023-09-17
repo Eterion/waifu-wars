@@ -8,19 +8,15 @@ import type { Character } from '@/types/Character';
 import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { confirm } from '@/utils/confirm';
 import { useElementSize, useMouseInElement } from '@vueuse/core';
+import { remove } from 'lodash';
 import { storeToRefs } from 'pinia';
 import { computed, ref } from 'vue';
 
 const IMAGE_WIDTH = 75;
 const draggingCharacterStore = useDraggingCharacterStore();
-const dropRref = ref<HTMLElement>();
-const { isOutside } = useMouseInElement(dropRref);
+const dropZoneRef = ref<HTMLElement>();
 const placeholderRef = ref<HTMLElement>();
 const { height: minHeight } = useElementSize(placeholderRef);
-
-const isInDropZone = computed(() => {
-  return draggingCharacterStore.draggingInfo && !isOutside.value;
-});
 
 const tiersStore = useTiersStore();
 const charactersStore = useCharactersStore();
@@ -47,18 +43,39 @@ const filteredCharacters = computed(() => {
   });
 });
 
+const { isOutside: isOutsideOfDropZone } = useMouseInElement(dropZoneRef);
+const isInDropZone = computed(() => {
+  return draggingCharacterStore.draggingInfo && !isOutsideOfDropZone.value;
+});
+
+const idPlacementCandidates = ref<number[]>([]);
+function onMouseInSecondQuadrant(id: number, isInQuadrant: boolean) {
+  if (isInQuadrant) idPlacementCandidates.value.push(id);
+  else remove(idPlacementCandidates.value, (value) => value === id);
+}
+
 const charactersWithDragged = computed(() => {
-  return filteredCharacters.value.map<{
+  const arr = filteredCharacters.value.map<{
     character: Character;
-    dragEventOrigin: DragEventOrigin;
+    dragEventOrigin?: DragEventOrigin;
   }>((character) => ({
     character,
     dragEventOrigin: 'character',
   }));
+  if (draggingCharacterStore.draggingInfo)
+    if (isInDropZone.value) {
+      const index = arr.findIndex(({ character }) => {
+        return idPlacementCandidates.value.includes(character.id);
+      });
+      arr.splice(index, 0, {
+        character: draggingCharacterStore.draggingInfo.character,
+      });
+    }
+  return arr;
 });
 
 draggingCharacterStore.onDrop(({ draggingInfo }) => {
-  if (!isOutside.value) {
+  if (!isOutsideOfDropZone.value) {
     if (draggingInfo.origin === 'search') {
       const { id, ...info } = draggingInfo.character;
       charactersStore.saveCharacter(id, info);
@@ -74,8 +91,9 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
     <div :class="$style.buttons">
       <BaseButton @click="resetSaved">Reset characters</BaseButton>
     </div>
+    {{ idPlacementCandidates }}
     <div
-      ref="dropRref"
+      ref="dropZoneRef"
       :class="[$style.drop, { [$style.active]: isInDropZone }]">
       <div ref="placeholderRef" :class="$style.placeholder" />
       <div v-if="charactersWithDragged.length" :class="$style.cards">
@@ -85,7 +103,8 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
           :drag-event-origin="dragEventOrigin"
           :image-width="IMAGE_WIDTH"
           :info="character"
-          card />
+          card
+          @mouse-in-second-quadrant="onMouseInSecondQuadrant" />
       </div>
       <div v-else :class="$style.empty">
         <div>
