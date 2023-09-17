@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useColorSchemeStore } from '@/stores/useColorScheme';
 import { storeToRefs } from 'pinia';
-import MoonIcon from './@icons/MoonIcon.vue';
-import SunIcon from './@icons/SunIcon.vue';
+import MoonIcon from '../@icons/MoonIcon.vue';
+import SunIcon from '../@icons/SunIcon.vue';
 
 const colorSchemeStore = useColorSchemeStore();
 const { toggle } = colorSchemeStore;
@@ -11,7 +11,7 @@ const { isDark } = storeToRefs(colorSchemeStore);
 
 <template>
   <button type="button" :class="$style.el" @click="toggle()">
-    <span :class="{ [$style.isDark]: isDark }">
+    <span :class="{ [$style.dark]: isDark }">
       <MoonIcon v-if="isDark" :size="12" />
       <SunIcon v-else :size="12" />
     </span>
@@ -27,6 +27,7 @@ $-height: 22px;
   background-color: var(--background);
   border: 1px solid var(--border);
   border-radius: math.div($-height, 2);
+  color: var(--text);
   cursor: pointer;
   display: block;
   height: $-height;
@@ -48,7 +49,7 @@ $-height: 22px;
     transition-duration: 200ms;
     transition-property: transform;
 
-    &.isDark {
+    &.dark {
       transform: translateX(100%);
     }
   }

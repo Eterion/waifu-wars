@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import ColorSchemeToggle from '../@app/ColorScheme.vue';
 import GithubIcon from '../@icons/GithubIcon.vue';
-import ColorSchemeToggle from '../ColorSchemeToggle.vue';
 </script>
 
 <template>

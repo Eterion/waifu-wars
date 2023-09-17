@@ -6,7 +6,7 @@ export const useColorSchemeStore = defineStore('colorScheme', () => {
    * Keeps track of dark state.
    */
 
-  const isDark = useDark();
+  const isDark = useDark({ disableTransition: false });
 
   /**
    * Toggles dark scheme.
