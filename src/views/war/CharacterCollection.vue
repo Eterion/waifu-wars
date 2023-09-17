@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import BaseButton from '@/components/base-button/BaseButton.vue';
 import CharacterCard from '@/components/CharacterCard.vue';
-import CharacterCardPlaceholder from '@/components/CharacterCardPlaceholder.vue';
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTiersStore } from '@/stores/useTiers';
+import type { Character } from '@/types/Character';
+import type { DragEventOrigin } from '@/types/DragEventOrigin';
 import { confirm } from '@/utils/confirm';
 import { useElementSize, useMouseInElement } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
@@ -46,6 +47,16 @@ const filteredCharacters = computed(() => {
   });
 });
 
+const charactersWithDragged = computed(() => {
+  return filteredCharacters.value.map<{
+    character: Character;
+    dragEventOrigin: DragEventOrigin;
+  }>((character) => ({
+    character,
+    dragEventOrigin: 'character',
+  }));
+});
+
 draggingCharacterStore.onDrop(({ draggingInfo }) => {
   if (!isOutside.value) {
     if (draggingInfo.origin === 'search') {
@@ -67,17 +78,14 @@ draggingCharacterStore.onDrop(({ draggingInfo }) => {
       ref="dropRref"
       :class="[$style.drop, { [$style.active]: isInDropZone }]">
       <div ref="placeholderRef" :class="$style.placeholder" />
-      <div v-if="filteredCharacters.length" :class="$style.cards">
+      <div v-if="charactersWithDragged.length" :class="$style.cards">
         <CharacterCard
-          v-for="character in filteredCharacters"
+          v-for="{ character, dragEventOrigin } in charactersWithDragged"
           :key="character.id"
+          :drag-event-origin="dragEventOrigin"
           :image-width="IMAGE_WIDTH"
           :info="character"
-          card
-          drag-event-origin="character" />
-        <CharacterCardPlaceholder
-          v-if="isInDropZone"
-          :image-width="IMAGE_WIDTH" />
+          card />
       </div>
       <div v-else :class="$style.empty">
         <div>

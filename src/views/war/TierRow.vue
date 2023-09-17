@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SettingsIcon from '@/components/@icons/SettingsIcon.vue';
 import CharacterCard from '@/components/CharacterCard.vue';
-import CharacterCardPlaceholder from '@/components/CharacterCardPlaceholder.vue';
 import { useCharactersStore } from '@/stores/useCharacters';
 import { useDraggingCharacterStore } from '@/stores/useDraggingCharacter';
 import { useTiersStore } from '@/stores/useTiers';
@@ -85,9 +84,6 @@ const characterList = computed(() => {
           :info="character"
           card
           drag-event-origin="tier" />
-        <CharacterCardPlaceholder
-          v-if="isInDropZone"
-          :image-width="IMAGE_WIDTH" />
       </div>
       <button
         type="button"

@@ -2,7 +2,7 @@
 import DraggingCharacter from '@/components/DraggingCharacter.vue';
 import RemoveCharacterDropZone from '@/components/RemoveCharacterDropZone.vue';
 import TheAppSearch from '@/views/war/TheAppSearch.vue';
-import SelectedCharacters from './war/SelectedCharacters.vue';
+import CharacterCollection from './war/CharacterCollection.vue';
 import TiersView from './war/TiersView.vue';
 
 defineProps<{
@@ -32,7 +32,7 @@ defineProps<{
       easily populate the list with waifus from previous seasons.
     </p>
     <TheAppSearch v-if="false" />
-    <SelectedCharacters />
+    <CharacterCollection />
     <TiersView />
   </div>
 </template>
