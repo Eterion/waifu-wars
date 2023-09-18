@@ -1,18 +1,16 @@
 import type {
-  AnimeSearchQuery,
-  CharacterSearchQuery,
+  GetAnimeQuery,
+  GetCharactersQuery,
 } from '@/composables/useGraphQL';
 import type { CharacterInfo } from '@/types/CharacterInfo';
 import { first } from 'lodash-es';
 
 /**
- * Creates {@link CharacterInfo} from {@link AnimeSearchQuery} result.
- * @param result - Anime search result
+ * Creates {@link CharacterInfo} from {@link GetAnimeQuery} result.
+ * @param result - Anime result
  */
 
-export function createCharacterInfoFromAnimeSearchResult(
-  result?: AnimeSearchQuery,
-) {
+export function createCharacterInfoFromGetAnime(result?: GetAnimeQuery) {
   return (result?.Page?.media || []).reduce<CharacterInfo[]>((arr, anime) => {
     const characters = (anime?.characters?.nodes || []).reduce<CharacterInfo[]>(
       (arr, character) => {
@@ -40,12 +38,12 @@ export function createCharacterInfoFromAnimeSearchResult(
 }
 
 /**
- * Creates {@link CharacterInfo} from {@link CharacterSearchQuery} result.
- * @param result - Character search result
+ * Creates {@link CharacterInfo} from {@link GetCharactersQuery} result.
+ * @param result - Characters result
  */
 
-export function createCharacterInfoFromCharacterSearchResult(
-  result?: CharacterSearchQuery,
+export function createCharacterInfoFromGetCharacters(
+  result?: GetCharactersQuery,
 ) {
   return (result?.Page?.characters || []).reduce<CharacterInfo[]>(
     (arr, character) => {

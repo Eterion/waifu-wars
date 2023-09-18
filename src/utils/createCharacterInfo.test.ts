@@ -1,13 +1,13 @@
 import type { CharacterInfo } from '@/types/CharacterInfo';
 import { expect, test } from 'vitest';
 import {
-  createCharacterInfoFromAnimeSearchResult,
-  createCharacterInfoFromCharacterSearchResult,
+  createCharacterInfoFromGetAnime,
+  createCharacterInfoFromGetCharacters,
 } from './createCharacterInfo';
 
-test('createCharacterInfoFromAnimeSearchResult', () => {
+test('createCharacterInfoFromGetAnime', () => {
   expect(
-    createCharacterInfoFromAnimeSearchResult({
+    createCharacterInfoFromGetAnime({
       Page: {
         media: [
           {
@@ -15,6 +15,10 @@ test('createCharacterInfoFromAnimeSearchResult', () => {
             idMal: 51105,
             siteUrl: 'https://anilist.co/anime/145665/NieRAutomata-Ver11a/',
             title: { userPreferred: 'NieR:Automata Ver1.1a' },
+            coverImage: {
+              large:
+                'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx145665-kiAZX3DsbBnl.jpg',
+            },
             characters: {
               nodes: [
                 {
@@ -49,9 +53,9 @@ test('createCharacterInfoFromAnimeSearchResult', () => {
   ] satisfies CharacterInfo[]);
 });
 
-test('createCharacterInfoFromCharacterSearchResult', () => {
+test('createCharacterInfoFromGetCharacters', () => {
   expect(
-    createCharacterInfoFromCharacterSearchResult({
+    createCharacterInfoFromGetCharacters({
       Page: {
         characters: [
           {
@@ -67,6 +71,10 @@ test('createCharacterInfoFromCharacterSearchResult', () => {
                 {
                   id: 145665,
                   idMal: 51105,
+                  coverImage: {
+                    large:
+                      'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx145665-kiAZX3DsbBnl.jpg',
+                  },
                   siteUrl:
                     'https://anilist.co/anime/145665/NieRAutomata-Ver11a/',
                   title: { userPreferred: 'NieR:Automata Ver1.1a' },

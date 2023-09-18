@@ -1,0 +1,35 @@
+query getAnime($search: String, $season: MediaSeason, $seasonYear: Int) {
+  Page {
+    media(
+      search: $search
+      season: $season
+      seasonYear: $seasonYear
+      sort: [SEARCH_MATCH, POPULARITY_DESC, FAVOURITES_DESC]
+      type: ANIME
+    ) {
+      id
+      idMal
+      siteUrl
+      coverImage {
+        large
+      }
+      title {
+        userPreferred
+      }
+      characters(sort: RELEVANCE) {
+        nodes {
+          id
+          age
+          gender
+          siteUrl
+          name {
+            userPreferred
+          }
+          image {
+            large
+          }
+        }
+      }
+    }
+  }
+}

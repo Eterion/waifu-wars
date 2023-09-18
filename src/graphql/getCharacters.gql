@@ -1,0 +1,29 @@
+query getCharacters($search: String) {
+  Page {
+    characters(search: $search, sort: [SEARCH_MATCH, FAVOURITES_DESC]) {
+      id
+      age
+      gender
+      siteUrl
+      name {
+        userPreferred
+      }
+      image {
+        large
+      }
+      media(sort: [END_DATE]) {
+        nodes {
+          id
+          idMal
+          siteUrl
+          coverImage {
+            large
+          }
+          title {
+            userPreferred
+          }
+        }
+      }
+    }
+  }
+}

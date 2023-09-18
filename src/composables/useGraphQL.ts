@@ -4686,6 +4686,22 @@ export type CharacterSearchQueryVariables = Exact<{
 
 export type CharacterSearchQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', characters?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null, media?: { __typename?: 'MediaConnection', nodes?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null> | null } | null } | null> | null } | null };
 
+export type GetAnimeQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+  season?: InputMaybe<MediaSeason>;
+  seasonYear?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetAnimeQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', media?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null, characters?: { __typename?: 'CharacterConnection', nodes?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null } | null> | null } | null } | null> | null } | null };
+
+export type GetCharactersQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetCharactersQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', characters?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null, media?: { __typename?: 'MediaConnection', nodes?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null> | null } | null } | null> | null } | null };
+
 
 export const AnimeSearchDocument = gql`
     query animeSearch($search: String) {
@@ -4800,3 +4816,119 @@ export function useCharacterSearchLazyQuery(variables: CharacterSearchQueryVaria
   return VueApolloComposable.useLazyQuery<CharacterSearchQuery, CharacterSearchQueryVariables>(CharacterSearchDocument, variables, options);
 }
 export type CharacterSearchQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<CharacterSearchQuery, CharacterSearchQueryVariables>;
+export const GetAnimeDocument = gql`
+    query getAnime($search: String, $season: MediaSeason, $seasonYear: Int) {
+  Page {
+    media(
+      search: $search
+      season: $season
+      seasonYear: $seasonYear
+      sort: [SEARCH_MATCH, POPULARITY_DESC, FAVOURITES_DESC]
+      type: ANIME
+    ) {
+      id
+      idMal
+      siteUrl
+      coverImage {
+        large
+      }
+      title {
+        userPreferred
+      }
+      characters(sort: RELEVANCE) {
+        nodes {
+          id
+          age
+          gender
+          siteUrl
+          name {
+            userPreferred
+          }
+          image {
+            large
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAnimeQuery__
+ *
+ * To run a query within a Vue component, call `useGetAnimeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAnimeQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param variables that will be passed into the query
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useGetAnimeQuery({
+ *   search: // value for 'search'
+ *   season: // value for 'season'
+ *   seasonYear: // value for 'seasonYear'
+ * });
+ */
+export function useGetAnimeQuery(variables: GetAnimeQueryVariables | VueCompositionApi.Ref<GetAnimeQueryVariables> | ReactiveFunction<GetAnimeQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<GetAnimeQuery, GetAnimeQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetAnimeQuery, GetAnimeQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetAnimeQuery, GetAnimeQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<GetAnimeQuery, GetAnimeQueryVariables>(GetAnimeDocument, variables, options);
+}
+export function useGetAnimeLazyQuery(variables: GetAnimeQueryVariables | VueCompositionApi.Ref<GetAnimeQueryVariables> | ReactiveFunction<GetAnimeQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<GetAnimeQuery, GetAnimeQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetAnimeQuery, GetAnimeQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetAnimeQuery, GetAnimeQueryVariables>> = {}) {
+  return VueApolloComposable.useLazyQuery<GetAnimeQuery, GetAnimeQueryVariables>(GetAnimeDocument, variables, options);
+}
+export type GetAnimeQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetAnimeQuery, GetAnimeQueryVariables>;
+export const GetCharactersDocument = gql`
+    query getCharacters($search: String) {
+  Page {
+    characters(search: $search, sort: [SEARCH_MATCH, FAVOURITES_DESC]) {
+      id
+      age
+      gender
+      siteUrl
+      name {
+        userPreferred
+      }
+      image {
+        large
+      }
+      media(sort: [END_DATE]) {
+        nodes {
+          id
+          idMal
+          siteUrl
+          coverImage {
+            large
+          }
+          title {
+            userPreferred
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetCharactersQuery__
+ *
+ * To run a query within a Vue component, call `useGetCharactersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCharactersQuery` returns an object from Apollo Client that contains result, loading and error properties
+ * you can use to render your UI.
+ *
+ * @param variables that will be passed into the query
+ * @param options that will be passed into the query, supported options are listed on: https://v4.apollo.vuejs.org/guide-composable/query.html#options;
+ *
+ * @example
+ * const { result, loading, error } = useGetCharactersQuery({
+ *   search: // value for 'search'
+ * });
+ */
+export function useGetCharactersQuery(variables: GetCharactersQueryVariables | VueCompositionApi.Ref<GetCharactersQueryVariables> | ReactiveFunction<GetCharactersQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables>> = {}) {
+  return VueApolloComposable.useQuery<GetCharactersQuery, GetCharactersQueryVariables>(GetCharactersDocument, variables, options);
+}
+export function useGetCharactersLazyQuery(variables: GetCharactersQueryVariables | VueCompositionApi.Ref<GetCharactersQueryVariables> | ReactiveFunction<GetCharactersQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables>> = {}) {
+  return VueApolloComposable.useLazyQuery<GetCharactersQuery, GetCharactersQueryVariables>(GetCharactersDocument, variables, options);
+}
+export type GetCharactersQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetCharactersQuery, GetCharactersQueryVariables>;
