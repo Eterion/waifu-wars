@@ -59,7 +59,7 @@ const animeInfo = computed(() => {
 const isOpen = ref(false);
 const referenceRef = ref<VirtualElement>();
 const floatingRef = ref<HTMLElement>();
-const { floatingStyles } = useFloating(referenceRef, floatingRef, {
+const { floatingStyles, placement } = useFloating(referenceRef, floatingRef, {
   middleware: [flip()],
   open: isOpen,
   placement: 'right-start',
@@ -115,7 +115,7 @@ watch(isOpen, (isOpen) => {
       :enter-active-class="$style.vActive"
       :leave-active-class="$style.vActive">
       <div v-if="isOpen" ref="floatingRef" :style="floatingStyles">
-        <div :class="$style.el">
+        <div :class="$style.el" :data-placement="placement">
           <div v-if="characterInfo?.anilist" :class="$style.group">
             <div :class="$style.name">{{ characterInfo?.name }}</div>
             <ul :class="$style.links">
@@ -177,10 +177,15 @@ watch(isOpen, (isOpen) => {
 .el {
   background-color: var(--foreground);
   border-radius: 12px;
-  border-top-left-radius: 6px;
   box-shadow: var(--medium-shadow);
   font-size: 0.9375rem;
   max-width: 200px;
+  &[data-placement^='right'] {
+    border-top-left-radius: 6px;
+  }
+  &[data-placement^='left'] {
+    border-top-right-radius: 6px;
+  }
 }
 
 .vHidden {
@@ -195,9 +200,14 @@ watch(isOpen, (isOpen) => {
   transition-duration: $-duration;
   transition-property: none;
   .el {
-    transform-origin: 0 0;
     transition-duration: $-duration;
     transition-property: opacity, transform;
+    &[data-placement^='right'] {
+      transform-origin: 0 0;
+    }
+    &[data-placement^='left'] {
+      transform-origin: 100% 0;
+    }
   }
 }
 
