@@ -19,6 +19,6 @@ import TheAppHeader from './TheAppHeader.vue';
 }
 
 .main {
-  padding: 36px;
+  padding: 48px 36px 64px 36px;
 }
 </style>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import ColorSchemeToggle from '../@app/ColorScheme.vue';
+import ColorScheme from '../@app/ColorScheme.vue';
 import GithubIcon from '../@icons/GithubIcon.vue';
 </script>
 
 <template>
   <ul :class="$style.el">
     <li>
-      <ColorSchemeToggle />
+      <ColorScheme />
     </li>
     <li>
       <a

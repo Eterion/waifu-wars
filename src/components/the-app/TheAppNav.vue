@@ -1,6 +1,9 @@
 <template>
   <ul :class="$style.el">
     <li>
+      <RouterLink to="/" :class="$style.link">Home</RouterLink>
+    </li>
+    <li>
       <RouterLink to="/about" :class="$style.link">About</RouterLink>
     </li>
   </ul>
@@ -22,7 +25,7 @@
 
   &:hover,
   &:global(.router-link-exact-active) {
-    color: var(--primary-text);
+    color: var(--primary);
   }
 }
 </style>
