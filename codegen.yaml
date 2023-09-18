@@ -1,6 +1,5 @@
 schema: https://graphql.anilist.co/
 documents: './src/graphql/**/*.gql'
-ignoreNoDocuments: true
 generates:
   ./src/composables/useGraphQL.ts:
     plugins:
@@ -8,5 +7,4 @@ generates:
       - typescript-operations
       - typescript-vue-apollo
     config:
-      useTypeImports: true
       vueCompositionApiImportFrom: vue
