@@ -1,22 +1,39 @@
 <script setup lang="ts">
+import type { AnimeInfo } from '@/types/AnimeInfo';
+import type { CharacterInfo } from '@/types/CharacterInfo';
+import { ref } from 'vue';
 import type { RouteLocationRaw } from 'vue-router';
+import ContextInfo from './ContextInfo.vue';
 
 defineProps<{
   /** Description text. */
   desc: string;
+  /** Thumbnail metadata. */
+  metadata?: CharacterInfo | AnimeInfo;
   /** Title text. */
   title: string;
   /** Thumbnail image url. */
-  thumbnail: string;
+  thumbnail?: string;
   /** Route location. */
   to: RouteLocationRaw;
 }>();
+
+const thumbnailRef = ref();
 </script>
 
 <template>
   <RouterLink :to="to" :class="$style.el">
-    <div :class="$style.thumbnail">
-      <img :class="$style.thumbnail_img" :src="thumbnail" alt="" />
+    <div ref="thumbnailRef" :class="$style.thumbnail">
+      <img
+        v-if="thumbnail"
+        :class="$style.thumbnail_img"
+        :src="thumbnail"
+        alt="" />
+      <span v-else :class="$style.thumbnail_placeholder" />
+      <ContextInfo
+        v-if="metadata"
+        :info="metadata"
+        :outside-reference-element="thumbnailRef" />
     </div>
     <div :class="$style.title">{{ title }}</div>
     <p :class="$style.desc">{{ desc }}</p>
@@ -37,6 +54,11 @@ defineProps<{
     size: 100%;
     transition-duration: 200ms;
     transition-property: transform;
+  }
+  &_placeholder {
+    background-color: var(--foreground);
+    display: block;
+    size: 100%;
   }
 }
 
