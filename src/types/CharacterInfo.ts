@@ -8,7 +8,7 @@ export interface CharacterInfo {
   fullName: string;
   gender?: string;
   id: number;
-  imageUrl?: string;
+  imageUrl: string;
   siteUrl?: string;
 }
 
@@ -22,7 +22,7 @@ export function isCharacterInfo(object: unknown): object is CharacterInfo {
       fullName: z.string(),
       gender: z.string().optional(),
       id: z.number(),
-      imageUrl: z.string().optional(),
+      imageUrl: z.string(),
       siteUrl: z.string().optional(),
     })
     .safeParse(object).success;
