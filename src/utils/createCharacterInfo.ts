@@ -13,14 +13,16 @@ import { first } from 'lodash-es';
 export function createCharacterInfoFromGetAnime(result?: GetAnimeQuery) {
   return (result?.Page?.media || []).reduce<CharacterInfo[]>((arr, anime) => {
     const characters = (anime?.characters?.nodes || []).reduce<CharacterInfo[]>(
-      (arr, character) => {
-        if (!character) return arr;
-        if (arr.some(({ id }) => id === character.id)) return arr;
-        arr.push({
+      (charArr, character) => {
+        if (!character) return charArr;
+        if (arr.some(({ id }) => id === character.id)) return charArr;
+        if (charArr.some(({ id }) => id === character.id)) return charArr;
+        charArr.push({
           age: character.age || undefined,
           animeMalId: anime?.idMal ?? undefined,
           animeName: anime?.title?.userPreferred || undefined,
           animeUrl: anime?.siteUrl || undefined,
+          favourites: character.favourites ?? undefined,
           fullName: character.name?.userPreferred || '???',
           gender: character.gender || undefined,
           id: character.id,
@@ -28,7 +30,7 @@ export function createCharacterInfoFromGetAnime(result?: GetAnimeQuery) {
           imageUrl: character.image?.large,
           siteUrl: character.siteUrl || undefined,
         });
-        return arr;
+        return charArr;
       },
       [],
     );
@@ -54,6 +56,7 @@ export function createCharacterInfoFromGetCharacters(
         animeMalId: anime?.idMal ?? undefined,
         animeName: anime?.title?.userPreferred || undefined,
         animeUrl: anime?.siteUrl || undefined,
+        favourites: character.favourites ?? undefined,
         fullName: character.name?.userPreferred || '???',
         gender: character.gender || undefined,
         id: character.id,

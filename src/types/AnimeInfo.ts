@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export interface AnimeInfo {
+  favourites?: number;
   id: number;
   imageUrl: string;
   malId?: number;
@@ -11,6 +12,7 @@ export interface AnimeInfo {
 export function isAnimeInfo(object: unknown): object is AnimeInfo {
   return z
     .strictObject({
+      favourites: z.number().optional(),
       id: z.number(),
       imageUrl: z.string(),
       malId: z.number().optional(),

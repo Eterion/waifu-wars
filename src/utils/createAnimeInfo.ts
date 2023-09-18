@@ -10,6 +10,7 @@ export function createAnimeInfoFromGetAnime(result?: GetAnimeQuery) {
   return (result?.Page?.media || []).reduce<AnimeInfo[]>((arr, anime) => {
     if (!anime) return arr;
     arr.push({
+      favourites: anime.favourites ?? undefined,
       id: anime.id,
       // @ts-expect-error Anilist will provide fallback image if it's missing.
       imageUrl: anime.coverImage?.large,

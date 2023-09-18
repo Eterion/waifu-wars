@@ -9,6 +9,7 @@ query getAnime($search: String, $season: MediaSeason, $seasonYear: Int) {
     ) {
       id
       idMal
+      favourites
       siteUrl
       coverImage {
         large
@@ -16,10 +17,11 @@ query getAnime($search: String, $season: MediaSeason, $seasonYear: Int) {
       title {
         userPreferred
       }
-      characters(sort: RELEVANCE) {
+      characters(sort: FAVOURITES_DESC) {
         nodes {
           id
           age
+          favourites
           gender
           siteUrl
           name {

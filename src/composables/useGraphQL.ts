@@ -4693,14 +4693,14 @@ export type GetAnimeQueryVariables = Exact<{
 }>;
 
 
-export type GetAnimeQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', media?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null, characters?: { __typename?: 'CharacterConnection', nodes?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null } | null> | null } | null } | null> | null } | null };
+export type GetAnimeQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', media?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, favourites?: number | null, siteUrl?: string | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null, characters?: { __typename?: 'CharacterConnection', nodes?: Array<{ __typename?: 'Character', id: number, age?: string | null, favourites?: number | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null } | null> | null } | null } | null> | null } | null };
 
 export type GetCharactersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetCharactersQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', characters?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null, media?: { __typename?: 'MediaConnection', nodes?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, siteUrl?: string | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null> | null } | null } | null> | null } | null };
+export type GetCharactersQuery = { __typename?: 'Query', Page?: { __typename?: 'Page', characters?: Array<{ __typename?: 'Character', id: number, age?: string | null, gender?: string | null, favourites?: number | null, siteUrl?: string | null, name?: { __typename?: 'CharacterName', userPreferred?: string | null } | null, image?: { __typename?: 'CharacterImage', large?: string | null } | null, media?: { __typename?: 'MediaConnection', nodes?: Array<{ __typename?: 'Media', id: number, idMal?: number | null, favourites?: number | null, siteUrl?: string | null, coverImage?: { __typename?: 'MediaCoverImage', large?: string | null } | null, title?: { __typename?: 'MediaTitle', userPreferred?: string | null } | null } | null> | null } | null } | null> | null } | null };
 
 
 export const AnimeSearchDocument = gql`
@@ -4828,6 +4828,7 @@ export const GetAnimeDocument = gql`
     ) {
       id
       idMal
+      favourites
       siteUrl
       coverImage {
         large
@@ -4835,10 +4836,11 @@ export const GetAnimeDocument = gql`
       title {
         userPreferred
       }
-      characters(sort: RELEVANCE) {
+      characters(sort: FAVOURITES_DESC) {
         nodes {
           id
           age
+          favourites
           gender
           siteUrl
           name {
@@ -4885,6 +4887,7 @@ export const GetCharactersDocument = gql`
       id
       age
       gender
+      favourites
       siteUrl
       name {
         userPreferred
@@ -4896,6 +4899,7 @@ export const GetCharactersDocument = gql`
         nodes {
           id
           idMal
+          favourites
           siteUrl
           coverImage {
             large

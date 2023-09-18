@@ -5,6 +5,7 @@ export interface CharacterInfo {
   animeMalId?: number;
   animeName?: string;
   animeUrl?: string;
+  favourites?: number;
   fullName: string;
   gender?: string;
   id: number;
@@ -19,6 +20,7 @@ export function isCharacterInfo(object: unknown): object is CharacterInfo {
       animeMalId: z.number().optional(),
       animeName: z.string().optional(),
       animeUrl: z.string().optional(),
+      favourites: z.number().optional(),
       fullName: z.string(),
       gender: z.string().optional(),
       id: z.number(),

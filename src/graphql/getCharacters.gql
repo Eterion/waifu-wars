@@ -4,6 +4,7 @@ query getCharacters($search: String) {
       id
       age
       gender
+      favourites
       siteUrl
       name {
         userPreferred
@@ -15,6 +16,7 @@ query getCharacters($search: String) {
         nodes {
           id
           idMal
+          favourites
           siteUrl
           coverImage {
             large
