@@ -25,12 +25,14 @@ const rootRef = ref<HTMLElement>();
 </template>
 
 <style module lang="scss">
+@use 'sass:math';
+
 .el {
   box-sizing: content-box;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  min-height: 75px / 3 * 4;
+  min-height: math.div(75px, 3) * 4;
   padding: 6px;
 }
 </style>
