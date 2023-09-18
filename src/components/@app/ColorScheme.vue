@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useColorSchemeStore } from '@/stores/useColorScheme';
+import { useColorSchemeStore } from '@/stores/useColorSchemeStore';
 import { storeToRefs } from 'pinia';
 import MoonIcon from '../@icons/MoonIcon.vue';
 import SunIcon from '../@icons/SunIcon.vue';

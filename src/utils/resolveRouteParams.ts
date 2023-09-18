@@ -20,24 +20,18 @@ import type { RouteParams } from 'vue-router';
  */
 
 export function resolveRouteParams<
-  TParams extends Record<string, NumberConstructor | StringConstructor>
->(routeParams: RouteParams, paramsToParse: TParams) {
-  return Object.entries(paramsToParse).reduce(
-    (object, [param, type]) => {
-      const value = castArray(routeParams[param]).at(0);
-      Object.assign(object, {
-        [param]: value
-          ? type === Number
-            ? parseInt(value)
-            : value
-          : undefined,
-      });
-      return object;
-    },
-    {} as {
-      [K in keyof TParams]:
-        | (TParams[K] extends NumberConstructor ? number : string)
-        | undefined;
-    }
-  );
+  TParams extends Record<string, NumberConstructor | StringConstructor>,
+>(
+  routeParams: RouteParams,
+  paramsToParse: TParams,
+): {
+  [K in keyof TParams]?: TParams[K] extends NumberConstructor ? number : string;
+} {
+  return Object.entries(paramsToParse).reduce((object, [param, type]) => {
+    const value = castArray(routeParams[param]).at(0);
+    Object.assign(object, {
+      [param]: value ? (type === Number ? parseInt(value) : value) : undefined,
+    });
+    return object;
+  }, {});
 }
