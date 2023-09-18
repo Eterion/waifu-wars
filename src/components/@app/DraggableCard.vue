@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { type AnimeInfo } from '@/types/AnimeInfo';
-import { type CharacterInfo } from '@/types/CharacterInfo';
-import { ref } from 'vue';
+import { isAnimeInfo, type AnimeInfo } from '@/types/AnimeInfo';
+import { isCharacterInfo, type CharacterInfo } from '@/types/CharacterInfo';
+import { computed, ref } from 'vue';
 import ContextInfo from './ContextInfo.vue';
 
-defineProps<{
+const props = defineProps<{
   /** Faded state. */
   faded?: boolean;
   /** Image url. */
@@ -16,13 +16,21 @@ defineProps<{
 }>();
 
 const rootRef = ref<HTMLElement>();
+const tooltipText = computed(() => {
+  const animeName = (() => {
+    if (isCharacterInfo(props.metadata)) return props.metadata.animeName;
+    else if (isAnimeInfo(props.metadata)) return props.metadata.name;
+    return undefined;
+  })();
+  return props.name + (animeName ? ` (${animeName})` : '');
+});
 </script>
 
 <template>
   <div
     ref="rootRef"
     :class="[$style.el, { [$style.faded]: faded }]"
-    :title="name">
+    :title="tooltipText">
     <img :class="$style.img" :src="image" alt="" />
     <ContextInfo
       v-if="metadata"
