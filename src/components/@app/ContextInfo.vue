@@ -98,8 +98,8 @@ function close(event: Event) {
 
 watch(isOpen, (isOpen) => {
   if (isOpen) {
-    addEventListener('click', close, { once: true });
-    addEventListener('contextmenu', close, { capture: true, once: true });
+    addEventListener('click', close);
+    addEventListener('contextmenu', close, { capture: true });
   } else {
     removeEventListener('click', close);
     removeEventListener('contextmenu', close, { capture: true });
