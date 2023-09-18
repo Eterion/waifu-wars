@@ -1,14 +1,4 @@
-@use 'open-color/open-color' as *;
-@use 'sass:color';
-@use 'sass:map';
-
-/// Extracts r, g, b values from a color.
-/// @param {Color} $color - Color
-/// @returns List of r, g, b values
-
-@function extract-rgb($color) {
-  @return color.red($color), color.green($color), color.blue($color);
-}
+@use '@/css/theme';
 
 *,
 *::before,
@@ -18,50 +8,14 @@
 }
 
 :root {
+  @include theme.light;
   --app-header-height: 64px;
   --app-max-width: 1200px;
-  --card-aspect-ratio: 4 / 5;
-  // Tiers
-  @each $-colors, $-key in $oc-color-list {
-    --tier-#{$-key}: #{map.get($-colors, '5')};
-    --tier-#{$-key}-rgb: #{extract-rgb(map.get($-colors, '5'))};
-  }
-  // Colors
-  --backdrop: #{rgba($oc-gray-2, 0.95)};
-  --background: #{$oc-gray-2};
-  --border-dark: #{$oc-gray-6};
-  --border-light: #{$oc-gray-2};
-  --border: #{$oc-gray-4};
-  --danger-surface-rgb: #{extract-rgb($oc-red-5)};
-  --danger-surface: #{$oc-red-5};
-  --danger-text: #{$oc-red-6};
-  --foreground: #{$oc-white};
-  --hover-surface: #{$oc-gray-1};
-  --primary-surface-rgb: #{extract-rgb($oc-blue-5)};
-  --primary-surface: #{$oc-blue-5};
-  --primary-text: #{$oc-blue-7};
-  --success-surface: #{$oc-teal-5};
-  --text-disabled: #{$oc-gray-5};
-  --text-light: #{$oc-gray-6};
-  --text-on-danger-surface: #{$oc-white};
-  --text-on-primary-surface: #{$oc-white};
-  --text: #{$oc-gray-9};
   color-scheme: light;
 }
 
 .dark {
-  --backdrop: #{rgba($oc-black, 0.9)};
-  --background: #{$oc-gray-9};
-  --border-dark: #{$oc-gray-6};
-  --border-light: #{$oc-gray-7};
-  --border: #{$oc-gray-7};
-  --foreground: #{$oc-gray-8};
-  --hover-surface: #{$oc-gray-7};
-  --primary-surface: #{$oc-blue-5};
-  --primary-text: #{$oc-blue-4};
-  --text-disabled: #{$oc-gray-6};
-  --text-light: #{$oc-gray-5};
-  --text: #{$oc-white};
+  @include theme.dark;
   color-scheme: dark;
 }
 
@@ -71,10 +25,5 @@ html {
   font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans',
     Arial, sans-serif;
   font-size: 100%;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-synthesis: none;
   line-height: 1.6;
-  text-rendering: optimizeLegibility;
-  -webkit-text-size-adjust: 100%;
 }
