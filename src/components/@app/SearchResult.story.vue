@@ -36,25 +36,33 @@ const animeInfo = computed(() => {
     metadata: info,
   } as InstanceType<typeof SearchResult>['$props'];
 });
+
+function initState() {
+  return {
+    checked: false,
+  };
+}
 </script>
 
 <template>
   <Story>
-    <Variant title="Character">
+    <Variant v-slot="{ state }" title="Character" :init-state="initState">
       <BaseLoader v-if="getCharactersQuery.loading" />
       <SearchResult
         v-else-if="characterInfo"
         :class="$style.result"
         v-bind="characterInfo"
-        @click="logEvent('click', $event)" />
+        :checked="state.checked"
+        @click="(state.checked = !state.checked), logEvent('click', $event)" />
     </Variant>
-    <Variant title="Anime">
+    <Variant v-slot="{ state }" title="Anime" :init-state="initState">
       <BaseLoader v-if="getAnimeQuery.loading" />
       <SearchResult
         v-else-if="animeInfo"
         :class="$style.result"
         v-bind="animeInfo"
-        @click="logEvent('click', $event)" />
+        :checked="state.checked"
+        @click="(state.checked = !state.checked), logEvent('click', $event)" />
     </Variant>
     <Variant title="Checked">
       <BaseLoader v-if="getCharactersQuery.loading" />
