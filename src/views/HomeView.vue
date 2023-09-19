@@ -13,6 +13,7 @@ import {
 import { reactiveComputed } from '@vueuse/core';
 import { startCase } from 'lodash-es';
 import { computed } from 'vue';
+import type { RouteLocationRaw } from 'vue-router';
 
 const { result: __getCharactersResult } = useGetCharactersQuery();
 const __mostPopularWaifus = computed(() => {
@@ -36,6 +37,7 @@ const airingSeasonWaifu = reactiveComputed(() => {
   return {
     info: createCharacterInfoFromGetAnime(__getCurrentSeasonAnimeResult.value)
       .filter(({ gender, id }) => gender === 'Female' && !ids.includes(id))
+      .sort((a, b) => (b.favourites ?? 0) - (a.favourites ?? 0))
       .at(0),
     get excludedIds() {
       return [...ids, this.info?.id];
@@ -53,6 +55,7 @@ const lastSeasonWaifu = reactiveComputed(() => {
   return {
     info: createCharacterInfoFromGetAnime(__getLastSeasonAnimeResult.value)
       .filter(({ gender, id }) => gender === 'Female' && !ids.includes(id))
+      .sort((a, b) => (b.favourites ?? 0) - (a.favourites ?? 0))
       .at(0),
     get excludedIds() {
       return [...ids, this.info?.id];
@@ -69,6 +72,7 @@ const currentYearWaifu = reactiveComputed(() => {
   return {
     info: createCharacterInfoFromGetAnime(__getCurrentYearAnimeResult.value)
       .filter(({ gender, id }) => gender === 'Female' && !ids.includes(id))
+      .sort((a, b) => (b.favourites ?? 0) - (a.favourites ?? 0))
       .at(0),
     get excludedIds() {
       return [...ids, this.info?.id];
@@ -85,6 +89,7 @@ const lastYearWaifu = reactiveComputed(() => {
   return {
     info: createCharacterInfoFromGetAnime(__getLastYearAnimeResult.value)
       .filter(({ gender, id }) => gender === 'Female' && !ids.includes(id))
+      .sort((a, b) => (b.favourites ?? 0) - (a.favourites ?? 0))
       .at(0),
   };
 });
@@ -129,8 +134,11 @@ const lastYearAnime = reactiveComputed(() => {
 
 const dataSource = computed<
   Array<{
+    /** Section title. */
     title: string;
+    /** Description text. */
     desc: string;
+    /** Array of presets. */
     presets: Array<InstanceType<typeof PresetCard>['$props']>;
   }>
 >(() => [
@@ -228,11 +236,32 @@ const dataSource = computed<
     ],
   },
 ]);
+
+const sectionsData = computed(() => {
+  return dataSource.value.map(({ desc, presets, title }) => ({
+    title,
+    desc,
+    presets: presets.map(({ desc, title, to, ...section }) => ({
+      ...section,
+      desc,
+      title,
+      to: ((): RouteLocationRaw => {
+        if (typeof to === 'string')
+          return {
+            path: to,
+            query: { title, desc },
+          };
+        return to;
+      })(),
+    })),
+  }));
+});
 </script>
+=
 
 <template>
   <div>
-    <template v-for="section in dataSource" :key="section.title">
+    <template v-for="section in sectionsData" :key="section.title">
       <div v-if="section.presets.length" :class="$style.section">
         <h2 :class="$style.title">{{ section.title }}</h2>
         <p :class="$style.desc">{{ section.desc }}</p>
