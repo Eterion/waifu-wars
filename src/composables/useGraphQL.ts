@@ -4695,7 +4695,7 @@ export const GetAnimeDocument = gql`
       search: $search
       season: $season
       seasonYear: $seasonYear
-      sort: [SEARCH_MATCH, START_DATE]
+      sort: [SEARCH_MATCH, FAVOURITES_DESC]
       type: ANIME
     ) {
       id

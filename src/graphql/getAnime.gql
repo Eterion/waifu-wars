@@ -4,7 +4,7 @@ query getAnime($search: String, $season: MediaSeason, $seasonYear: Int) {
       search: $search
       season: $season
       seasonYear: $seasonYear
-      sort: [SEARCH_MATCH, START_DATE]
+      sort: [SEARCH_MATCH, FAVOURITES_DESC]
       type: ANIME
     ) {
       id

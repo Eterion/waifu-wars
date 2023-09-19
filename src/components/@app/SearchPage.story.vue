@@ -2,17 +2,26 @@
 import { apolloClient } from '@/apolloClient';
 import { provideApolloClient } from '@vue/apollo-composable';
 import { logEvent } from 'histoire/client';
-import { ref } from 'vue';
 import SearchPage from './SearchPage.vue';
 
 provideApolloClient(apolloClient);
-const checkedIds = ref<number[]>([]);
 </script>
 
 <template>
   <Story>
-    <SearchPage
-      v-model="checkedIds"
-      @update:model-value="logEvent('update:modelValue', [$event])" />
+    <Variant title="Character (Female)">
+      <SearchPage @change="logEvent('change', [$event])" />
+    </Variant>
+    <Variant title="Character (Male)">
+      <SearchPage gender="Male" @change="logEvent('change', [$event])" />
+    </Variant>
+    <Variant title="Character (All)">
+      <SearchPage
+        :gender="['Female', 'Male', 'Other']"
+        @change="logEvent('change', [$event])" />
+    </Variant>
+    <Variant title="Anime">
+      <SearchPage type="anime" @change="logEvent('change', [$event])" />
+    </Variant>
   </Story>
 </template>
