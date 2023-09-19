@@ -16,7 +16,7 @@ query getCharacters($search: String, $pick: [Int]) {
       image {
         large
       }
-      media(sort: [END_DATE]) {
+      media(sort: [START_DATE], type: ANIME) {
         nodes {
           id
           idMal

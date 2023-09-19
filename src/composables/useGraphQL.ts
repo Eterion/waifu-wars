@@ -4824,7 +4824,7 @@ export const GetAnimeDocument = gql`
       search: $search
       season: $season
       seasonYear: $seasonYear
-      sort: [SEARCH_MATCH, POPULARITY_DESC, FAVOURITES_DESC]
+      sort: [SEARCH_MATCH, START_DATE]
       type: ANIME
     ) {
       id
@@ -4896,7 +4896,7 @@ export const GetCharactersDocument = gql`
       image {
         large
       }
-      media(sort: [END_DATE]) {
+      media(sort: [START_DATE], type: ANIME) {
         nodes {
           id
           idMal

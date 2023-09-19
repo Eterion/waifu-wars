@@ -1,33 +1,34 @@
 <script setup lang="ts">
-import type { AnimeInfo } from '@/types/AnimeInfo';
-import type { CharacterInfo } from '@/types/CharacterInfo';
+import { apolloClient } from '@/apolloClient';
+import {
+  useGetAnimeQuery,
+  useGetCharactersQuery,
+} from '@/composables/useGraphQL';
+import { createAnimeInfoFromGetAnime } from '@/utils/createAnimeInfo';
+import { createCharacterInfoFromGetCharacters } from '@/utils/createCharacterInfo';
+import { provideApolloClient } from '@vue/apollo-composable';
+import { computed, reactive } from 'vue';
+import BaseLoader from '../@base/loader/BaseLoader.vue';
 import PresetCard from './PresetCard.vue';
 
-const characterInfo: CharacterInfo = {
-  animeMalId: 51105,
-  animeName: 'NieR:Automata Ver1.1a',
-  animeUrl: 'https://anilist.co/anime/145665/NieRAutomata-Ver11a/',
-  fullName: 'YoRHa 2-gou B-gata',
-  id: 132494,
-  imageUrl:
-    'https://s4.anilist.co/file/anilistcdn/character/large/b132494-R05zeZPjDG3l.jpg',
-  siteUrl: 'https://anilist.co/character/132494/YoRHa-2gou-Bgata',
-};
+provideApolloClient(apolloClient);
+const getCharactersQuery = reactive(useGetCharactersQuery({ search: '2B' }));
+const characterInfo = computed(() => {
+  return createCharacterInfoFromGetCharacters(getCharactersQuery.result).at(0);
+});
 
-const animeInfo: AnimeInfo = {
-  id: 145665,
-  imageUrl:
-    'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx145665-kiAZX3DsbBnl.jpg',
-  malId: 51105,
-  name: 'NieR:Automata Ver1.1a',
-  siteUrl: 'https://anilist.co/anime/145665/NieRAutomata-Ver11a/',
-};
+const getAnimeQuery = reactive(useGetAnimeQuery({ search: 'Nier Automata' }));
+const animeInfo = computed(() => {
+  return createAnimeInfoFromGetAnime(getAnimeQuery.result).at(0);
+});
 </script>
 
 <template>
   <Story>
     <Variant title="Character">
+      <BaseLoader v-if="getCharactersQuery.loading" />
       <PresetCard
+        v-else-if="characterInfo"
         title="Airing Season"
         desc="Start with waifus from the current airing season and continue from there."
         to="/"
@@ -36,7 +37,9 @@ const animeInfo: AnimeInfo = {
         style="width: 265px" />
     </Variant>
     <Variant title="Anime">
+      <BaseLoader v-if="getAnimeQuery.loading" />
       <PresetCard
+        v-else-if="animeInfo"
         title="Airing Season"
         desc="Start with animes from the current airing season and continue from there."
         to="/"

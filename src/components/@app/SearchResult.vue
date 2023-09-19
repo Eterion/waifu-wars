@@ -13,7 +13,9 @@ defineProps<{
 
 <template>
   <button type="button" :class="[$style.el, { [$style.checked]: checked }]">
-    <img :class="$style.img" :src="image" alt="" />
+    <div :class="$style.thumbnail">
+      <img :class="$style.thumbnail_img" :src="image" alt="" />
+    </div>
     <div :class="$style.name">{{ name }}</div>
     <div :class="$style.check">
       <CheckIcon v-if="checked" :size="12" :stroke-width="3" />
@@ -22,13 +24,16 @@ defineProps<{
 </template>
 
 <style module lang="scss">
-.img {
+.thumbnail {
   aspect-ratio: 3 / 4;
   border-radius: 12px;
-  display: block;
   margin-bottom: 12px;
-  object-fit: cover;
-  width: 100%;
+  overflow: hidden;
+  &_img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+  }
 }
 
 .check {
@@ -68,9 +73,12 @@ defineProps<{
   }
 
   &.checked {
-    .img {
+    .thumbnail {
       border: 2px solid var(--primary);
-      filter: grayscale(1);
+      &_img {
+        filter: grayscale(1);
+        opacity: 0.3;
+      }
     }
     .check {
       background-color: var(--primary-surface);
