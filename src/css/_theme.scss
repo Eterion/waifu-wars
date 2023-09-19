@@ -24,8 +24,10 @@
   --low-shadow: 1px 2px 3px hsl(0deg 0% 0% / 0.04);
   --medium-shadow: 1px 3px 12px hsl(0deg 0% 0% / 0.08);
   --high-shadow: 1px 3px 24px hsl(0deg 0% 0% / 0.12);
-  // Other
+  // Elements
   --backdrop: #{rgba($oc-gray-2, 0.95)};
+  --scrollbar-thumb: var(--border-light);
+  --scrollbar-track: transparent;
 }
 
 /// Dark theme variables.
@@ -43,6 +45,6 @@
   --text-disabled: #{$oc-gray-6};
   --text-light: #{$oc-gray-5};
   --text: #{$oc-gray-0};
-  // Other
+  // Elements
   --backdrop: #{rgba($oc-black, 0.9)};
 }
