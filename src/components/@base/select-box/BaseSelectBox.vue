@@ -105,27 +105,30 @@ onClickOutside(floatingRef, (event) => {
         :id="id"
         :value="modelValue"
         :class="$style.input"
+        :tabindex="-1"
         type="text"
         @focus="isOpen = true" />
       <button
         :class="$style.selectedCaption"
         type="button"
         @click="isOpen = true">
-        {{ selectedCaption || '&nbsp;' }}
+        <span>
+          {{ selectedCaption || '&nbsp;' }}
+        </span>
       </button>
       <button
         v-if="modelValue"
         :class="$style.button"
+        :tabindex="-1"
         type="button"
-        tabindex="-1"
         @click="modelValue = undefined">
         <XIcon :size="18" :stroke-width="1.5" />
       </button>
       <button
         v-else
         :class="$style.button"
+        :tabindex="-1"
         type="button"
-        tabindex="-1"
         @click="isOpen = true">
         <ChevronDownIcon :size="18" :stroke-width="1.5" />
       </button>
@@ -174,6 +177,7 @@ onClickOutside(floatingRef, (event) => {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  outline: none;
   padding: 8px 12px;
 }
 
