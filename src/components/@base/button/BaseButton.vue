@@ -30,7 +30,8 @@ defineProps<{
   cursor: pointer;
   font-family: inherit;
   font-size: 0.9375rem;
-  padding: 14px 24px;
+  line-height: inherit;
+  padding: 12px 24px;
   transition-duration: 150ms;
   transition-property: background-color, border-color, color, transform;
   &:hover {

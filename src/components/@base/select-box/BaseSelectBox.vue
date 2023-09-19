@@ -236,6 +236,7 @@ onClickOutside(floatingRef, (event) => {
   cursor: pointer;
   font-family: inherit;
   font-size: 0.9375rem;
+  line-height: 1.2;
   padding: 6px;
   text-align: left;
   width: 100%;
