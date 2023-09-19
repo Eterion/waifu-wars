@@ -4697,6 +4697,7 @@ export type GetAnimeQuery = { __typename?: 'Query', Page?: { __typename?: 'Page'
 
 export type GetCharactersQueryVariables = Exact<{
   search?: InputMaybe<Scalars['String']['input']>;
+  pick?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
 }>;
 
 
@@ -4881,9 +4882,9 @@ export function useGetAnimeLazyQuery(variables: GetAnimeQueryVariables | VueComp
 }
 export type GetAnimeQueryCompositionFunctionResult = VueApolloComposable.UseQueryReturn<GetAnimeQuery, GetAnimeQueryVariables>;
 export const GetCharactersDocument = gql`
-    query getCharacters($search: String) {
+    query getCharacters($search: String, $pick: [Int]) {
   Page {
-    characters(search: $search, sort: [SEARCH_MATCH, FAVOURITES_DESC]) {
+    characters(search: $search, id_in: $pick, sort: [SEARCH_MATCH, FAVOURITES_DESC]) {
       id
       age
       gender
@@ -4927,6 +4928,7 @@ export const GetCharactersDocument = gql`
  * @example
  * const { result, loading, error } = useGetCharactersQuery({
  *   search: // value for 'search'
+ *   pick: // value for 'pick'
  * });
  */
 export function useGetCharactersQuery(variables: GetCharactersQueryVariables | VueCompositionApi.Ref<GetCharactersQueryVariables> | ReactiveFunction<GetCharactersQueryVariables> = {}, options: VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables> | VueCompositionApi.Ref<VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables>> | ReactiveFunction<VueApolloComposable.UseQueryOptions<GetCharactersQuery, GetCharactersQueryVariables>> = {}) {

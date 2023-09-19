@@ -1,6 +1,10 @@
-query getCharacters($search: String) {
+query getCharacters($search: String, $pick: [Int]) {
   Page {
-    characters(search: $search, sort: [SEARCH_MATCH, FAVOURITES_DESC]) {
+    characters(
+      search: $search
+      id_in: $pick
+      sort: [SEARCH_MATCH, FAVOURITES_DESC]
+    ) {
       id
       age
       gender
