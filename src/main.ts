@@ -4,12 +4,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
 import { MediaSeason } from './composables/useGraphQL';
 import './globalStyles.scss';
-import { resolveRouteParams } from './utils/resolveRouteParams';
 import AboutView from './views/AboutView.vue';
 import HomeView from './views/HomeView.vue';
 import NotFoundView from './views/NotFoundView.vue';
 import AnimeView from './views/anime/AnimeView.vue';
 import CharactersView from './views/characters/CharactersView.vue';
+
+const SEASON_REGEXP = Object.values(MediaSeason).join('|');
 
 createApp(App)
   .use(createPinia())
@@ -26,41 +27,20 @@ createApp(App)
           component: AboutView,
         },
         {
-          path: `/w/:season(${Object.values(MediaSeason).join(
-            '|',
-          )})?/:year(\\d+)`,
+          path: `/w/:season(${SEASON_REGEXP})?/:year(\\d+)`,
           component: CharactersView,
-          props: ({ params }) => {
-            return resolveRouteParams(params, {
-              season: String,
-              year: Number,
-            });
-          },
         },
         {
           path: '/w/top/:top(\\d+)',
           component: CharactersView,
-          props: ({ params }) => {
-            return resolveRouteParams(params, {
-              top: Number,
-            });
-          },
         },
         {
           path: '/w',
           component: CharactersView,
         },
         {
-          path: `/a/:season(${Object.values(MediaSeason).join(
-            '|',
-          )})?/:year(\\d+)`,
+          path: `/a/:season(${SEASON_REGEXP})?/:year(\\d+)`,
           component: AnimeView,
-          props: ({ params }) => {
-            return resolveRouteParams(params, {
-              season: String,
-              year: Number,
-            });
-          },
         },
         {
           path: '/a',
