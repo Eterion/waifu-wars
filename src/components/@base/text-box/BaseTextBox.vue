@@ -27,6 +27,12 @@ const modelValue = computed({
     emit('update:modelValue', value || undefined);
   },
 });
+
+const inputRef = ref<HTMLInputElement>();
+function onClear() {
+  modelValue.value = undefined;
+  inputRef.value?.focus();
+}
 </script>
 
 <template>
@@ -39,13 +45,18 @@ const modelValue = computed({
     <label v-if="search" :for="id" :class="$style.search">
       <SearchIcon :size="18" :stroke-width="1.5" />
     </label>
-    <input :id="id" v-model="modelValue" :class="$style.input" type="text" />
+    <input
+      :id="id"
+      ref="inputRef"
+      v-model="modelValue"
+      :class="$style.input"
+      type="text" />
     <button
       v-if="modelValue"
       :class="$style.button"
       type="button"
       tabindex="-1"
-      @click="modelValue = undefined">
+      @click="onClear">
       <XIcon :size="18" :stroke-width="1.5" />
     </button>
   </div>

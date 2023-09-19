@@ -91,6 +91,12 @@ onClickOutside(floatingRef, (event) => {
       isOpen.value = false;
     }
 });
+
+function onClear() {
+  modelValue.value = undefined;
+  if (document.activeElement instanceof HTMLElement)
+    document.activeElement.blur();
+}
 </script>
 
 <template>
@@ -121,7 +127,7 @@ onClickOutside(floatingRef, (event) => {
         :class="$style.button"
         :tabindex="-1"
         type="button"
-        @click="modelValue = undefined">
+        @click="onClear">
         <XIcon :size="18" :stroke-width="1.5" />
       </button>
       <button
@@ -171,6 +177,7 @@ onClickOutside(floatingRef, (event) => {
   background-color: transparent;
   border: none;
   border-radius: inherit;
+  color: inherit;
   cursor: pointer;
   display: flex;
   flex-grow: 1;
