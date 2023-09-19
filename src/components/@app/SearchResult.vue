@@ -39,7 +39,7 @@ const thumbnailRef = ref<HTMLElement>();
 .thumbnail {
   aspect-ratio: 3 / 4;
   border-radius: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   overflow: hidden;
   &_img {
     border-radius: 8px;
@@ -69,6 +69,7 @@ const thumbnailRef = ref<HTMLElement>();
   cursor: pointer;
   font-family: inherit;
   font-size: 0.9375rem;
+  line-height: 1.3;
   padding: 0;
   position: relative;
   text-align: left;
