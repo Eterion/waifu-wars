@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ChevronDownIcon from '@/components/@icons/ChevronDownIcon.vue';
 import XIcon from '@/components/@icons/XIcon.vue';
+import { useField } from '@/composables/useField';
 import { autoUpdate, offset, size, useFloating } from '@floating-ui/vue';
 import {
   onClickOutside,
@@ -8,7 +9,8 @@ import {
   useFocusWithin,
   useVModel,
 } from '@vueuse/core';
-import { computed, ref } from 'vue';
+import type { CSSProperties } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{
   /** Array of options. */
@@ -26,6 +28,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', modelValue?: number | string): void;
 }>();
 
+const { id } = useField();
 const modelValue = useVModel(props, 'modelValue', emit);
 const editorRef = ref<HTMLElement>();
 const hovered = useElementHover(editorRef);
@@ -35,10 +38,18 @@ const options = computed(() => {
   return props.options.map(({ caption, value }) => ({
     caption,
     value,
+    isSelected: modelValue.value === value,
     onClick: () => {
+      isOpen.value = false;
       modelValue.value = value;
     },
   }));
+});
+
+const selectedCaption = computed(() => {
+  return options.value.find(({ isSelected }) => {
+    return isSelected;
+  })?.caption;
 });
 
 const isOpen = ref(false);
@@ -51,13 +62,26 @@ const { floatingStyles } = useFloating(editorRef, floatingRef, {
   middleware: [
     offset(6),
     size({
-      apply: ({ elements, rects }) => {
+      apply: ({ elements, rects, availableHeight }) => {
         Object.assign(elements.floating.style, {
           width: `${rects.reference.width}px`,
-        });
+          maxHeight: `${Math.min(240, availableHeight - 36)}px`,
+        } satisfies CSSProperties);
       },
     }),
   ],
+});
+
+watch(isOpen, (isOpen) => {
+  setTimeout(() => {
+    if (isOpen && floatingRef.value) {
+      floatingRef.value
+        .querySelector("[aria-selected='true']")
+        ?.scrollIntoView({
+          block: 'center',
+        });
+    }
+  });
 });
 
 // Dropdown clickout
@@ -75,13 +99,20 @@ onClickOutside(floatingRef, (event) => {
       ref="editorRef"
       :class="[
         $style.el,
-        { [$style.hovered]: hovered, [$style.focused]: focused },
+        { [$style.hovered]: hovered, [$style.focused]: focused || isOpen },
       ]">
       <input
+        :id="id"
         :value="modelValue"
         :class="$style.input"
         type="text"
         @focus="isOpen = true" />
+      <button
+        :class="$style.selectedCaption"
+        type="button"
+        @click="isOpen = true">
+        {{ selectedCaption || '&nbsp;' }}
+      </button>
       <button
         v-if="modelValue"
         :class="$style.button"
@@ -106,10 +137,13 @@ onClickOutside(floatingRef, (event) => {
         :class="$style.floating"
         :style="floatingStyles">
         <ul :class="$style.options">
-          <li v-for="option in options" :key="option.value">
+          <li
+            v-for="option in options"
+            :key="option.value"
+            :aria-selected="option.isSelected">
             <button
               type="button"
-              :class="$style.option"
+              :class="[$style.option, { [$style.selected]: option.isSelected }]"
               @click="option.onClick">
               {{ option.caption }}
             </button>
@@ -121,19 +155,26 @@ onClickOutside(floatingRef, (event) => {
 </template>
 
 <style module lang="scss">
+@use '@/css/scrollbar';
+
 .input {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.selectedCaption {
+  align-items: center;
   background-color: transparent;
   border: none;
   border-radius: inherit;
-  color: inherit;
+  cursor: pointer;
+  display: flex;
   flex-grow: 1;
   font-family: inherit;
   font-size: inherit;
-  padding: 12px;
-  width: 100%;
-  &:focus {
-    outline: none;
-  }
+  line-height: inherit;
+  padding: 8px 12px;
 }
 
 .button {
@@ -155,6 +196,7 @@ onClickOutside(floatingRef, (event) => {
   border: 1px solid var(--border);
   border-radius: 6px;
   display: flex;
+  position: relative;
   &.hovered {
     border-color: var(--border-dark);
     .button {
@@ -168,9 +210,11 @@ onClickOutside(floatingRef, (event) => {
 }
 
 .floating {
+  @include scrollbar.thin;
   background-color: var(--foreground);
   border-radius: 6px;
   box-shadow: var(--medium-shadow);
+  overflow-y: auto;
 }
 
 .options {
@@ -195,9 +239,15 @@ onClickOutside(floatingRef, (event) => {
   padding: 6px;
   text-align: left;
   width: 100%;
-  &:hover {
-    background-color: var(--hover-surface);
-    color: var(--primary);
+  &:not(.selected) {
+    &:hover {
+      background-color: var(--hover-surface);
+      color: var(--primary);
+    }
+  }
+  &.selected {
+    background-color: var(--primary-surface);
+    color: var(--text-on-primary-surface);
   }
 }
 </style>
