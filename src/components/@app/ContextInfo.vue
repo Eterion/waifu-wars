@@ -180,11 +180,17 @@ watch(isOpen, (isOpen) => {
   box-shadow: var(--medium-shadow);
   font-size: 0.9375rem;
   max-width: 200px;
-  &[data-placement^='right'] {
+  &[data-placement='right-start'] {
     border-top-left-radius: 6px;
   }
-  &[data-placement^='left'] {
+  &[data-placement='right-end'] {
+    border-bottom-left-radius: 6px;
+  }
+  &[data-placement='left-start'] {
     border-top-right-radius: 6px;
+  }
+  &[data-placement='left-end'] {
+    border-bottom-right-radius: 6px;
   }
 }
 
@@ -202,11 +208,17 @@ watch(isOpen, (isOpen) => {
   .el {
     transition-duration: $-duration;
     transition-property: opacity, transform;
-    &[data-placement^='right'] {
-      transform-origin: 0 0;
+    &[data-placement='right-start'] {
+      transform-origin: left top;
     }
-    &[data-placement^='left'] {
-      transform-origin: 100% 0;
+    &[data-placement='right-end'] {
+      transform-origin: left bottom;
+    }
+    &[data-placement='left-start'] {
+      transform-origin: right top;
+    }
+    &[data-placement='left-end'] {
+      transform-origin: right bottom;
     }
   }
 }
