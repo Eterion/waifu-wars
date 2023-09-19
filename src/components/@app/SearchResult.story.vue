@@ -22,6 +22,7 @@ const characterInfo = computed(() => {
   return {
     image: info.imageUrl,
     name: info.fullName,
+    metadata: info,
   } as InstanceType<typeof SearchResult>['$props'];
 });
 
@@ -32,6 +33,7 @@ const animeInfo = computed(() => {
   return {
     image: info.imageUrl,
     name: info.name,
+    metadata: info,
   } as InstanceType<typeof SearchResult>['$props'];
 });
 </script>

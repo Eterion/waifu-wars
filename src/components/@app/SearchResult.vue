@@ -1,20 +1,32 @@
 <script setup lang="ts">
+import type { AnimeInfo } from '@/types/AnimeInfo';
+import type { CharacterInfo } from '@/types/CharacterInfo';
+import { ref } from 'vue';
 import CheckIcon from '../@icons/CheckIcon.vue';
+import ContextInfo from './ContextInfo.vue';
 
 defineProps<{
   /** Checked state. */
   checked?: boolean;
   /** Image url. */
   image: string;
+  /** Metadata. */
+  metadata?: CharacterInfo | AnimeInfo;
   /** Name. */
   name: string;
 }>();
+
+const thumbnailRef = ref<HTMLElement>();
 </script>
 
 <template>
   <button type="button" :class="[$style.el, { [$style.checked]: checked }]">
-    <div :class="$style.thumbnail">
+    <div ref="thumbnailRef" :class="$style.thumbnail">
       <img :class="$style.thumbnail_img" :src="image" alt="" />
+      <ContextInfo
+        v-if="metadata"
+        :outside-reference-element="thumbnailRef"
+        :info="metadata" />
     </div>
     <div :class="$style.name">{{ name }}</div>
     <div :class="$style.check">
