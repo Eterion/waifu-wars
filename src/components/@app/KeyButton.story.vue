@@ -5,7 +5,7 @@ import KeyButton from './KeyButton.vue';
 
 <template>
   <Story>
-    <KeyButton event-key="Esc" @click="logEvent('click', $event)">
+    <KeyButton event-key="Escape" @event="logEvent('event', $event)">
       Close
     </KeyButton>
   </Story>

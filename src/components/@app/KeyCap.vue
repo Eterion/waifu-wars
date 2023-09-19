@@ -14,6 +14,6 @@
   font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
     'DejaVu Sans Mono', monospace;
   font-size: 0.8125rem;
-  padding: 4px 8px;
+  padding: 3px 8px;
 }
 </style>
