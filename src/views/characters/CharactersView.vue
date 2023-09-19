@@ -2,6 +2,7 @@
 import { apolloClient } from '@/apolloClient';
 import ButtonGroup from '@/components/@app/ButtonGroup.vue';
 import DraggableCard from '@/components/@app/DraggableCard.vue';
+import SearchPage from '@/components/@app/SearchPage.vue';
 import BaseButton from '@/components/@base/button/BaseButton.vue';
 import {
   useGetAnimeQuery,
@@ -15,7 +16,7 @@ import { parseMediaSeason } from '@/utils/parseMediaSeason';
 import { resolveRouteParams } from '@/utils/resolveRouteParams';
 import { provideApolloClient } from '@vue/apollo-composable';
 import { useEventListener } from '@vueuse/core';
-import { castArray, unary } from 'lodash-es';
+import { castArray } from 'lodash-es';
 import { computed, ref } from 'vue';
 import { useRoute, type NavigationGuard } from 'vue-router';
 
@@ -53,17 +54,13 @@ defineOptions({
 });
 
 const route = useRoute();
-const pick = computed(() => {
-  return castArray(route.query.collection)
-    .at(0)
-    ?.split(',')
-    .map(unary(parseInt));
-});
+const title = computed(() => castArray(route.query.title).at(0));
+const desc = computed(() => castArray(route.query.desc).at(0));
+const collection = ref<number[]>([]);
 
-const { loading, result } = useGetCharactersQuery(
-  () => ({ pick: pick.value }),
-  () => ({ enabled: (pick.value?.length ?? 0) > 0 }),
-);
+const { loading, result } = useGetCharactersQuery(() => ({
+  pick: collection.value,
+}));
 
 const charactersInfo = computed(() => {
   return createCharacterInfoFromGetCharacters(result.value)
@@ -89,20 +86,26 @@ const charactersInfo = computed(() => {
 });
 
 const gridRef = ref<HTMLElement>();
-useEventListener(gridRef, 'wheel', (event) => {
-  if (gridRef.value)
-    gridRef.value.scrollTo({
-      left: gridRef.value.scrollLeft + event.deltaY,
-    });
-});
+useEventListener(
+  gridRef,
+  'wheel',
+  (event) => {
+    event.preventDefault();
+    if (gridRef.value)
+      gridRef.value.scrollTo({
+        left: gridRef.value.scrollLeft + event.deltaY,
+      });
+  },
+  { passive: false },
+);
 </script>
 
 <template>
   <div>
-    <h2>{{ route.query.title }}</h2>
-    <p>{{ route.query.desc }}</p>
+    <h2>{{ title }}</h2>
+    <p>{{ desc }}</p>
     <ButtonGroup>
-      <BaseButton>Add Characters</BaseButton>
+      <BaseButton>Add Waifus</BaseButton>
       <BaseButton primary>Share</BaseButton>
     </ButtonGroup>
     <div v-if="loading">Loading</div>
@@ -113,6 +116,7 @@ useEventListener(gridRef, 'wheel', (event) => {
         :class="$style.card"
         v-bind="item.cardProps" />
     </div>
+    <SearchPage :value="collection" />
   </div>
 </template>
 
