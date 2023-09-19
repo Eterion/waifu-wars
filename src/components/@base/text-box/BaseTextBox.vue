@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SearchIcon from '@/components/@icons/SearchIcon.vue';
+import XIcon from '@/components/@icons/XIcon.vue';
 import { useField } from '@/composables/useField';
 import { useElementHover, useFocusWithin } from '@vueuse/core';
 import { computed, ref } from 'vue';
@@ -39,6 +40,14 @@ const modelValue = computed({
       <SearchIcon :size="18" :stroke-width="1.5" />
     </label>
     <input :id="id" v-model="modelValue" :class="$style.input" type="text" />
+    <button
+      v-if="modelValue"
+      :class="$style.button"
+      type="button"
+      tabindex="-1"
+      @click="modelValue = undefined">
+      <XIcon :size="18" :stroke-width="1.5" />
+    </button>
   </div>
 </template>
 
@@ -50,8 +59,9 @@ const modelValue = computed({
   color: inherit;
   font-family: inherit;
   font-size: inherit;
+  line-height: inherit;
   outline: none;
-  padding: 12px;
+  padding: 8px 12px;
   width: 100%;
 }
 
@@ -64,6 +74,19 @@ const modelValue = computed({
   padding-left: 12px;
 }
 
+.button {
+  align-items: center;
+  align-self: stretch;
+  background-color: transparent;
+  border: none;
+  border-radius: inherit;
+  color: var(--text-light);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  padding: false 12px;
+}
+
 .el {
   align-items: center;
   background-color: var(--foreground);
@@ -72,6 +95,9 @@ const modelValue = computed({
   display: flex;
   &.hovered {
     border-color: var(--border-dark);
+    .button {
+      color: var(--text);
+    }
   }
   &.focused {
     border-color: var(--primary);
