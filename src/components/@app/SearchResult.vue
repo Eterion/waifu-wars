@@ -42,9 +42,10 @@ const thumbnailRef = ref<HTMLElement>();
   margin-bottom: 12px;
   overflow: hidden;
   &_img {
+    border-radius: 8px;
     display: block;
     object-fit: cover;
-    width: 100%;
+    size: 100%;
   }
 }
 
@@ -71,8 +72,6 @@ const thumbnailRef = ref<HTMLElement>();
   padding: 0;
   position: relative;
   text-align: left;
-  transition-duration: 200ms;
-  transition-property: transform;
 
   &:hover {
     .check {
@@ -80,16 +79,12 @@ const thumbnailRef = ref<HTMLElement>();
     }
   }
 
-  &:active {
-    transform: scale(0.9);
-  }
-
   &.checked {
     .thumbnail {
       border: 2px solid var(--primary);
+      padding: 2px;
       &_img {
         filter: grayscale(1);
-        opacity: 0.3;
       }
     }
     .check {
