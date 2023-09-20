@@ -18,6 +18,7 @@ import BaseSelectBox from '../@base/select-box/BaseSelectBox.vue';
 import BaseTextBox from '../@base/text-box/BaseTextBox.vue';
 import ExternalLinkIcon from '../@icons/ExternalLinkIcon.vue';
 import KeyButton from './KeyButton.vue';
+import NetworkError from './NetworkError.vue';
 import SearchResult from './SearchResult.vue';
 
 const props = withDefaults(
@@ -80,6 +81,10 @@ const getAnimeQuery = reactive(
 
 const isLoading = computed(() => {
   return getCharactersQuery.loading || getAnimeQuery.loading;
+});
+
+const error = computed(() => {
+  return getCharactersQuery.error || getAnimeQuery.error;
 });
 
 const characterResults = computed(() => {
@@ -164,12 +169,8 @@ const searchResults = computed<
     <div :class="$style.header">
       <div>
         <h1 :class="$style.title">Search</h1>
-        <p :class="$style.desc">
-          Quis nostrud Lorem irure nostrud est quis deserunt. Sunt dolore sint
-          eiusmod incididunt enim qui ex ad adipisicing.
-        </p>
         <p :class="$style.poweredBy">
-          Search powered by
+          Powered by
           <a href="https://anilist.co/" target="_blank" rel="noreferrer">
             anilist.co
             <ExternalLinkIcon :size="12" />
@@ -194,6 +195,7 @@ const searchResults = computed<
       </BaseField>
     </div>
     <BaseLoader v-if="isLoading" />
+    <NetworkError v-else-if="error" :error="error" />
     <div v-else :class="$style.grid">
       <SearchResult
         v-for="item in searchResults"
@@ -219,13 +221,8 @@ const searchResults = computed<
   color: var(--text);
   font-size: 1.875rem;
   font-weight: bold;
+  line-height: 1.3;
   margin: 0;
-  margin-bottom: 6px;
-}
-
-.desc {
-  margin: 0;
-  max-width: 660px;
 }
 
 .poweredBy {
