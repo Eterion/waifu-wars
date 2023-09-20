@@ -90,7 +90,8 @@ function onClear() {
   align-self: stretch;
   background-color: transparent;
   border: none;
-  border-radius: inherit;
+  border-bottom-right-radius: inherit;
+  border-top-right-radius: inherit;
   color: var(--text-light);
   cursor: pointer;
   display: flex;
