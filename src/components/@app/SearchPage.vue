@@ -193,11 +193,6 @@ const searchResults = computed<
         <BaseSelectBox v-model="season" :options="seasonOptions" />
       </BaseField>
     </div>
-    <div :class="$style.total">
-      <div :class="$style.total_count">{{ modelValue.length }}</div>
-      <div :class="$style.total_desc">Selected</div>
-      <div :class="$style.total_hint">Confirm by closing</div>
-    </div>
     <BaseLoader v-if="isLoading" />
     <div v-else :class="$style.grid">
       <SearchResult
@@ -243,22 +238,6 @@ const searchResults = computed<
     &:hover {
       text-decoration: none;
     }
-  }
-}
-
-.total {
-  text-align: right;
-  &_count {
-    color: var(--text);
-    font-size: 20px;
-    font-weight: bold;
-  }
-  &_desc {
-    color: var(--text);
-  }
-  &_hint {
-    color: var(--text-light);
-    font-size: 14px;
   }
 }
 
