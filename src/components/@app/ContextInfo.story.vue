@@ -9,6 +9,7 @@ import {
   createCharacterInfoFromGetCharacters,
 } from '@/utils/createCharacterInfo';
 import { provideApolloClient } from '@vue/apollo-composable';
+import { logEvent } from 'histoire/client';
 import { computed, reactive, ref } from 'vue';
 import BaseLoader from '../@base/loader/BaseLoader.vue';
 import ContextInfo from './ContextInfo.vue';
@@ -35,14 +36,29 @@ const animeInfo = computed(() => {
         <button ref="buttonRef" type="button">Context Info</button>
         <ContextInfo
           :info="characterInfo"
-          :outside-reference-element="buttonRef" />
+          :outside-reference-element="buttonRef"
+          @remove="logEvent('remove', $event)" />
       </template>
     </Variant>
     <Variant title="Anime">
       <BaseLoader v-if="getAnimeQuery.loading" />
       <template v-else-if="animeInfo">
         <button ref="buttonRef" type="button">Context Info</button>
-        <ContextInfo :info="animeInfo" :outside-reference-element="buttonRef" />
+        <ContextInfo
+          :info="animeInfo"
+          :outside-reference-element="buttonRef"
+          @remove="logEvent('remove', $event)" />
+      </template>
+    </Variant>
+    <Variant title="Removable">
+      <BaseLoader v-if="getCharactersQuery.loading" />
+      <template v-else-if="characterInfo">
+        <button ref="buttonRef" type="button">Context Info</button>
+        <ContextInfo
+          :info="characterInfo"
+          :outside-reference-element="buttonRef"
+          removable
+          @remove="logEvent('remove', $event)" />
       </template>
     </Variant>
   </Story>

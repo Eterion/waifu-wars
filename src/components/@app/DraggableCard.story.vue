@@ -7,6 +7,7 @@ import {
 import { createAnimeInfoFromGetAnime } from '@/utils/createAnimeInfo';
 import { createCharacterInfoFromGetCharacters } from '@/utils/createCharacterInfo';
 import { provideApolloClient } from '@vue/apollo-composable';
+import { logEvent } from 'histoire/client';
 import { computed, reactive } from 'vue';
 import BaseLoader from '../@base/loader/BaseLoader.vue';
 import DraggableCard from './DraggableCard.vue';
@@ -31,7 +32,8 @@ const animeInfo = computed(() => {
         v-else-if="characterInfo"
         :image="characterInfo.imageUrl"
         :name="characterInfo.fullName"
-        :metadata="characterInfo" />
+        :metadata="characterInfo"
+        @remove="logEvent('remove', $event)" />
     </Variant>
     <Variant title="Anime">
       <BaseLoader v-if="getAnimeQuery.loading" />
@@ -39,7 +41,8 @@ const animeInfo = computed(() => {
         v-else-if="animeInfo"
         :image="animeInfo.imageUrl"
         :name="animeInfo.name"
-        :metadata="animeInfo" />
+        :metadata="animeInfo"
+        @remove="logEvent('remove', $event)" />
     </Variant>
     <Variant title="Faded">
       <BaseLoader v-if="getCharactersQuery.loading" />
@@ -48,7 +51,18 @@ const animeInfo = computed(() => {
         :image="characterInfo.imageUrl"
         :name="characterInfo.fullName"
         :metadata="characterInfo"
-        faded />
+        faded
+        @remove="logEvent('remove', $event)" />
+    </Variant>
+    <Variant title="Removable">
+      <BaseLoader v-if="getCharactersQuery.loading" />
+      <DraggableCard
+        v-else-if="characterInfo"
+        :image="characterInfo.imageUrl"
+        :name="characterInfo.fullName"
+        :metadata="characterInfo"
+        removable
+        @remove="logEvent('remove', $event)" />
     </Variant>
   </Story>
 </template>

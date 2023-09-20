@@ -13,6 +13,12 @@ const props = defineProps<{
   metadata?: CharacterInfo | AnimeInfo;
   /** Name. */
   name: string;
+  /** Shows remove button. */
+  removable?: boolean;
+}>();
+
+defineEmits<{
+  (e: 'remove', metadata: CharacterInfo | AnimeInfo): void;
 }>();
 
 const rootRef = ref<HTMLElement>();
@@ -35,13 +41,15 @@ const tooltipText = computed(() => {
     <ContextInfo
       v-if="metadata"
       :outside-reference-element="rootRef"
-      :info="metadata" />
+      :info="metadata"
+      :removable="removable"
+      @remove="$emit('remove', $event)" />
   </div>
 </template>
 
 <style module lang="scss">
 .el {
-  cursor: pointer;
+  cursor: move;
   width: 75px;
   &.faded {
     filter: grayscale(1);
