@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import anilistFaviconUrl from '@/assets/anilist.png?url';
+import myanimelistFaviconUrl from '@/assets/myanimelist.ico?url';
 import { isAnimeInfo, type AnimeInfo } from '@/types/AnimeInfo';
 import { isCharacterInfo, type CharacterInfo } from '@/types/CharacterInfo';
 import {
@@ -127,7 +129,7 @@ watch(isOpen, (isOpen) => {
                   rel="noreferrer">
                   <img
                     :class="$style.link_icon"
-                    src="https://anilist.co/img/icons/favicon-32x32.png"
+                    :src="anilistFaviconUrl"
                     alt="" />
                   Anilist
                 </a>
@@ -147,7 +149,7 @@ watch(isOpen, (isOpen) => {
                   rel="noreferrer">
                   <img
                     :class="$style.link_icon"
-                    src="https://anilist.co/img/icons/favicon-32x32.png"
+                    :src="anilistFaviconUrl"
                     alt="" />
                   Anilist
                 </a>
@@ -160,7 +162,7 @@ watch(isOpen, (isOpen) => {
                   rel="noreferrer">
                   <img
                     :class="$style.link_icon"
-                    src="https://cdn.myanimelist.net/images/favicon.ico"
+                    :src="myanimelistFaviconUrl"
                     alt="" />
                   MyAnimeList
                 </a>
