@@ -10,18 +10,23 @@ provideApolloClient(apolloClient);
 <template>
   <Story>
     <Variant title="Character (Female)">
-      <SearchPage @change="logEvent('change', [$event])" />
+      <SearchPage
+        @update:model-value="logEvent('update:modelValue', [$event])" />
     </Variant>
     <Variant title="Character (Male)">
-      <SearchPage gender="Male" @change="logEvent('change', [$event])" />
+      <SearchPage
+        gender="Male"
+        @update:model-value="logEvent('update:modelValue', [$event])" />
     </Variant>
     <Variant title="Character (All)">
       <SearchPage
         :gender="['Female', 'Male', 'Other']"
-        @change="logEvent('change', [$event])" />
+        @update:model-value="logEvent('update:modelValue', [$event])" />
     </Variant>
     <Variant title="Anime">
-      <SearchPage type="anime" @change="logEvent('change', [$event])" />
+      <SearchPage
+        type="anime"
+        @update:model-value="logEvent('update:modelValue', [$event])" />
     </Variant>
   </Story>
 </template>

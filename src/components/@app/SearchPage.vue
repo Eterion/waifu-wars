@@ -10,7 +10,7 @@ import {
   createCharacterInfoFromGetAnime,
   createCharacterInfoFromGetCharacters,
 } from '@/utils/createCharacterInfo';
-import { castArray, remove } from 'lodash-es';
+import { castArray, cloneDeep, remove } from 'lodash-es';
 import { computed, reactive, ref } from 'vue';
 import BaseField from '../@base/field/BaseField.vue';
 import BaseLoader from '../@base/loader/BaseLoader.vue';
@@ -25,23 +25,23 @@ const props = withDefaults(
   defineProps<{
     /** Gender, has effect only when `type` is `'character'`. */
     gender?: MaybeArray<'Female' | 'Male' | 'Other'>;
+    /** Array of ids. */
+    modelValue?: number[];
     /** Search type. */
     type?: 'character' | 'anime';
-    /** Array of ids. */
-    value?: number[];
   }>(),
   {
     gender: 'Female',
+    modelValue: () => [],
     type: 'character',
-    value: () => [],
   },
 );
 
-defineEmits<{
-  (e: 'change', value: number[]): void;
+const emit = defineEmits<{
+  (e: 'update:modelValue', modelValue: number[]): void;
 }>();
 
-const modelValue = ref(props.value);
+const modelValue = ref(cloneDeep(props.modelValue));
 const searchQuery = ref<string>();
 
 const year = ref<number>();
@@ -162,6 +162,10 @@ const searchResults = computed<
         });
   }
 });
+
+function onClose() {
+  emit('update:modelValue', cloneDeep(modelValue.value));
+}
 </script>
 
 <template>
@@ -178,9 +182,7 @@ const searchResults = computed<
         </p>
       </div>
       <div>
-        <KeyButton event-key="Escape" @event="$emit('change', modelValue)">
-          Close
-        </KeyButton>
+        <KeyButton event-key="Escape" @event="onClose">Close</KeyButton>
       </div>
     </div>
     <div :class="$style.inputs">

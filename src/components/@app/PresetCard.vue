@@ -28,7 +28,8 @@ const thumbnailRef = ref();
         v-if="thumbnail"
         :class="$style.thumbnail_img"
         :src="thumbnail"
-        alt="" />
+        alt=""
+        loading="lazy" />
       <span v-else :class="$style.thumbnail_placeholder" />
       <ContextInfo
         v-if="metadata"

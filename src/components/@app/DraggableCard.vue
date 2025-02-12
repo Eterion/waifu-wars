@@ -37,7 +37,7 @@ const tooltipText = computed(() => {
     ref="rootRef"
     :class="[$style.el, { [$style.faded]: faded }]"
     :title="tooltipText">
-    <img :class="$style.img" :src="image" alt="" />
+    <img :class="$style.img" :src="image" alt="" loading="lazy" />
     <ContextInfo
       v-if="metadata"
       :outside-reference-element="rootRef"

@@ -22,7 +22,7 @@ const thumbnailRef = ref<HTMLElement>();
 <template>
   <button type="button" :class="[$style.el, { [$style.checked]: checked }]">
     <div ref="thumbnailRef" :class="$style.thumbnail">
-      <img :class="$style.thumbnail_img" :src="image" alt="" />
+      <img :class="$style.thumbnail_img" :src="image" alt="" loading="lazy" />
       <ContextInfo
         v-if="metadata"
         :outside-reference-element="thumbnailRef"

@@ -29,7 +29,9 @@ useEventListener('keydown', (event) => {
 
 <template>
   <button type="button" :class="$style.el" @click="$emit('event')">
-    <slot />
+    <div :class="$style.slot">
+      <slot />
+    </div>
     <KeyCap>{{ keyCaption }}</KeyCap>
   </button>
 </template>
@@ -41,13 +43,13 @@ useEventListener('keydown', (event) => {
   border: none;
   border-radius: 6px;
   color: var(--text);
-  column-gap: 12px;
   cursor: pointer;
   display: flex;
   font-family: inherit;
   font-size: 0.875rem;
   line-height: inherit;
-  padding: 10px 8px 10px 12px;
+  padding: 8px;
+  padding-left: 0;
   transition-duration: 200ms;
   transition-property: background-color, transform;
 
@@ -58,5 +60,9 @@ useEventListener('keydown', (event) => {
   &:active {
     transform: scale(0.9);
   }
+}
+
+.slot {
+  padding: false 12px;
 }
 </style>

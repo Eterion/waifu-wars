@@ -98,6 +98,8 @@ useEventListener(
   },
   { passive: false },
 );
+
+const isSearchVisible = ref(false);
 </script>
 
 <template>
@@ -105,7 +107,7 @@ useEventListener(
     <h2>{{ title }}</h2>
     <p>{{ desc }}</p>
     <ButtonGroup>
-      <BaseButton>Add Waifus</BaseButton>
+      <BaseButton @click="isSearchVisible = true">Add Waifus</BaseButton>
       <BaseButton primary>Share</BaseButton>
     </ButtonGroup>
     <div v-if="loading">Loading</div>
@@ -116,7 +118,15 @@ useEventListener(
         :class="$style.card"
         v-bind="item.cardProps" />
     </div>
-    <SearchPage :value="collection" />
+    <Teleport to="body">
+      <div v-if="isSearchVisible" :class="$style.search">
+        <div :class="$style.search_content">
+          <SearchPage
+            v-model="collection"
+            @update:model-value="isSearchVisible = false" />
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -133,5 +143,17 @@ useEventListener(
 
 .card {
   flex-shrink: 0;
+}
+
+.search {
+  background-color: var(--foreground);
+  overflow-y: scroll;
+  position: fixed 0;
+  top: calc(var(--app-header-height) + 1px);
+  &_content {
+    margin: false auto;
+    max-width: var(--app-max-width);
+    padding: 36px;
+  }
 }
 </style>
